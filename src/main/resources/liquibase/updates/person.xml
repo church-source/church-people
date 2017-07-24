@@ -1,0 +1,24 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd"
+    logicalFilePath="./src/main/resources/liquibase/updates/person.xml">
+
+    <changeSet id="20170724-0800" author="rowanpi">
+        <createTable tableName="Person">
+          <column name="id" type="BIGINT(20)" autoIncrement="true">
+            <constraints primaryKey="true" />
+          </column>
+          <column name="firstName" type="varchar(255)">
+            <constraints nullable="false" />
+          </column>
+          <column name="middleName" type="varchar(255)">
+            <constraints nullable="false" />
+          </column>
+          <column name="lastName" type="varchar(255)">
+            <constraints nullable="false" />
+          </column>	      
+          <column name="dateOfBirth" type="DATETIME" >
+          </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
