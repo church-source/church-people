@@ -21,6 +21,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
+@SuppressWarnings("unused")
 @Table(name="Person")
 public class Person {
 
@@ -28,16 +29,12 @@ public class Person {
   @GeneratedValue(strategy=GenerationType.AUTO)
   private Long id;
 
-  @Column (name="firstName")
   private String firstName;
 
-  @Column (name="middleName")
   private String middleName;
 
-  @Column (name="lastName")
   private String lastName;
 
-//  @Column (name="dateOfBirth")
   private Date dateOfBirth;
 
 }
