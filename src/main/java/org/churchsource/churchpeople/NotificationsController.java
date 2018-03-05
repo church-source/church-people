@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,7 +24,14 @@ public class NotificationsController {
   }
   
   @RequestMapping(method = RequestMethod.POST)
-  public String printNotification() {
-      return "Got here";
+  public String printNotification(
+      @RequestParam("X-Goog-Channel-ID") String channelID,
+      @RequestParam("X-Goog-Resource-ID") String resourceID,
+      @RequestParam("X-Goog-Resource-URI") String resourceURI,
+      @RequestParam("X-Goog-Resource-State") String resourceState) {
+      return "ChannelID" + channelID + "\r\n" +
+          "resourceID" + resourceID + "\r\n" +
+          "resourceURI" + resourceURI + "\r\n" +
+          "resourceState" + resourceState + "\r\n";
   }
 }
