@@ -23,7 +23,7 @@ public class NotificationsController {
   }
   
   @RequestMapping(method = RequestMethod.POST)
-  public String printNotification(@RequestBody String message) {
-      return "Message: " + message;
+  public String printNotification() {
+      return "Got here";
   }
 }
