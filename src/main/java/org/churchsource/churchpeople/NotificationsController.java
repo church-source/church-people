@@ -5,6 +5,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,10 +26,10 @@ public class NotificationsController {
   
   @RequestMapping(method = RequestMethod.POST)
   public String printNotification(
-      @RequestParam("X-Goog-Channel-ID") String channelID,
-      @RequestParam("X-Goog-Resource-ID") String resourceID,
-      @RequestParam("X-Goog-Resource-URI") String resourceURI,
-      @RequestParam("X-Goog-Resource-State") String resourceState) {
+      @RequestHeader(name="X-Goog-Channel-ID", required = false) String channelID,
+      @RequestHeader(name="X-Goog-Resource-ID", required = false) String resourceID,
+      @RequestHeader(name="X-Goog-Resource-URI", required = false) String resourceURI,
+      @RequestHeader(name= "X-Goog-Resource-State", required = false) String resourceState) {
       return "ChannelID" + channelID + "\r\n" +
           "resourceID" + resourceID + "\r\n" +
           "resourceURI" + resourceURI + "\r\n" +
