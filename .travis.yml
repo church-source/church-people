@@ -1,25 +1,11 @@
-dist: trusty
+dist: bionic
 sudo: enabled
 
 language: java
 jdk:
   - openjdk8
 
-addons:
-  apt:
-    sources:
-      - mysql-5.7-trusty
-    packages:
-      - mysql-server
-      - mysql-client
-
-before_install:
-  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('root') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-  - sudo mysql_upgrade -uroot -proot
-  - sudo service mysql restart
-  - mysql -uroot -proot -e "CREATE DATABASE churchpeople;"
-
-script: mvn clean install && mvn liquibase:update && mvn compile assembly:single && sudo service mysql stop
+script: mvn clean install
 
 notifications:
   email:
