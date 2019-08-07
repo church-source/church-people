@@ -3,7 +3,7 @@ A church people module
 
 
 To build: 
-mvn clean install
+gradlew build
 
 To run: 
-java -jar target/church-people-0.0.1-SNAPSHOT.jar
+gradlew bootRun
