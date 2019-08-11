@@ -21,4 +21,12 @@
           </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="20190729-9049" author="rowanpi">
+        <addColumn tableName="Person">
+            <column name="isDeleted" type="TINYINT(1)" defaultValue="0">
+                <constraints nullable="0" />
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
