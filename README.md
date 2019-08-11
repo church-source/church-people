@@ -7,8 +7,13 @@
 
 A church people API
 
-To build: 
-gradlew build
+### Local Dev Environment
+To build: `gradlew build`
 
-To run: 
-gradlew bootRun
+To run: `gradlew bootRun`
+
+### Docker Environment
+1. Change the host name part of the database url in application.properties from 'localhost' to 'mysql' (the name of the docker container).
+2. Build the church-people image: `sudo docker build . -t church-people`
+3. Bring up the containers with docker-compose: `sudo docker-compose up -d`
+4. Access API in port 8081 (as configured in the docker-compose.yml)

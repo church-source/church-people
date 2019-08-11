@@ -1,0 +1,32 @@
+---
+version: "3"
+
+services:
+  mysql:
+    image: mysql:5.7
+    networks:
+      - church-people-backend
+    volumes:
+      - church-people-data:/var/lib/mysql
+    ports:
+        - "3306:3306"
+    environment:
+      MYSQL_USER: "root"
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "churchpeople"
+
+  church-people:
+    image: church-people
+    networks:
+      - church-people-backend
+    ports:
+      - "8081:8080"
+
+networks:
+  church-people-backend:
+  church-people:
+    external:
+      name: church-people
+
+volumes:
+  church-people-data:
