@@ -36,6 +36,33 @@ public class PersonEntityTest {
     }
 
     @Test
+    public void testIsEqualsForPersonsWithAllPropertiesSetTheSameUsingSetterMethods_shouldBeEqual() {
+        Date birthDate = new Date();
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
+        Person aPerson2 = aPerson().build();
+        aPerson2.setId(1L);
+        aPerson2.setFirstName("Joe");
+        aPerson2.setMiddleName("Bar");
+        aPerson2.setLastName("ber");
+        aPerson2.setDateOfBirth(birthDate);
+        aPerson2.setIsDeleted(false);
+        assertThat(aPerson, hasSameStateAsPerson(aPerson2));
+    }
+
+    @Test
+    public void testGetterMethodsForAllProperties_shouldAllBeValid() {
+        Date birthDate = new Date();
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
+        assertThat(aPerson.getId(), is(1L));
+        assertThat(aPerson.getFirstName(), is("Joe"));
+        assertThat(aPerson.getMiddleName(), is("Bar"));
+        assertThat(aPerson.getLastName(), is("ber"));
+        assertThat(aPerson.getDateOfBirth(), is(birthDate));
+        assertThat(aPerson.getIsDeleted(), is(false));
+    }
+
+
+    @Test
     public void testIsEqualsForPersonsWithDifferentFirstName_shouldBNoteEqual() {
         Date birthDate = new Date();
         Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
