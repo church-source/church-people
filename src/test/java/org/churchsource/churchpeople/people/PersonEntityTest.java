@@ -28,11 +28,19 @@ public class PersonEntityTest {
     }
 
     @Test
+    public void testTwoPersonsWithSameIdsButUsingNoArgsConstructor_shouldBeEqual() {
+        Person aPerson = new Person();
+        aPerson.setId(1L);
+        Person aPerson2 = aPerson().id(1L).build();
+        assertThat(aPerson, hasSameStateAsPerson(aPerson2));
+    }
+
+    @Test
     public void testIsEqualsForPersonsWithAllPropertiesSetTheSame_shouldBeEqual() {
         Date birthDate = new Date();
         Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
         Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
-        assertThat(aPerson, hasSameStateAsPerson(aPerson2));
+        assertThat(aPerson.equals(aPerson2), is (true));
     }
 
     @Test
