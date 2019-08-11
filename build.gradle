@@ -3,6 +3,7 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'org.springframework.boot' version '2.1.7.RELEASE'
+    id 'jacoco'
 //    id "io.freefair.lombok" version "3.8.4"
 }
 
@@ -35,6 +36,15 @@ group = 'org.churchsource'
 version = '0.0.1-SNAPSHOT'
 description = 'church-people'
 sourceCompatibility = '1.8'
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
+check.dependsOn jacocoTestReport
 
 publishing {
     publications {
