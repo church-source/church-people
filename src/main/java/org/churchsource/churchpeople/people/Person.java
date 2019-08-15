@@ -40,14 +40,17 @@ public class Person extends ChurchPeopleEntity<Long> implements Serializable {
 
   private Boolean isDeleted;
 
+  private Date dateOfAnniversary;
+
   @Builder(builderMethodName = "aPerson")
-  public Person(Long id, String firstName, String middleName, String lastName, Date dateOfBirth, Boolean isDeleted) {
+  public Person(Long id, String firstName, String middleName, String lastName, Date dateOfBirth, Boolean isDeleted, Date dateOfAnniversary) {
     super(id);
     this.firstName = firstName;
     this.middleName = middleName;
     this.lastName = lastName;
     this.dateOfBirth = dateOfBirth;
     this.isDeleted = isDeleted;
+    this.dateOfAnniversary = dateOfAnniversary;
   }
 }
 
