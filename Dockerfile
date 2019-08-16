@@ -1,14 +1,14 @@
-# STAGE 1: Build journey server jar
-FROM gradle as builder
-USER root
+FROM gradle:5.5.1-jdk8 AS build
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle build --no-daemon
 
-COPY . .
-RUN gradle build
+FROM openjdk:8-jre-slim
 
-# STAGE 2: Start journey server
-FROM openjdk:8-jdk-alpine
-VOLUME /tmp
+EXPOSE 8080
 
-COPY --from=builder /home/gradle/build/libs/church-people.jar app.jar
+RUN mkdir /app
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/church-people.jar
+
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/church-people.jar"]
