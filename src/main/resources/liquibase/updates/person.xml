@@ -29,4 +29,12 @@
             </column>
         </addColumn>
     </changeSet>
+
+    <changeSet id="20190819-1215" author="besj">
+        <addColumn tableName="Person">
+            <column name="dateOfBaptism" type="DATETIME">
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
