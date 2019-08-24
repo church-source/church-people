@@ -19,6 +19,7 @@ public class PersonMatcher extends AbstractTypeSafeMatcher<Person> {
         .appendText("\nMiddle Name: ").appendValue(person.getMiddleName())
         .appendText("\nLast Name: ").appendValue(person.getLastName())
         .appendText("\nDate Of Birth: ").appendValue(person.getDateOfBirth())
+        .appendText("\nDate Of Baptism: ").appendValue(person.getDateOfBaptism())
         .appendText("\nIs Deleted: ").appendValue(person.getIsDeleted());
   }
 
@@ -29,6 +30,7 @@ public class PersonMatcher extends AbstractTypeSafeMatcher<Person> {
         && Objects.equals(actual.getMiddleName(), expected.getMiddleName())
         && Objects.equals(actual.getLastName(), expected.getLastName())
         && Objects.equals(actual.getDateOfBirth(), expected.getDateOfBirth())
+        && Objects.equals(actual.getDateOfBaptism(), expected.getDateOfBaptism())
         && Objects.equals(actual.getIsDeleted(), expected.getIsDeleted());
   }
 

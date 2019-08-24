@@ -2,6 +2,7 @@ package org.churchsource.churchpeople.people;
 
 import static org.churchsource.churchpeople.people.Person.aPerson;
 
+import org.churchsource.churchpeople.helpers.TestHelper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,6 +10,8 @@ import static org.churchsource.churchpeople.people.PersonMatcher.hasSameStateAsP
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @SpringBootTest
@@ -46,7 +49,8 @@ public class PersonEntityTest {
     @Test
     public void testIsEqualsForPersonsWithAllPropertiesSetTheSameUsingSetterMethods_shouldBeEqual() {
         Date birthDate = new Date();
-        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
+        Date baptismDate = TestHelper.getDate("yyyy/MM/dd","2019/01/01");
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).dateOfBaptism(baptismDate).isDeleted(false).build();
         Person aPerson2 = aPerson().build();
         aPerson2.setId(1L);
         aPerson2.setFirstName("Joe");
@@ -54,24 +58,27 @@ public class PersonEntityTest {
         aPerson2.setLastName("ber");
         aPerson2.setDateOfBirth(birthDate);
         aPerson2.setIsDeleted(false);
+        aPerson2.setDateOfBaptism(baptismDate);
         assertThat(aPerson, hasSameStateAsPerson(aPerson2));
     }
 
     @Test
     public void testGetterMethodsForAllProperties_shouldAllBeValid() {
         Date birthDate = new Date();
-        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
+        Date baptismDate = TestHelper.getDate("yyyy/MM/dd","2019/01/01");
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").dateOfBaptism(baptismDate).lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
         assertThat(aPerson.getId(), is(1L));
         assertThat(aPerson.getFirstName(), is("Joe"));
         assertThat(aPerson.getMiddleName(), is("Bar"));
         assertThat(aPerson.getLastName(), is("ber"));
         assertThat(aPerson.getDateOfBirth(), is(birthDate));
+        assertThat(aPerson.getDateOfBaptism(), is(baptismDate));
         assertThat(aPerson.getIsDeleted(), is(false));
     }
 
 
     @Test
-    public void testIsEqualsForPersonsWithDifferentFirstName_shouldBNoteEqual() {
+    public void testIsEqualsForPersonsWithDifferentFirstName_shouldNotBeEqual() {
         Date birthDate = new Date();
         Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
         Person aPerson2 = aPerson().id(1L).firstName("ADifferentName").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
@@ -79,7 +86,7 @@ public class PersonEntityTest {
     }
 
     @Test
-    public void testIsEqualsForPersonsWithDifferentMiddleName_shouldBNoteEqual() {
+    public void testIsEqualsForPersonsWithDifferentMiddleName_shouldNotBeEqual() {
         Date birthDate = new Date();
         Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
         Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("ADiferentName").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
@@ -87,7 +94,7 @@ public class PersonEntityTest {
     }
 
     @Test
-    public void testIsEqualsForPersonsWithDifferentLastName_shouldBNoteEqual() {
+    public void testIsEqualsForPersonsWithDifferentLastName_shouldNotBeEqual() {
         Date birthDate = new Date();
         Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
         Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ADiferentName").dateOfBirth(birthDate).isDeleted(false).build();
@@ -95,7 +102,7 @@ public class PersonEntityTest {
     }
 
     @Test
-    public void testIsEqualsForPersonsWithDifferentDateOfBirth_shouldBNoteEqual() {
+    public void testIsEqualsForPersonsWithDifferentDateOfBirth_shouldNotBeEqual() {
         Date birthDate = new Date();
         Date aDifferentBirthDate = new Date(0L);
         Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
@@ -104,7 +111,17 @@ public class PersonEntityTest {
     }
 
     @Test
-    public void testIsEqualsForPersonsWithDifferentIsDeleted_shouldBNoteEqual() {
+    public void testIsEqualsForPersonsWithDifferentDateOfBaptism_shouldNotBeEqual() {
+        Date birthDate = new Date();
+        Date baptismDate = new Date();
+        Date aDifferentBaptismDate = new Date(0L);
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).dateOfBaptism(baptismDate).isDeleted(false).build();
+        Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).dateOfBaptism(aDifferentBaptismDate).isDeleted(false).build();
+        assertThat(aPerson, not(hasSameStateAsPerson(aPerson2)));
+    }
+
+    @Test
+    public void testIsEqualsForPersonsWithDifferentIsDeleted_shouldNotBeEqual() {
         Date birthDate = new Date();
         Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(false).build();
         Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).isDeleted(true).build();
