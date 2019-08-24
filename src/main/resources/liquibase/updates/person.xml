@@ -37,4 +37,15 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="20190824-0927" author="rowanpi">
+        <addColumn tableName="Person">
+            <column name="created" defaultValueComputed="CURRENT_TIMESTAMP" type="TIMESTAMP"/>
+            <column name="modified" defaultValueComputed="CURRENT_TIMESTAMP" type="TIMESTAMP"/>
+        </addColumn>
+
+        <sql dbms="mysql">
+            ALTER TABLE Person CHANGE modified modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

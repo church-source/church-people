@@ -47,6 +47,24 @@ public class PersonEntityTest {
     }
 
     @Test
+    public void testIsEqualsForPersonsWithDifferentCreatedTimestamp_shouldNotBeEqual() {
+        Date date = new Date();
+        Date aDifferentDate = new Date(0);
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(date).isDeleted(false).created(date).build();
+        Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(date).isDeleted(false).created(aDifferentDate).build();
+        assertThat(aPerson.equals(aPerson2), is (false));
+    }
+
+    @Test
+    public void testIsEqualsForPersonsWithDifferentModifiedTimestamp_shouldNotBeEqual() {
+        Date date = new Date();
+        Date aDifferentDate = new Date(0);
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(date).isDeleted(false).modified(date).build();
+        Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(date).isDeleted(false).modified(aDifferentDate).build();
+        assertThat(aPerson.equals(aPerson2), is (false));
+    }
+
+    @Test
     public void testIsEqualsForPersonsWithAllPropertiesSetTheSameUsingSetterMethods_shouldBeEqual() {
         Date birthDate = new Date();
         Date baptismDate = TestHelper.getDate("yyyy/MM/dd","2019/01/01");
@@ -75,7 +93,6 @@ public class PersonEntityTest {
         assertThat(aPerson.getDateOfBaptism(), is(baptismDate));
         assertThat(aPerson.getIsDeleted(), is(false));
     }
-
 
     @Test
     public void testIsEqualsForPersonsWithDifferentFirstName_shouldNotBeEqual() {

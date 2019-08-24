@@ -43,8 +43,8 @@ public class Person extends ChurchPeopleEntity<Long> implements Serializable {
   private Date dateOfBaptism;
 
   @Builder(builderMethodName = "aPerson")
-  public Person(Long id, String firstName, String middleName, String lastName, Date dateOfBirth, Boolean isDeleted, Date dateOfBaptism) {
-    super(id);
+  public Person(Long id, Date created, Date modified, String firstName, String middleName, String lastName, Date dateOfBirth, Boolean isDeleted, Date dateOfBaptism) {
+    super(id, created, modified);
     this.firstName = firstName;
     this.middleName = middleName;
     this.lastName = lastName;
