@@ -5,15 +5,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 
 @NoArgsConstructor
@@ -22,6 +18,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 @MappedSuperclass
+@ToString
 public class ChurchPeopleTrackedEntity implements Serializable {
 
   private static final long serialVersionUID = 6867167030691894233L;

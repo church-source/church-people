@@ -31,7 +31,7 @@ public class PersonEntityTest {
     public void testTwoPersonsWithSameIdsButUsingNoArgsConstructor_shouldBeEqual() {
         Person aPerson = new Person();
         aPerson.setId(1L);
-        Person aPerson2 = aPerson().id(1L).build();
+        Person aPerson2 = aPerson().id(1L).deleted(false).build();
         assertThat(aPerson, hasSameStateAsPerson(aPerson2));
     }
 

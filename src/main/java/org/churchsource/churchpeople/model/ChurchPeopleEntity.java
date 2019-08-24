@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 import lombok.*;
+import org.springframework.beans.BeanUtils;
 
 /**
  * Abstract generic base class for all entities. Entities are model objects that
@@ -34,5 +35,11 @@ public abstract class ChurchPeopleEntity<ID> extends ChurchPeopleTrackedEntity {
   public ChurchPeopleEntity(ID id, Date created, Date modified, Boolean deleted) {
     super(created, modified, deleted);
     this.id = id;
+  }
+
+  public ChurchPeopleEntity mergeEntities(ChurchPeopleEntity newObject, ChurchPeopleEntity mergedObject) {
+    BeanUtils.copyProperties(this, mergedObject);
+    BeanUtils.copyProperties(newObject, mergedObject, "created", "modified");
+    return mergedObject;
   }
 }
