@@ -3,6 +3,7 @@ package org.churchsource.churchpeople.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,4 +31,7 @@ public class ChurchPeopleTrackedEntity implements Serializable {
 
   @UpdateTimestamp
   private Date modified;
+
+  @Column(nullable = false)
+  private Boolean deleted = Boolean.FALSE;
 }

@@ -31,8 +31,8 @@ public abstract class ChurchPeopleEntity<ID> extends ChurchPeopleTrackedEntity {
   @Id
   private ID id;
 
-  public ChurchPeopleEntity(ID id, Date created, Date modified) {
-    super(created, modified);
+  public ChurchPeopleEntity(ID id, Date created, Date modified, Boolean deleted) {
+    super(created, modified, deleted);
     this.id = id;
   }
 }

@@ -48,4 +48,9 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20190824-1001" author="rowanpi">
+        <renameColumn tableName="Person" oldColumnName="isDeleted" newColumnName="deleted" columnDataType="TINYINT(1)"/>
+        <addDefaultValue tableName="Person" columnName="deleted" defaultValueBoolean="false"/>
+    </changeSet>
+
 </databaseChangeLog>
