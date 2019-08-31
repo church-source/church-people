@@ -16,7 +16,10 @@ import org.churchsource.churchpeople.model.ChurchPeopleEntity;
 
 @NamedQueries({
     @NamedQuery(name = PeopleNamedQueryConstants.NAME_GET_ALL_PEOPLE,
-        query = PeopleNamedQueryConstants.QUERY_GET_ALL_PEOPLE)
+        query = PeopleNamedQueryConstants.QUERY_GET_ALL_PEOPLE),
+    @NamedQuery(name = PeopleNamedQueryConstants.NAME_FIND_PERSON_BY_ID,
+        query = PeopleNamedQueryConstants.QUERY_FIND_PERSON_BY_ID)
+
 })
 
 @Getter

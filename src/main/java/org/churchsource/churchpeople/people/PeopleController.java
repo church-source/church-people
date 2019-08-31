@@ -1,5 +1,6 @@
 package org.churchsource.churchpeople.people;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -34,6 +35,12 @@ public class PeopleController {
   @RequestMapping(method = RequestMethod.POST)
   public Person addPerson(@RequestBody Person person) {
     return peopleRepository.save(person);
+  }
+
+  @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+  public HttpStatus deletePerson(@PathVariable Long id) {
+    peopleRepository.deletePerson(id);
+    return HttpStatus.NO_CONTENT;
   }
 
   @RequestMapping(value = "{id}", method = RequestMethod.PUT)

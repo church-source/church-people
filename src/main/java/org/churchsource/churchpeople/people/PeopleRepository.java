@@ -21,17 +21,23 @@ public class PeopleRepository extends AbstractRepository<Person> {
         .getResultList();
   }
 
-  public Person updatePerson(Person person) {
-    Person existingPerson = entityManager.find(Person.class, person.getId());
-    System.out.println(existingPerson);
-    //existingPerson.copy(person);
-    Person updatePerson = new Person();
-    existingPerson.mergeEntities(person, updatePerson);
-    return update(updatePerson);
+  public Person findPersonById(Long id) throws NoResultException {
+    return entityManager.createNamedQuery(PeopleNamedQueryConstants.NAME_FIND_PERSON_BY_ID, Person.class)
+        .setParameter("id", id)
+        .getSingleResult();
   }
 
-  public void deletePerson(UUID PersonId) {
-    throw new RuntimeException("Not Yet Implemented");
+  public Person updatePerson(Person person) {
+    Person existingPerson = findPersonById(person.getId());
+    Person updatedPerson = new Person();
+    existingPerson.mergeEntities(person, updatedPerson);
+    return update(updatedPerson);
+  }
+
+  public void deletePerson(Long personId) {
+    Person personToDelete = findPersonById(personId);
+    personToDelete.setDeleted(true);
+    update(personToDelete);
   }
 
   public Person findPersonByName(String PersonName) throws NoResultException, NonUniqueResultException {

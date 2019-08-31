@@ -34,7 +34,7 @@ public abstract class AbstractRepository<Entity> implements InitializingBean {
   }
 
   public Entity save(Entity entity) {
-    return save(entity,true);
+    return save(entity, true);
   }
 
   public Entity findEntityById(Long id) {
