@@ -17,6 +17,6 @@ public class HelloController {
   
   @RequestMapping("/")
   public String index() {
-      return "Greetings from Spring!";
+      return "Church People API!";
   }
 }
