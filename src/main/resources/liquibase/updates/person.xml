@@ -53,4 +53,10 @@
         <addDefaultValue tableName="Person" columnName="deleted" defaultValueBoolean="false"/>
     </changeSet>
 
+    <changeSet id="20190901-0737" author="rowanpi">
+        <addColumn tableName="Person">
+            <column name="gender" type="VARCHAR(15)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

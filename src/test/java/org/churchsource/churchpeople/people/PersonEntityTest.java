@@ -65,7 +65,7 @@ public class PersonEntityTest {
     public void testIsEqualsForPersonsWithAllPropertiesSetTheSameUsingSetterMethods_shouldBeEqual() {
         Date birthDate = new Date();
         Date baptismDate = TestHelper.getDate("yyyy/MM/dd","2019/01/01");
-        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).dateOfBaptism(baptismDate).deleted(false).build();
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).dateOfBaptism(baptismDate).deleted(false).gender(Gender.FEMALE).build();
         Person aPerson2 = aPerson().build();
         aPerson2.setId(1L);
         aPerson2.setFirstName("Joe");
@@ -74,6 +74,7 @@ public class PersonEntityTest {
         aPerson2.setDateOfBirth(birthDate);
         aPerson2.setDeleted(false);
         aPerson2.setDateOfBaptism(baptismDate);
+        aPerson2.setGender(Gender.FEMALE);
         assertThat(aPerson, hasSameStateAsPerson(aPerson2));
     }
 
@@ -137,8 +138,16 @@ public class PersonEntityTest {
     @Test
     public void testIsEqualsForPersonsWithDifferentIsDeleted_shouldNotBeEqual() {
         Date birthDate = new Date();
-        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).deleted(false).build();
-        Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).deleted(true).build();
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).deleted(false).gender(Gender.MALE).build();
+        Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).deleted(true).gender(Gender.MALE).build();
+        assertThat(aPerson, not(hasSameStateAsPerson(aPerson2)));
+    }
+
+    @Test
+    public void testIsEqualsForPersonsWithDifferentGender_shouldNotBeEqual() {
+        Date birthDate = new Date();
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).deleted(true).gender(Gender.MALE).build();
+        Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).deleted(true).gender(Gender.FEMALE).build();
         assertThat(aPerson, not(hasSameStateAsPerson(aPerson2)));
     }
 

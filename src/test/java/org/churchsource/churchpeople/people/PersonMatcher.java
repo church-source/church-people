@@ -20,7 +20,8 @@ public class PersonMatcher extends AbstractTypeSafeMatcher<Person> {
         .appendText("\nLast Name: ").appendValue(person.getLastName())
         .appendText("\nDate Of Birth: ").appendValue(person.getDateOfBirth())
         .appendText("\nDate Of Baptism: ").appendValue(person.getDateOfBaptism())
-        .appendText("\nIs Deleted: ").appendValue(person.getDeleted());
+        .appendText("\nIs Deleted: ").appendValue(person.getDeleted())
+        .appendText("\nGender: ").appendValue(person.getGender());
   }
 
   @Override
@@ -31,7 +32,8 @@ public class PersonMatcher extends AbstractTypeSafeMatcher<Person> {
         && Objects.equals(actual.getLastName(), expected.getLastName())
         && Objects.equals(actual.getDateOfBirth(), expected.getDateOfBirth())
         && Objects.equals(actual.getDateOfBaptism(), expected.getDateOfBaptism())
-        && Objects.equals(actual.getDeleted(), expected.getDeleted());
+        && Objects.equals(actual.getDeleted(), expected.getDeleted())
+        && Objects.equals(actual.getGender(), expected.getGender());
   }
 
   public static PersonMatcher hasSameStateAsPerson(Person expected) {
