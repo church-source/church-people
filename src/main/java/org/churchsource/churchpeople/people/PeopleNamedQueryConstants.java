@@ -8,4 +8,8 @@ public class PeopleNamedQueryConstants {
 
   public static final String NAME_FIND_PERSON_BY_ID = "Person.findPersonById";
   public static final String QUERY_FIND_PERSON_BY_ID = "SELECT p FROM Person p WHERE p.id = :id";
+
+  public static final String NAME_FIND_PERSON_BY_NAME = "Person.findPersonByName";
+  public static final String QUERY_FIND_PERSON_BY_NAME = "SELECT p FROM Person p WHERE (:firstName is null OR p.firstName = :firstName) AND " +
+          "(:lastName is null OR p.lastName = :lastName)";
 }

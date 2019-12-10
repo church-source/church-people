@@ -40,8 +40,11 @@ public class PeopleRepository extends AbstractRepository<Person> {
     update(personToDelete);
   }
 
-  public Person findPersonByName(String PersonName) throws NoResultException, NonUniqueResultException {
-    throw new RuntimeException("Not Yet Implemented");
+  public List<Person> findPersonByName(String firstName, String lastName) throws NoResultException, NonUniqueResultException {
+    return entityManager.createNamedQuery(PeopleNamedQueryConstants.NAME_FIND_PERSON_BY_NAME, Person.class)
+            .setParameter("firstName", firstName)
+            .setParameter("lastName", lastName)
+            .getResultList();
   }
 
   public boolean verifyPersonExists(UUID id) {
