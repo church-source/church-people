@@ -237,6 +237,12 @@ public class PersonRepositoryTest {
     entityManager.persist(person3);
     entityManager.flush();
 
+
+    Person deletedPerson = aPerson().firstName("Ace").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
+            .deleted(true).build();
+    entityManager.persist(deletedPerson);
+    entityManager.flush();
+
     List<Person> allPeople = peopleRepository.findPersonByName(null, "ber");
     assertThat(allPeople.size(), is(3));
     assertThat(allPeople, containsInAnyOrder(hasSameStateAsPerson(person), hasSameStateAsPerson(person2), hasSameStateAsPerson(person3)));
@@ -264,6 +270,7 @@ public class PersonRepositoryTest {
     assertThat(allPeople.size(), is(0));
     assertThat(allPeople, not(containsInAnyOrder(hasSameStateAsPerson(person), hasSameStateAsPerson(person2), hasSameStateAsPerson(person3))));
   }
+
 
   @Test
   public void testGetAllPeopleButNoneExist_shouldReturnEmptyList() {
