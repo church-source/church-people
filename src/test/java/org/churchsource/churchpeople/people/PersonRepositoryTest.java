@@ -194,6 +194,92 @@ public class PersonRepositoryTest {
   }
 
   @Test
+  public void testGetAllPeopleButNoneExist_shouldReturnEmptyList() {
+    List<Person> allPeople = peopleRepository.getAllPeople();
+    assertThat(allPeople.size(), is(0));
+  }
+
+  @Test
+  public void testFindPersonByAnyName_shouldRetreiveAllNonDeletedPeopleWithGivenFirstNameOrLastName() {
+    Date birthDate = new Date();
+    Person person = aPerson().firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
+            .deleted(false).build();
+    entityManager.persist(person);
+    entityManager.flush();
+
+    Person person2 = aPerson().firstName("Bob").middleName("Bar").lastName("Joe").dateOfBirth(birthDate)
+            .deleted(false).build();
+    entityManager.persist(person2);
+    entityManager.flush();
+
+    Person person3 = aPerson().firstName("Rob").middleName("Joe").lastName("ber").dateOfBirth(birthDate)
+            .deleted(false).build();
+    entityManager.persist(person3);
+    entityManager.flush();
+
+    List<Person> allPeople = peopleRepository.findPersonByAnyName("Joe");
+    assertThat(allPeople.size(), is(3));
+    assertThat(allPeople, containsInAnyOrder(hasSameStateAsPerson(person), hasSameStateAsPerson(person2), hasSameStateAsPerson(person3)));
+  }
+
+  @Test
+  public void testFindPersonByAnyName_shouldRetreiveAllNonDeletedPeopleWithGivenNameButOnlyOneMatch() {
+    Date birthDate = new Date();
+    Person person = aPerson().firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
+            .deleted(false).build();
+    entityManager.persist(person);
+    entityManager.flush();
+
+    Person person2 = aPerson().firstName("Bob").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
+            .deleted(false).build();
+    entityManager.persist(person2);
+    entityManager.flush();
+
+    Person person3 = aPerson().firstName("Rob").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
+            .deleted(false).build();
+    entityManager.persist(person3);
+    entityManager.flush();
+
+
+    Person deletedPerson = aPerson().firstName("Ace").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
+            .deleted(true).build();
+    entityManager.persist(deletedPerson);
+    entityManager.flush();
+
+    List<Person> allPeople = peopleRepository.findPersonByAnyName("Joe");
+    assertThat(allPeople.size(), is(1));
+    assertThat(allPeople, contains(hasSameStateAsPerson(person)));
+
+    assertThat(allPeople, not(hasItem(person2)));
+    assertThat(allPeople, not(hasItem(person3)));
+
+    assertThat(allPeople, not(hasItem(deletedPerson)));
+  }
+
+  @Test
+  public void testFindPersonByAnyNameButWithUnknownName_shouldRetreiveNoPeople() {
+    Date birthDate = new Date();
+    Person person = aPerson().firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
+            .deleted(false).build();
+    entityManager.persist(person);
+    entityManager.flush();
+
+    Person person2 = aPerson().firstName("Bob").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
+            .deleted(false).build();
+    entityManager.persist(person2);
+    entityManager.flush();
+
+    Person person3 = aPerson().firstName("Rob").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
+            .deleted(false).build();
+    entityManager.persist(person3);
+    entityManager.flush();
+
+    List<Person> allPeople = peopleRepository.findPersonByAnyName("Knob");
+    assertThat(allPeople.size(), is(0));
+    assertThat(allPeople, not(containsInAnyOrder(hasSameStateAsPerson(person), hasSameStateAsPerson(person2), hasSameStateAsPerson(person3))));
+  }
+
+  @Test
   public void testFindPersonByName_shouldRetreiveAllNonDeletedPeopleWithGivenName() {
     Date birthDate = new Date();
     Person person = aPerson().firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
@@ -211,12 +297,19 @@ public class PersonRepositoryTest {
     entityManager.persist(person3);
     entityManager.flush();
 
+    Person deletedPerson = aPerson().firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
+            .deleted(true).build();
+    entityManager.persist(person3);
+    entityManager.flush();
+
+
     List<Person> allPeople = peopleRepository.findPersonByName("Joe", "ber");
     assertThat(allPeople.size(), is(1));
     assertThat(allPeople, contains(hasSameStateAsPerson(person)));
 
     assertThat(allPeople, not(hasItem(person2)));
     assertThat(allPeople, not(hasItem(person3)));
+    assertThat(allPeople, not(hasItem(deletedPerson)));
   }
 
   @Test
@@ -249,7 +342,7 @@ public class PersonRepositoryTest {
   }
 
   @Test
-  public void testFindPersonByUnkownName_shouldRetreiveNpPeople() {
+  public void testFindPersonByUnkownName_shouldRetreiveNoPeople() {
     Date birthDate = new Date();
     Person person = aPerson().firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
             .deleted(false).build();
@@ -269,12 +362,5 @@ public class PersonRepositoryTest {
     List<Person> allPeople = peopleRepository.findPersonByName("Knob", "head");
     assertThat(allPeople.size(), is(0));
     assertThat(allPeople, not(containsInAnyOrder(hasSameStateAsPerson(person), hasSameStateAsPerson(person2), hasSameStateAsPerson(person3))));
-  }
-
-
-  @Test
-  public void testGetAllPeopleButNoneExist_shouldReturnEmptyList() {
-    List<Person> allPeople = peopleRepository.getAllPeople();
-    assertThat(allPeople.size(), is(0));
   }
 }

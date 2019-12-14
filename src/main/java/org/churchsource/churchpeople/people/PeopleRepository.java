@@ -47,6 +47,12 @@ public class PeopleRepository extends AbstractRepository<Person> {
             .getResultList();
   }
 
+  public List<Person> findPersonByAnyName(String name) throws NoResultException, NonUniqueResultException {
+    return entityManager.createNamedQuery(PeopleNamedQueryConstants.NAME_FIND_PERSON_BY_ANY_NAME, Person.class)
+            .setParameter("name", name)
+            .getResultList();
+  }
+
   public boolean verifyPersonExists(UUID id) {
     throw new RuntimeException("Not Yet Implemented");
   }

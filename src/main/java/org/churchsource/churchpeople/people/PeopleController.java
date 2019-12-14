@@ -1,10 +1,9 @@
 package org.churchsource.churchpeople.people;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping(value="/people")
+@Slf4j
 public class PeopleController {
 
   @Autowired
@@ -27,7 +27,12 @@ public class PeopleController {
     return peopleRepository.findEntityById(id);
   }
 
-  @RequestMapping(value = "/", method = RequestMethod.GET)
+  @GetMapping(params = "name")
+  public List<Person> findPeople(@RequestParam String name) {
+    log.info("Got here");
+    return peopleRepository.findPersonByAnyName(name);
+  }
+  @GetMapping
   public List<Person> getAllPeople() {
     return peopleRepository.getAllPeople();
   }
