@@ -53,4 +53,9 @@
         <addDefaultValue tableName="Person" columnName="deleted" defaultValueBoolean="false"/>
     </changeSet>
 
+    <changeSet id="20191212-2151" author="rowanpi">
+        <dropNotNullConstraint columnDataType="varchar(255)"
+                               columnName="middleName"
+                               tableName="Person"/>
+    </changeSet>
 </databaseChangeLog>
