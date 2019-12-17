@@ -12,6 +12,7 @@ import lombok.*;
 
 
 import org.churchsource.churchpeople.model.ChurchPeopleEntity;
+import org.churchsource.churchpeople.model.type.Gender;
 
 
 @NamedQueries({
@@ -46,14 +47,17 @@ public class Person extends ChurchPeopleEntity<Long> implements Serializable {
 
   private Date dateOfBaptism;
 
+  private Gender gender;
+
   @Builder(builderMethodName = "aPerson")
-  public Person(Long id, Date created, Date modified, String firstName, String middleName, String lastName, Date dateOfBirth, Boolean deleted, Date dateOfBaptism) {
+  public Person(Long id, Date created, Date modified, String firstName, String middleName, String lastName, Date dateOfBirth, Boolean deleted, Date dateOfBaptism, Gender gender) {
     super(id, created, modified, deleted);
     this.firstName = firstName;
     this.middleName = middleName;
     this.lastName = lastName;
     this.dateOfBirth = dateOfBirth;
     this.dateOfBaptism = dateOfBaptism;
+    this.gender = gender;
   }
 }
 

@@ -32,6 +32,7 @@ public class PeopleController {
     log.info("Got here");
     return peopleRepository.findPersonByAnyName(name);
   }
+
   @GetMapping
   public List<Person> getAllPeople() {
     return peopleRepository.getAllPeople();
