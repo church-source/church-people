@@ -1,5 +1,6 @@
 package org.churchsource.churchpeople.people;
 
+import org.churchsource.churchpeople.model.type.Gender;
 import org.hamcrest.core.IsNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +36,7 @@ public class PersonRepositoryTest {
   public void testSavePerson_shouldPersistPerson() {
     Date birthDate = new Date();
     Person person = aPerson().firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
-        .deleted(false).build();
+        .deleted(false).gender(Gender.MALE).build();
 
     Person savedPerson = peopleRepository.save(person);
 
@@ -54,7 +55,7 @@ public class PersonRepositoryTest {
   public void testUpdatePerson_shouldMergePerson() {
     Date birthDate = new Date();
     Person person = aPerson().firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
-        .deleted(false).build();
+        .deleted(false).gender(Gender.MALE).build();
 
     entityManager.persist(person);
     entityManager.flush();
