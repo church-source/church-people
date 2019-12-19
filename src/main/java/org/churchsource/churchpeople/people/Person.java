@@ -3,10 +3,7 @@ package org.churchsource.churchpeople.people;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
-import javax.persistence.NamedQueries;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.*;
 
@@ -47,6 +44,7 @@ public class Person extends ChurchPeopleEntity<Long> implements Serializable {
 
   private Date dateOfBaptism;
 
+  @Enumerated(EnumType.STRING)
   private Gender gender;
 
   @Builder(builderMethodName = "aPerson")
