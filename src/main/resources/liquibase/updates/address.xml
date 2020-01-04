@@ -1,0 +1,56 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd"
+    logicalFilePath="./src/main/resources/liquibase/updates/person.xml">
+
+    <changeSet id="20191230-0800" author="rowanpi">
+        <createTable tableName="Address">
+          <column name="id" type="BIGINT(20)" autoIncrement="true">
+            <constraints primaryKey="true" />
+          </column>
+          <column name="deleted" type="TINYINT(1)" defaultValue="0">
+            <constraints nullable="false" />
+          </column>
+          <column name="created" defaultValueComputed="CURRENT_TIMESTAMP" type="TIMESTAMP"/>
+          <column name="modified" defaultValueComputed="CURRENT_TIMESTAMP" type="TIMESTAMP"/>
+          <column name="type" type="varchar(100)" defaultValue="HOME">
+            <constraints nullable="false" />
+          </column>
+          <column name="streetNumber" type="varchar(50)"/>
+          <column name="street" type="varchar(100)"/>
+          <column name="suburb" type="varchar(100)"/>
+          <column name="city" type="varchar(100)"/>
+          <column name="province" type="varchar(100)"/>
+          <column name="country" type="varchar(100)"/>
+          <column name="postalCode" type="varchar(20)"/>
+          <column name="latitude" type="DECIMAL(10, 8)"/>
+          <column name="longitude" type="DECIMAL(11, 8)"/>
+        </createTable>
+        <sql dbms="mysql">
+            ALTER TABLE Address CHANGE modified modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+        </sql>
+        <addDefaultValue tableName="Person" columnName="deleted" defaultValueBoolean="false"/>
+    </changeSet>
+
+
+    <changeSet id="20191231-0939" author="rowanpi">
+        <createTable tableName="PersonAddress">
+            <column name="id" type="BIGINT(20)" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="person" type="BIGINT(20)">
+                <constraints nullable="false" foreignKeyName="fk_PersonForAddress"
+                             references="Person(id)"  deleteCascade="true"/>
+            </column>
+            <column name="address" type="BIGINT(20)">
+                <constraints nullable="true" foreignKeyName="fk_AddressForPerson"
+                             references="Address(id)" />
+            </column>
+        </createTable>
+
+        <addUniqueConstraint tableName="PersonAddress"
+                             columnNames="person, address"
+                             constraintName="UIX_PersonAddress"/>
+    </changeSet>
+
+</databaseChangeLog>

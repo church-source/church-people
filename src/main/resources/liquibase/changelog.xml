@@ -4,4 +4,5 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <include file="liquibase/updates/person.xml"/>
+    <include file="liquibase/updates/address.xml"/>
 </databaseChangeLog>
