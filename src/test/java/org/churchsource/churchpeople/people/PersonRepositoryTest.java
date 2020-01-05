@@ -63,10 +63,8 @@ public class PersonRepositoryTest {
 
     Person savedPerson = peopleRepository.save(person);
 
-    // check that the transfusion entity was persisted correctly
+    // check that the person entity was persisted correctly
     assertThat(savedPerson.getId(), is(IsNull.notNullValue()));
-    // TODO check that the associated entities has been persisted in a cascade event
-    // (NONE YET PRESENT)
 
     Person retrievedPerson = entityManager.createQuery("SELECT p FROM Person p WHERE p.id = :id", Person.class)
         .setParameter("id", savedPerson.getId()).getSingleResult();
@@ -98,10 +96,8 @@ public class PersonRepositoryTest {
 
     Person updatedMergedPerson = peopleRepository.updatePerson(newUpdatedPerson);
 
-    // check that the transfusion entity was persisted correctly
+    // check that the person entity was persisted correctly
     assertThat(updatedMergedPerson.getId(), is(IsNull.notNullValue()));
-    // TODO check that the associated entities has been persisted in a cascade event
-    // (NONE YET PRESENT)
 
     Person retrievedPerson = entityManager.createQuery("SELECT p FROM Person p WHERE p.id = :id", Person.class)
         .setParameter("id", updatedMergedPerson.getId()).getSingleResult();
@@ -131,11 +127,9 @@ public class PersonRepositoryTest {
 
     Person updatedMergedPerson = peopleRepository.updatePerson(newUpdatedPerson);
 
-    // check that the transfusion entity was persisted correctly
+    // check that the person entity was persisted correctly
     assertThat(updatedMergedPerson.getId(), is(IsNull.notNullValue()));
-    // TODO check that the associated entities has been persisted in a cascade event
-    // (NONE YET PRESENT)
-
+    
     Person retrievedPerson = entityManager.createQuery("SELECT p FROM Person p WHERE p.id = :id", Person.class)
             .setParameter("id", updatedMergedPerson.getId()).getSingleResult();
 
@@ -158,10 +152,8 @@ public class PersonRepositoryTest {
 
     Person updatedMergedPerson = peopleRepository.updatePerson(newUpdatedPerson);
 
-    // check that the transfusion entity was persisted correctly
+    // check that the person entity was persisted correctly
     assertThat(updatedMergedPerson.getId(), is(IsNull.notNullValue()));
-    // TODO check that the associated entities has been persisted in a cascade event
-    // (NONE YET PRESENT)
 
     Person retrievedPerson = entityManager.createQuery("SELECT p FROM Person p WHERE p.id = :id", Person.class)
         .setParameter("id", updatedMergedPerson.getId()).getSingleResult();
