@@ -39,17 +39,19 @@ public class AddressRepositoryTest {
             .deleted(false)
             .build();
 
-    Address expectedAddress = anAddress()
-            .id(1L)
-            .type(AddressType.HOME)
-            .unitNumber("1")
-            .deleted(false)
-            .build();
+
 
     Address savedAddress = addressRepository.save(anAddress);
 
     Address retrievedAddress = entityManager.createQuery("SELECT a FROM Address a WHERE a.id = :id", Address.class)
         .setParameter("id", savedAddress.getId()).getSingleResult();
+
+    Address expectedAddress = anAddress()
+            .id(savedAddress.getId())
+            .type(AddressType.HOME)
+            .unitNumber("1")
+            .deleted(false)
+            .build();
 
     assertThat(savedAddress, hasSameStateAsAddress(expectedAddress));
     assertThat(retrievedAddress, hasSameStateAsAddress(expectedAddress));
