@@ -3,6 +3,7 @@ package org.churchsource.churchpeople.people;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.Entity;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 

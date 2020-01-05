@@ -1,11 +1,13 @@
 package org.churchsource.churchpeople.people;
 
+import org.churchsource.churchpeople.address.Address;
 import org.churchsource.churchpeople.helpers.TestHelper;
 import org.churchsource.churchpeople.model.type.Gender;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
+import java.util.HashSet;
 
 import static org.churchsource.churchpeople.people.Person.aPerson;
 import static org.churchsource.churchpeople.people.PersonMatcher.hasSameStateAsPerson;
@@ -32,7 +34,7 @@ public class PersonEntityTest {
     public void testTwoPersonsWithSameIdsButUsingNoArgsConstructor_shouldBeEqual() {
         Person aPerson = new Person();
         aPerson.setId(1L);
-        Person aPerson2 = aPerson().id(1L).deleted(false).build();
+        Person aPerson2 = aPerson().id(1L).deleted(false).addresses(new HashSet<Address>()).build();
         assertThat(aPerson, hasSameStateAsPerson(aPerson2));
     }
 

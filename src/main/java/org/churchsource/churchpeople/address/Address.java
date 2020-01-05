@@ -8,6 +8,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@NamedQueries({
+        @NamedQuery(name = AddressNamedQueryConstants.NAME_FIND_ADDRESS_BY_ID,
+                query = AddressNamedQueryConstants.QUERY_FIND_ADDRESS_BY_ID)
+})
+
 @Getter
 @Setter
 @ToString(callSuper = true)

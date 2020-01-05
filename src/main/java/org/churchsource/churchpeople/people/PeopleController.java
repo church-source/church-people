@@ -18,7 +18,10 @@ public class PeopleController {
 
   @Autowired
   private PeopleRepository peopleRepository;
-  
+
+  @Autowired
+  private PeopleFactory peopleFactory;
+
   @PersistenceContext
   private EntityManager entityManager;
   
@@ -29,7 +32,6 @@ public class PeopleController {
 
   @GetMapping(params = "name")
   public List<Person> findPeople(@RequestParam String name) {
-    log.info("Got here");
     return peopleRepository.findPersonByAnyName(name);
   }
 
@@ -39,8 +41,8 @@ public class PeopleController {
   }
 
   @RequestMapping(method = RequestMethod.POST)
-  public Person addPerson(@RequestBody Person person) {
-    return peopleRepository.save(person);
+  public Person addPerson(@RequestBody PersonBackingForm form) {
+    return peopleRepository.save(peopleFactory.createPersonEntity(form));
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -50,15 +52,15 @@ public class PeopleController {
   }
 
   @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-  public Person updatePerson(@PathVariable Long id, @RequestBody Person person) throws Exception {
+  public Person updatePerson(@PathVariable Long id, @RequestBody PersonBackingForm form) throws Exception {
     //TODO add validator to check if all fields are valid
-    if(id == null || person == null) {
+    if(id == null || form == null) {
       throw new Exception ("Invalid Request"); // TODO to be replaced with validator
     }
-    if(person.getId() != null && id != person.getId()) {
+    if(form.getId() != null && id != form.getId()) {
       throw new Exception ("If ID is in Path and message body they must be equal. "); // TODO to be replaced with validator
     }
-    person.setId(id);
-    return peopleRepository.updatePerson(person);
+    form.setId(id);
+    return peopleRepository.updatePerson(peopleFactory.createPersonEntity(form));
   }
 }

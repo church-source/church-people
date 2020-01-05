@@ -1,5 +1,7 @@
 package org.churchsource.churchpeople.people;
 
+import org.churchsource.churchpeople.address.Address;
+import org.churchsource.churchpeople.model.type.AddressType;
 import org.churchsource.churchpeople.model.type.Gender;
 import org.hamcrest.core.IsNull;
 import org.junit.Test;
@@ -14,10 +16,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+
+import static org.churchsource.churchpeople.address.Address.anAddress;
+import static org.churchsource.churchpeople.address.AddressMatcher.hasSameStateAsAddress;
 
 import static org.churchsource.churchpeople.people.Person.aPerson;
 import static org.churchsource.churchpeople.people.PersonMatcher.hasSameStateAsPerson;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
@@ -35,8 +44,22 @@ public class PersonRepositoryTest {
   @Test
   public void testSavePerson_shouldPersistPerson() {
     Date birthDate = new Date();
-    Person person = aPerson().firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
-        .deleted(false).gender(Gender.MALE).build();
+    Address anAddress = anAddress()
+            .type(AddressType.HOME)
+            .unitNumber("1")
+            .deleted(false)
+            .build();
+    Set<Address> addresses = new HashSet<Address>();
+    addresses.add(anAddress);
+    Person person = aPerson()
+            .firstName("Joe")
+            .middleName("Bar")
+            .lastName("ber")
+            .dateOfBirth(birthDate)
+            .deleted(false)
+            .gender(Gender.MALE)
+            .addresses(addresses)
+            .build();
 
     Person savedPerson = peopleRepository.save(person);
 
@@ -47,21 +70,31 @@ public class PersonRepositoryTest {
 
     Person retrievedPerson = entityManager.createQuery("SELECT p FROM Person p WHERE p.id = :id", Person.class)
         .setParameter("id", savedPerson.getId()).getSingleResult();
+    Set<Address> retrievedAddresses = retrievedPerson.getAddresses();
 
     assertThat(retrievedPerson, hasSameStateAsPerson(savedPerson));
+    assertThat(retrievedAddresses.size(), is(1));
+    assertThat((Address)retrievedAddresses.toArray()[0], hasSameStateAsAddress(anAddress));
   }
 
   @Test
   public void testUpdatePerson_shouldMergePerson() {
     Date birthDate = new Date();
+    Address anAddress = anAddress()
+            .type(AddressType.HOME)
+            .unitNumber("1")
+            .deleted(false)
+            .build();
+    Set<Address> addresses = new HashSet<Address>();
+    addresses.add(anAddress);
     Person person = aPerson().firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
-        .deleted(false).gender(Gender.MALE).build();
+        .deleted(false).gender(Gender.MALE).addresses(addresses).build();
 
     entityManager.persist(person);
     entityManager.flush();
 
     Person newUpdatedPerson = aPerson().id(person.getId()).firstName("JoeUpdated").middleName(person.getMiddleName()).lastName(person.getLastName()).dateOfBirth(person.getDateOfBirth())
-        .deleted(person.getDeleted()).build();
+        .deleted(person.getDeleted()).addresses(addresses).build();
 
     Person updatedMergedPerson = peopleRepository.updatePerson(newUpdatedPerson);
 
@@ -74,6 +107,42 @@ public class PersonRepositoryTest {
         .setParameter("id", updatedMergedPerson.getId()).getSingleResult();
 
     assertThat(retrievedPerson, hasSameStateAsPerson(newUpdatedPerson));
+  }
+
+  @Test
+  public void testUpdatePersonWithoutAddresses_shouldMergePersonAndRemoveAddresses() {
+    Date birthDate = new Date();
+    Address anAddress = anAddress()
+            .type(AddressType.HOME)
+            .unitNumber("1")
+            .deleted(false)
+            .build();
+    Set<Address> addresses = new HashSet<Address>();
+    addresses.add(anAddress);
+    Person person = aPerson().firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate)
+            .deleted(false).gender(Gender.MALE).addresses(addresses).build();
+
+    entityManager.persist(person);
+    entityManager.flush();
+
+    //UPDATE PERSON BUT NOW WITHOUT ADDRESSES
+    Person newUpdatedPerson = aPerson().id(person.getId()).firstName("Joe").middleName(person.getMiddleName()).lastName(person.getLastName()).dateOfBirth(person.getDateOfBirth())
+            .deleted(person.getDeleted()).build();
+
+    Person updatedMergedPerson = peopleRepository.updatePerson(newUpdatedPerson);
+
+    // check that the transfusion entity was persisted correctly
+    assertThat(updatedMergedPerson.getId(), is(IsNull.notNullValue()));
+    // TODO check that the associated entities has been persisted in a cascade event
+    // (NONE YET PRESENT)
+
+    Person retrievedPerson = entityManager.createQuery("SELECT p FROM Person p WHERE p.id = :id", Person.class)
+            .setParameter("id", updatedMergedPerson.getId()).getSingleResult();
+
+    Set<Address> retrievedAddresses = retrievedPerson.getAddresses();
+
+    assertThat(retrievedPerson, hasSameStateAsPerson(newUpdatedPerson));
+    assertThat(retrievedAddresses, is((Set<Address>)null));
   }
 
   @Test

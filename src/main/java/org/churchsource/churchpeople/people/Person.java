@@ -2,12 +2,15 @@ package org.churchsource.churchpeople.people;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
 import lombok.*;
 
 
+import org.churchsource.churchpeople.address.Address;
 import org.churchsource.churchpeople.model.ChurchPeopleEntity;
 import org.churchsource.churchpeople.model.type.Gender;
 
@@ -47,8 +50,14 @@ public class Person extends ChurchPeopleEntity<Long> implements Serializable {
   @Enumerated(EnumType.STRING)
   private Gender gender;
 
+  @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
+  @JoinTable(name = "PersonAddress",
+          joinColumns = { @JoinColumn(name = "person") },
+          inverseJoinColumns = { @JoinColumn(name = "address") })
+  private Set<Address> addresses = new HashSet<Address>();
+
   @Builder(builderMethodName = "aPerson")
-  public Person(Long id, Date created, Date modified, String firstName, String middleName, String lastName, Date dateOfBirth, Boolean deleted, Date dateOfBaptism, Gender gender) {
+  public Person(Long id, Date created, Date modified, String firstName, String middleName, String lastName, Date dateOfBirth, Boolean deleted, Date dateOfBaptism, Gender gender, Set<Address> addresses) {
     super(id, created, modified, deleted);
     this.firstName = firstName;
     this.middleName = middleName;
@@ -56,6 +65,7 @@ public class Person extends ChurchPeopleEntity<Long> implements Serializable {
     this.dateOfBirth = dateOfBirth;
     this.dateOfBaptism = dateOfBaptism;
     this.gender = gender;
+    this.addresses = addresses;
   }
 }
 

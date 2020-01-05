@@ -53,4 +53,11 @@
                              constraintName="UIX_PersonAddress"/>
     </changeSet>
 
+    <changeSet id="20200104-1003" author="rowanpi">
+        <addColumn tableName="Address">
+            <column name="unitNumber" type="VARCHAR(100)"/>
+            <column name="complex" type="VARCHAR(100)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
