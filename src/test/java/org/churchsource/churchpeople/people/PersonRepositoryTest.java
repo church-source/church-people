@@ -59,6 +59,9 @@ public class PersonRepositoryTest {
             .deleted(false)
             .gender(Gender.MALE)
             .addresses(addresses)
+            .mobileNumber("0721234567")
+            .homeNumber("0217654321")
+            .email("test@test.com")
             .build();
 
     Person savedPerson = peopleRepository.save(person);

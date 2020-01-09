@@ -68,7 +68,19 @@ public class PersonEntityTest {
     public void testIsEqualsForPersonsWithAllPropertiesSetTheSameUsingSetterMethods_shouldBeEqual() {
         Date birthDate = new Date();
         Date baptismDate = TestHelper.getDate("yyyy/MM/dd","2019/01/01");
-        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).dateOfBaptism(baptismDate).deleted(false).build();
+        Person aPerson = aPerson()
+                .id(1L)
+                .firstName("Joe")
+                .middleName("Bar")
+                .lastName("ber")
+                .dateOfBirth(birthDate)
+                .dateOfBaptism(baptismDate)
+                .deleted(false)
+                .gender(Gender.MALE)
+                .mobileNumber("0721234567")
+                .homeNumber("0217654321")
+                .email("test@test.com")
+                .build();
         Person aPerson2 = aPerson().build();
         aPerson2.setId(1L);
         aPerson2.setFirstName("Joe");
@@ -76,7 +88,11 @@ public class PersonEntityTest {
         aPerson2.setLastName("ber");
         aPerson2.setDateOfBirth(birthDate);
         aPerson2.setDeleted(false);
+        aPerson2.setGender(Gender.MALE);
         aPerson2.setDateOfBaptism(baptismDate);
+        aPerson2.setMobileNumber("0721234567");
+        aPerson2.setHomeNumber("0217654321");
+        aPerson2.setEmail("test@test.com");
         assertThat(aPerson, hasSameStateAsPerson(aPerson2));
     }
 
@@ -84,7 +100,19 @@ public class PersonEntityTest {
     public void testGetterMethodsForAllProperties_shouldAllBeValid() {
         Date birthDate = new Date();
         Date baptismDate = TestHelper.getDate("yyyy/MM/dd","2019/01/01");
-        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").dateOfBaptism(baptismDate).lastName("ber").dateOfBirth(birthDate).deleted(false).build();
+        Person aPerson = aPerson()
+                .id(1L)
+                .firstName("Joe")
+                .middleName("Bar")
+                .dateOfBaptism(baptismDate)
+                .lastName("ber")
+                .dateOfBirth(birthDate)
+                .deleted(false)
+                .gender(Gender.MALE)
+                .mobileNumber("0721234567")
+                .homeNumber("0217654321")
+                .email("test@test.com")
+                .build();
         assertThat(aPerson.getId(), is(1L));
         assertThat(aPerson.getFirstName(), is("Joe"));
         assertThat(aPerson.getMiddleName(), is("Bar"));
@@ -92,6 +120,10 @@ public class PersonEntityTest {
         assertThat(aPerson.getDateOfBirth(), is(birthDate));
         assertThat(aPerson.getDateOfBaptism(), is(baptismDate));
         assertThat(aPerson.getDeleted(), is(false));
+        assertThat(aPerson.getGender(), is(Gender.MALE));
+        assertThat(aPerson.getMobileNumber(), is("0721234567"));
+        assertThat(aPerson.getHomeNumber(), is("0217654321"));
+        assertThat(aPerson.getEmail(), is("test@test.com"));
     }
 
     @Test
@@ -121,8 +153,32 @@ public class PersonEntityTest {
     @Test
     public void testIsEqualsForPersonsWithDifferentGenders_shouldNotBeEqual() {
         Date birthDate = new Date();
-        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.MALE).dateOfBirth(birthDate).deleted(false).build();
-        Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.FEMALE).dateOfBirth(birthDate).deleted(false).build();
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.MALE).dateOfBirth(birthDate).deleted(false).mobileNumber("1234").homeNumber("1234").email("test@test.com").build();
+        Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.FEMALE).dateOfBirth(birthDate).deleted(false).mobileNumber("1234").homeNumber("1234").email("test@test.com").build();
+        assertThat(aPerson, not(hasSameStateAsPerson(aPerson2)));
+    }
+
+    @Test
+    public void testIsEqualsForPersonsWithDifferentMobileNumbers_shouldNotBeEqual() {
+        Date birthDate = new Date();
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.MALE).dateOfBirth(birthDate).deleted(false).mobileNumber("1234").homeNumber("1234").email("test@test.com").build();
+        Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.MALE).dateOfBirth(birthDate).deleted(false).mobileNumber("1111").homeNumber("1234").email("test@test.com").build();
+        assertThat(aPerson, not(hasSameStateAsPerson(aPerson2)));
+    }
+
+    @Test
+    public void testIsEqualsForPersonsWithDifferentHomeNumbers_shouldNotBeEqual() {
+        Date birthDate = new Date();
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.MALE).dateOfBirth(birthDate).deleted(false).mobileNumber("1234").homeNumber("1234").email("test@test.com").build();
+        Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.MALE).dateOfBirth(birthDate).deleted(false).mobileNumber("1234").homeNumber("1111").email("test@test.com").build();
+        assertThat(aPerson, not(hasSameStateAsPerson(aPerson2)));
+    }
+
+    @Test
+    public void testIsEqualsForPersonsWithDifferentEmails_shouldNotBeEqual() {
+        Date birthDate = new Date();
+        Person aPerson = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.MALE).dateOfBirth(birthDate).deleted(false).mobileNumber("1234").homeNumber("1234").email("test@test.com").build();
+        Person aPerson2 = aPerson().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.MALE).dateOfBirth(birthDate).deleted(false).mobileNumber("1234").homeNumber("1234").email("differenttest@test.com").build();
         assertThat(aPerson, not(hasSameStateAsPerson(aPerson2)));
     }
 

@@ -50,6 +50,12 @@ public class Person extends ChurchPeopleEntity<Long> implements Serializable {
   @Enumerated(EnumType.STRING)
   private Gender gender;
 
+  private String mobileNumber;
+
+  private String homeNumber;
+
+  private String email;
+
   @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
   @JoinTable(name = "PersonAddress",
           joinColumns = { @JoinColumn(name = "person") },
@@ -57,7 +63,9 @@ public class Person extends ChurchPeopleEntity<Long> implements Serializable {
   private Set<Address> addresses = new HashSet<Address>();
 
   @Builder(builderMethodName = "aPerson")
-  public Person(Long id, Date created, Date modified, String firstName, String middleName, String lastName, Date dateOfBirth, Boolean deleted, Date dateOfBaptism, Gender gender, Set<Address> addresses) {
+  public Person(Long id, Date created, Date modified, String firstName, String middleName, String lastName, Date dateOfBirth,
+                Boolean deleted, Date dateOfBaptism, Gender gender, Set<Address> addresses,
+                String mobileNumber, String homeNumber, String email) {
     super(id, created, modified, deleted);
     this.firstName = firstName;
     this.middleName = middleName;
@@ -66,6 +74,9 @@ public class Person extends ChurchPeopleEntity<Long> implements Serializable {
     this.dateOfBaptism = dateOfBaptism;
     this.gender = gender;
     this.addresses = addresses;
+    this.mobileNumber = mobileNumber;
+    this.homeNumber = homeNumber;
+    this.email = email;
   }
 }
 

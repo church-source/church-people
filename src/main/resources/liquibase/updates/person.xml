@@ -65,4 +65,12 @@
             </column>
         </addColumn>
     </changeSet>
+
+    <changeSet id="20200110-2317" author="rowanpi">
+        <addColumn tableName="Person">
+            <column name="mobileNumber" type="VARCHAR(20)"/>
+            <column name="homeNumber" type="VARCHAR(20)"/>
+            <column name="email" type="VARCHAR(320)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
