@@ -51,14 +51,28 @@ public class PersonBackingFormTest {
     public void testIsEqualsForPersonBackingFormsWithAllPropertiesSetTheSameUsingSetterMethods_shouldBeEqual() {
         Date birthDate = new Date();
         Date baptismDate = TestHelper.getDate("yyyy/MM/dd","2019/01/01");
-        PersonBackingForm aPersonBackingForm = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).dateOfBaptism(baptismDate).build();
+        PersonBackingForm aPersonBackingForm = aPersonBackingForm()
+                .id(1L)
+                .firstName("Joe")
+                .middleName("Bar")
+                .lastName("ber")
+                .dateOfBirth(birthDate)
+                .dateOfBaptism(baptismDate)
+                .mobileNumber("0721234567")
+                .homeNumber("0217654321")
+                .email("test@test.com")
+                .gender(Gender.MALE)
+                .build();
         PersonBackingForm aPersonBackingForm2 = aPersonBackingForm().build();
         aPersonBackingForm2.setId(1L);
         aPersonBackingForm2.setFirstName("Joe");
         aPersonBackingForm2.setMiddleName("Bar");
         aPersonBackingForm2.setLastName("ber");
         aPersonBackingForm2.setDateOfBirth(birthDate);
-        
+        aPersonBackingForm2.setMobileNumber("0721234567");
+        aPersonBackingForm2.setHomeNumber("0217654321");
+        aPersonBackingForm2.setEmail("test@test.com");
+        aPersonBackingForm2.setGender(Gender.MALE);
         aPersonBackingForm2.setDateOfBaptism(baptismDate);
         assertThat(aPersonBackingForm, hasSameStateAsPersonBackingForm(aPersonBackingForm2));
     }
@@ -67,13 +81,28 @@ public class PersonBackingFormTest {
     public void testGetterMethodsForAllProperties_shouldAllBeValid() {
         Date birthDate = new Date();
         Date baptismDate = TestHelper.getDate("yyyy/MM/dd","2019/01/01");
-        PersonBackingForm aPersonBackingForm = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").dateOfBaptism(baptismDate).lastName("ber").dateOfBirth(birthDate).build();
+        PersonBackingForm aPersonBackingForm = aPersonBackingForm()
+                .id(1L)
+                .firstName("Joe")
+                .middleName("Bar")
+                .dateOfBaptism(baptismDate)
+                .lastName("ber")
+                .dateOfBirth(birthDate)
+                .mobileNumber("0721234567")
+                .homeNumber("0217654321")
+                .email("test@test.com")
+                .gender(Gender.MALE)
+                .build();
         assertThat(aPersonBackingForm.getId(), is(1L));
         assertThat(aPersonBackingForm.getFirstName(), is("Joe"));
         assertThat(aPersonBackingForm.getMiddleName(), is("Bar"));
         assertThat(aPersonBackingForm.getLastName(), is("ber"));
         assertThat(aPersonBackingForm.getDateOfBirth(), is(birthDate));
         assertThat(aPersonBackingForm.getDateOfBaptism(), is(baptismDate));
+        assertThat(aPersonBackingForm.getGender(), is(Gender.MALE));
+        assertThat(aPersonBackingForm.getMobileNumber(), is("0721234567"));
+        assertThat(aPersonBackingForm.getHomeNumber(), is("0217654321"));
+        assertThat(aPersonBackingForm.getEmail(), is("test@test.com"));
     }
 
     @Test
@@ -105,6 +134,30 @@ public class PersonBackingFormTest {
         Date birthDate = new Date();
         PersonBackingForm aPersonBackingForm = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.MALE).dateOfBirth(birthDate).build();
         PersonBackingForm aPersonBackingForm2 = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.FEMALE).dateOfBirth(birthDate).build();
+        assertThat(aPersonBackingForm, not(hasSameStateAsPersonBackingForm(aPersonBackingForm2)));
+    }
+
+    @Test
+    public void testIsEqualsForPersonBackingFormsWithDifferentMobileNumbers_shouldNotBeEqual() {
+        Date birthDate = new Date();
+        PersonBackingForm aPersonBackingForm = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.MALE).dateOfBirth(birthDate).mobileNumber("1234").homeNumber("1234").email("test@test.com").build();
+        PersonBackingForm aPersonBackingForm2 = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.FEMALE).dateOfBirth(birthDate).mobileNumber("1111").homeNumber("1234").email("test@test.com").build();
+        assertThat(aPersonBackingForm, not(hasSameStateAsPersonBackingForm(aPersonBackingForm2)));
+    }
+
+    @Test
+    public void testIsEqualsForPersonBackingFormsWithDifferentHomeNumbers_shouldNotBeEqual() {
+        Date birthDate = new Date();
+        PersonBackingForm aPersonBackingForm = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.MALE).dateOfBirth(birthDate).mobileNumber("1234").homeNumber("1234").email("test@test.com").build();
+        PersonBackingForm aPersonBackingForm2 = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.FEMALE).dateOfBirth(birthDate).mobileNumber("1234").homeNumber("1111").email("test@test.com").build();
+        assertThat(aPersonBackingForm, not(hasSameStateAsPersonBackingForm(aPersonBackingForm2)));
+    }
+
+    @Test
+    public void testIsEqualsForPersonBackingFormsWithDifferentEmails_shouldNotBeEqual() {
+        Date birthDate = new Date();
+        PersonBackingForm aPersonBackingForm = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.MALE).dateOfBirth(birthDate).mobileNumber("1234").homeNumber("1234").email("test@test.com").build();
+        PersonBackingForm aPersonBackingForm2 = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").gender(Gender.FEMALE).dateOfBirth(birthDate).mobileNumber("1234").homeNumber("1234").email("diff@test.com").build();
         assertThat(aPersonBackingForm, not(hasSameStateAsPersonBackingForm(aPersonBackingForm2)));
     }
 

@@ -141,6 +141,9 @@ public class PeopleFactoryTest {
             .dateOfBirth(birthDate)
             .gender(Gender.MALE)
             .address(null)
+            .mobileNumber("0721234567")
+            .homeNumber("0217654321")
+            .email("test@test.com")
             .build();
 
     Set<Address> addresses = new HashSet<Address>();
@@ -153,6 +156,9 @@ public class PeopleFactoryTest {
             .deleted(false)
             .gender(Gender.MALE)
             .addresses(addresses)
+            .mobileNumber("0721234567")
+            .homeNumber("0217654321")
+            .email("test@test.com")
             .build();
 
     Person convertedPerson = peopleFactory.createPersonEntity(pbForm);

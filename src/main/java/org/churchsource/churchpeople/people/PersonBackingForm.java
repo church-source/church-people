@@ -35,8 +35,15 @@ public class PersonBackingForm {
 
   private Address address = null;
 
+  private String mobileNumber;
+
+  private String homeNumber;
+
+  private String email;
+
   @Builder(builderMethodName = "aPersonBackingForm")
-  public PersonBackingForm(Long id, String firstName, String middleName, String lastName, Date dateOfBirth, Date dateOfBaptism, Gender gender, Address address) {
+  public PersonBackingForm(Long id, String firstName, String middleName, String lastName, Date dateOfBirth, Date dateOfBaptism,
+                           Gender gender, Address address, String mobileNumber, String homeNumber, String email) {
     this.id=id;
     this.firstName = firstName;
     this.middleName = middleName;
@@ -45,6 +52,9 @@ public class PersonBackingForm {
     this.dateOfBaptism = dateOfBaptism;
     this.gender = gender;
     this.address = address;
+    this.mobileNumber = mobileNumber;
+    this.homeNumber = homeNumber;
+    this.email = email;
   }
 }
 
