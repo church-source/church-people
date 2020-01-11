@@ -2,14 +2,10 @@ package org.churchsource.churchpeople.people;
 
 import lombok.*;
 import org.churchsource.churchpeople.address.Address;
-import org.churchsource.churchpeople.model.ChurchPeopleEntity;
 import org.churchsource.churchpeople.model.type.Gender;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -33,7 +29,7 @@ public class PersonBackingForm {
   @Enumerated(EnumType.STRING)
   private Gender gender;
 
-  private Address address = null;
+  private Address homeAddress = null;
 
   private String mobileNumber;
 
@@ -43,7 +39,7 @@ public class PersonBackingForm {
 
   @Builder(builderMethodName = "aPersonBackingForm")
   public PersonBackingForm(Long id, String firstName, String middleName, String lastName, Date dateOfBirth, Date dateOfBaptism,
-                           Gender gender, Address address, String mobileNumber, String homeNumber, String email) {
+                           Gender gender, Address homeAddress, String mobileNumber, String homeNumber, String email) {
     this.id=id;
     this.firstName = firstName;
     this.middleName = middleName;
@@ -51,7 +47,7 @@ public class PersonBackingForm {
     this.dateOfBirth = dateOfBirth;
     this.dateOfBaptism = dateOfBaptism;
     this.gender = gender;
-    this.address = address;
+    this.homeAddress = homeAddress;
     this.mobileNumber = mobileNumber;
     this.homeNumber = homeNumber;
     this.email = email;

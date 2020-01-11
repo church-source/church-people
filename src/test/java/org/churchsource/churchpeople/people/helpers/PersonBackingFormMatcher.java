@@ -1,6 +1,7 @@
-package org.churchsource.churchpeople.people;
+package org.churchsource.churchpeople.people.helpers;
 
 import org.churchsource.churchpeople.helpers.AbstractTypeSafeMatcher;
+import org.churchsource.churchpeople.people.PersonBackingForm;
 import org.hamcrest.Description;
 
 import java.util.Objects;
@@ -21,7 +22,7 @@ public class PersonBackingFormMatcher extends AbstractTypeSafeMatcher<PersonBack
         .appendText("\nDate Of Birth: ").appendValue(person.getDateOfBirth())
         .appendText("\nDate Of Baptism: ").appendValue(person.getDateOfBaptism())
         .appendText("\nGender: ").appendValue(person.getGender())
-        .appendText("\nAddress: ").appendValue(person.getAddress())
+        .appendText("\nAddress: ").appendValue(person.getHomeAddress())
         .appendText("\nMobileNumber: ").appendValue(person.getMobileNumber())
         .appendText("\nHomeNumber: ").appendValue(person.getHomeNumber())
         .appendText("\nEmail: ").appendValue(person.getEmail());
@@ -36,7 +37,7 @@ public class PersonBackingFormMatcher extends AbstractTypeSafeMatcher<PersonBack
         && Objects.equals(actual.getDateOfBirth(), expected.getDateOfBirth())
         && Objects.equals(actual.getDateOfBaptism(), expected.getDateOfBaptism())
         && Objects.equals(actual.getGender(), expected.getGender())
-        && Objects.equals(actual.getAddress(), expected.getAddress())
+        && Objects.equals(actual.getHomeAddress(), expected.getHomeAddress())
         && Objects.equals(actual.getMobileNumber(), expected.getMobileNumber())
         && Objects.equals(actual.getHomeNumber(), expected.getHomeNumber())
         && Objects.equals(actual.getEmail(), expected.getEmail());

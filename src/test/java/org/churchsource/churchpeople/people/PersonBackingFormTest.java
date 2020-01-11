@@ -11,7 +11,7 @@ import java.util.Date;
 import static org.churchsource.churchpeople.people.PersonBackingForm.aPersonBackingForm;
 import static org.churchsource.churchpeople.address.Address.anAddress;
 
-import static org.churchsource.churchpeople.people.PersonBackingFormMatcher.hasSameStateAsPersonBackingForm;
+import static org.churchsource.churchpeople.people.helpers.PersonBackingFormMatcher.hasSameStateAsPersonBackingForm;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
@@ -186,8 +186,8 @@ public class PersonBackingFormTest {
         Address anAddress = anAddress().id(1L).build();
         Address aDifferentAddress = anAddress().id(1L).build();
 
-        PersonBackingForm aPersonBackingForm = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).gender(Gender.MALE).address(anAddress).build();
-        PersonBackingForm aPersonBackingForm2 = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).gender(Gender.MALE).address(aDifferentAddress).build();
+        PersonBackingForm aPersonBackingForm = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).gender(Gender.MALE).homeAddress(anAddress).build();
+        PersonBackingForm aPersonBackingForm2 = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).gender(Gender.MALE).homeAddress(aDifferentAddress).build();
         assertThat(aPersonBackingForm, hasSameStateAsPersonBackingForm(aPersonBackingForm2));
     }
 
@@ -197,8 +197,8 @@ public class PersonBackingFormTest {
         Address anAddress = anAddress().id(1L).build();
         Address aDifferentAddress = anAddress().id(2L).build();
 
-        PersonBackingForm aPersonBackingForm = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).gender(Gender.MALE).address(anAddress).build();
-        PersonBackingForm aPersonBackingForm2 = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).gender(Gender.MALE).address(aDifferentAddress).build();
+        PersonBackingForm aPersonBackingForm = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).gender(Gender.MALE).homeAddress(anAddress).build();
+        PersonBackingForm aPersonBackingForm2 = aPersonBackingForm().id(1L).firstName("Joe").middleName("Bar").lastName("ber").dateOfBirth(birthDate).gender(Gender.MALE).homeAddress(aDifferentAddress).build();
         assertThat(aPersonBackingForm, not(hasSameStateAsPersonBackingForm(aPersonBackingForm2)));
     }
 

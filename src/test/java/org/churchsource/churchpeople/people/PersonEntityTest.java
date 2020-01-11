@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.HashSet;
 
 import static org.churchsource.churchpeople.people.Person.aPerson;
-import static org.churchsource.churchpeople.people.PersonMatcher.hasSameStateAsPerson;
+import static org.churchsource.churchpeople.people.helpers.PersonMatcher.hasSameStateAsPerson;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 

@@ -2,6 +2,7 @@ package org.churchsource.churchpeople.people;
 
 import org.churchsource.churchpeople.address.Address;
 import org.churchsource.churchpeople.address.AddressRepository;
+import org.churchsource.churchpeople.model.type.AddressType;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class PeopleFactory {
     public Person createPersonEntity(PersonBackingForm pbForm) {
         Person aPerson = new Person();
         BeanUtils.copyProperties(pbForm, aPerson, "deleted, address");
-        Address formAddress = pbForm.getAddress();
+        Address formAddress = pbForm.getHomeAddress();
         if(formAddress != null && formAddress.getId() != null) {
             Address finalAddress = addressRepository.findAddressById(formAddress.getId());
             //at this point only 1 address is allowed per person.
@@ -42,5 +43,25 @@ public class PeopleFactory {
             }*/
         }
         return aPerson;
+    }
+
+    public PersonFullViewModel createPersonFullViewModelFromEntity(Person person) {
+        PersonFullViewModel personFullViewModel = new PersonFullViewModel();
+        BeanUtils.copyProperties(person, personFullViewModel, "deleted, addresses, created, modified");
+        Address homeAddress = getHomeAddressFromPersonEntity(person);
+        personFullViewModel.setHomeAddress(homeAddress);
+        return personFullViewModel;
+    }
+
+    private Address getHomeAddressFromPersonEntity(Person person) {
+        Address homeAddress = null;
+        if(person.getAddresses() != null && person.getAddresses().size() > 0) {
+            for(Address address : person.getAddresses()) {
+                if (address.getType() == AddressType.HOME) {
+                    homeAddress = address;
+                }
+            }
+        }
+        return homeAddress;
     }
 }
