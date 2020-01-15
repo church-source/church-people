@@ -1,5 +1,6 @@
 package org.churchsource.churchpeople.people;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.churchsource.churchpeople.address.Address;
 import org.churchsource.churchpeople.model.ChurchPeopleEntity;
@@ -39,8 +40,10 @@ public class PersonFullViewModel extends BaseViewModel<Long> implements Serializ
 
   private String lastName;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
   private Date dateOfBirth;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
   private Date dateOfBaptism;
 
   @Enumerated(EnumType.STRING)
