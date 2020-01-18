@@ -23,6 +23,7 @@ public class PeopleFactory {
         if(formAddress != null && formAddress.getId() != null) {
             Address finalAddress = addressRepository.findAddressById(formAddress.getId());
             //at this point only 1 address is allowed per person.
+            addressRepository.updateAddress(formAddress);
             aPerson.getAddresses().add(finalAddress);
         } else {
             if(formAddress != null) {

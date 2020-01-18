@@ -72,6 +72,7 @@ public class PeopleController {
   }
 
   @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+  //TODO temp fix for cross origin. this must be fixed later
   @CrossOrigin
   public PersonFullViewModel updatePerson(@PathVariable Long id, @RequestBody PersonBackingForm form) throws Exception {
     //TODO add validator to check if all fields are valid

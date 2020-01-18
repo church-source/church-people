@@ -20,4 +20,11 @@ public class AddressRepository extends AbstractRepository<Address> {
         .setParameter("id", id)
         .getSingleResult();
   }
+
+  public Address updateAddress(Address address) {
+    Address existingAddress = findAddressById(address.getId());
+    Address updatedAddress = new Address();
+    existingAddress.mergeEntities(address, updatedAddress);
+    return update(updatedAddress);
+  }
 }
