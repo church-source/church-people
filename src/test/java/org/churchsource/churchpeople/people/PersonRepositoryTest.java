@@ -151,7 +151,7 @@ public class PersonRepositoryTest {
     entityManager.persist(person);
     entityManager.flush();
 
-    Person newUpdatedPerson = aPerson().id(person.getId()).firstName("JoeUpdated").deleted(person.getDeleted()).build();
+    Person newUpdatedPerson = aPerson().id(person.getId()).firstName("JoeUpdated").lastName("berUpdated").deleted(person.getDeleted()).build();
 
     Person updatedMergedPerson = peopleRepository.updatePerson(newUpdatedPerson);
 
