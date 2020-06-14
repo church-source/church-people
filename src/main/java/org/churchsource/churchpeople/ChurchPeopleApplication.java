@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
-@Configuration
+//@Configuration
 public class ChurchPeopleApplication {
 
 	public static void main(String[] args) {

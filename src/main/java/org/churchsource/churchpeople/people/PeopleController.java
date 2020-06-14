@@ -2,6 +2,7 @@ package org.churchsource.churchpeople.people;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class PeopleController {
   private EntityManager entityManager;
   
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('ViewPeople')")
   public PersonFullViewModel getPerson(@PathVariable Long id) {
     Person foundPerson = peopleRepository.findEntityById(id);
     if(foundPerson != null) {
@@ -42,6 +44,7 @@ public class PeopleController {
   }
 
   @GetMapping
+  @PreAuthorize("hasAuthority('ViewPeople')")
   public List<PersonFullViewModel> getAllPeople() {
 
     List<Person> people = peopleRepository.getAllPeople();
@@ -56,6 +59,7 @@ public class PeopleController {
   }
 
   @RequestMapping(method = RequestMethod.POST)
+  @PreAuthorize("hasAuthority('AddPeople')")
   public PersonFullViewModel addPerson(@RequestBody PersonBackingForm form) {
     Person createdPerson = peopleRepository.save(peopleFactory.createPersonEntity(form));
     if(createdPerson != null) {
@@ -66,6 +70,7 @@ public class PeopleController {
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+  @PreAuthorize("hasAuthority('AddPeople')")
   public HttpStatus deletePerson(@PathVariable Long id) {
     peopleRepository.deletePerson(id);
     return HttpStatus.NO_CONTENT;
@@ -74,6 +79,7 @@ public class PeopleController {
   @RequestMapping(value = "{id}", method = RequestMethod.PUT)
   //TODO temp fix for cross origin. this must be fixed later
   @CrossOrigin
+  @PreAuthorize("hasAuthority('EditPeople')")
   public PersonFullViewModel updatePerson(@PathVariable Long id, @RequestBody PersonBackingForm form) throws Exception {
     //TODO add validator to check if all fields are valid
     if(id == null || form == null) {

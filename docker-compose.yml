@@ -19,6 +19,9 @@ services:
     depends_on:
       - mysql
     image: churchsource/church-people
+    #build:
+    #  context: .
+    #  dockerfile: ./Dockerfile
     networks:
       - church-people-backend
     ports:
