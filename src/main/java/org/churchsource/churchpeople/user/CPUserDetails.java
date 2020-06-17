@@ -33,19 +33,19 @@ public class CPUserDetails extends ChurchPeopleEntity<Long> implements UserDetai
 
   private String username;
   private String password;
-  boolean enabled;
+  private boolean enabled;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "UserRole", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
   private Collection<Role> roles;
 
   @Builder(builderMethodName = "aCPUserDetails")
-  public CPUserDetails(Long id, Date created, Date modified, Boolean deleted, String username, String password, Collection<Role> roles) {
+  public CPUserDetails(Long id, Date created, Date modified, Boolean deleted, String username, String password, Collection<Role> roles, boolean isEnabled) {
     super(id, created, modified, deleted);
     this.username = username;
     this.password = password;
     this.roles = roles;
-    this.enabled=true;
+    this.enabled=isEnabled;
   }
 
   @JsonIgnore
