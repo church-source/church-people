@@ -4,11 +4,14 @@ import org.churchsource.churchpeople.helpers.TestHelper;
 import org.churchsource.churchpeople.user.CPUserDetails;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
 
 import static org.churchsource.churchpeople.user.CPUserDetails.aCPUserDetails;
+import static org.churchsource.churchpeople.user.Role.aRole;
+import static org.churchsource.churchpeople.user.Privilege.aPrivilege;
 import static org.churchsource.churchpeople.user.helpers.CPUserDetailsMatcher.hasSameStateAsCPUserDetails;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -40,8 +43,10 @@ public class CPUserDetailsEntityTest {
 
     @Test
     public void testIsEqualsForCPUserDetailsWithAllPropertiesSetTheSame_shouldBeEqual() {
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(aRole().name("role_1").build());
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
         assertThat(aCPUserDetails.equals(aCPUserDetails2), is (true));
     }
 
@@ -108,6 +113,17 @@ public class CPUserDetailsEntityTest {
     }
 
     @Test
+    public void testIsEqualsForCPUserDetailsWithDifferentRoles_shouldNotBeEqual() {
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(aRole().name("role_1").build());
+        List<Role> roles2 = new ArrayList<Role>();
+        roles.add(aRole().name("role_2").build());
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles2).build();
+        assertThat(aCPUserDetails, not(hasSameStateAsCPUserDetails(aCPUserDetails2)));
+    }
+
+    @Test
     public void testEqualsWithNullId_shouldNotBeEqual() {
         CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
         CPUserDetails aCPUserDetails2 = aCPUserDetails().id(null).username("Joe").password("Bar").isEnabled(true).deleted(true).build();
@@ -150,7 +166,6 @@ public class CPUserDetailsEntityTest {
     @Test
     public void testToString_shouldContainAllValues() {
 
-        Date birthDate = new Date();
         CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
         String str = aCPUserDetails.toString();
         assertThat(str, containsString("id=999"));
@@ -158,5 +173,48 @@ public class CPUserDetailsEntityTest {
         assertThat(str, containsString("password=Bar"));
         assertThat(str, containsString("enabled=true"));
         assertThat(str, containsString("deleted=false"));
+    }
+
+    @Test
+    public void testGetAuthoritiesWithNullRoles_shouldReturnNull() {
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(null).build();
+        Collection<? extends GrantedAuthority> authorities = aCPUserDetails.getAuthorities();
+        assertThat(authorities, (is((Collection)null)));
+    }
+
+    @Test
+    public void testGetAuthoritiesWithEmptyRoles_shouldReturnEmptyCollection() {
+        List<Role> roles = new ArrayList<Role>();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        Collection<? extends GrantedAuthority> authorities = aCPUserDetails.getAuthorities();
+        assertThat(authorities, (is(not((Collection)null))));
+        assertThat(authorities.size(), is(0));
+    }
+
+    @Test
+    public void testGetAuthoritiesWithRolesButNoPrivileges_shouldReturnEmptyCollection() {
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(aRole().name("role_1").build());
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        Collection<? extends GrantedAuthority> authorities = aCPUserDetails.getAuthorities();
+        assertThat(authorities, (is(not((Collection)null))));
+        assertThat(authorities.size(), is(0));
+    }
+
+    @Test
+    public void testGetAuthoritiesWithRolesTwoPrivileges_shouldReturnCollectionWithTwoGrantedAuthorities() {
+        List<Role> roles = new ArrayList<Role>();
+        List<Privilege> privileges = new ArrayList<Privilege>();
+        privileges.add(aPrivilege().name("priv1").build());
+        privileges.add(aPrivilege().name("priv2").build());
+        roles.add(aRole().name("role_1").privileges(privileges).build());
+
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+
+
+        Collection<? extends GrantedAuthority> authorities = aCPUserDetails.getAuthorities();
+        assertThat(authorities, (is(not((Collection)null))));
+        assertThat(authorities.size(), is(2));
+        assertThat(authorities, containsInAnyOrder(new SimpleGrantedAuthority("priv1"), new SimpleGrantedAuthority("priv2")));
     }
 }

@@ -74,6 +74,9 @@ public class CPUserDetails extends ChurchPeopleEntity<Long> implements UserDetai
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
+    if(this.roles==null)
+      return null;
+
     return getGrantedAuthorities(getPrivileges(roles));
   }
 
@@ -89,7 +92,8 @@ public class CPUserDetails extends ChurchPeopleEntity<Long> implements UserDetai
     final List<String> privileges = new ArrayList<String>();
     final List<Privilege> collection = new ArrayList<Privilege>();
     for (final Role role : roles) {
-      collection.addAll(role.getPrivileges());
+      if(role.getPrivileges() != null)
+        collection.addAll(role.getPrivileges());
     }
     for (final Privilege item : collection) {
       privileges.add(item.getName());

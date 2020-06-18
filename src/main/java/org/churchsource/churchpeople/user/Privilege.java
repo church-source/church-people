@@ -20,6 +20,7 @@ public class Privilege extends ChurchPeopleEntity<Long> {
 
     private String name;
 
+    @Builder(builderMethodName = "aPrivilege")
     public Privilege(final String name) {
         super();
         this.name = name;

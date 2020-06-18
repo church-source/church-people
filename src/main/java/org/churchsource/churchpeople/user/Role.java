@@ -29,4 +29,11 @@ public class Role extends ChurchPeopleEntity<Long> {
         this.name = name;
     }
 
+    @Builder(builderMethodName = "aRole")
+    public Role(final String name, Collection<Privilege> privileges) {
+        super();
+        this.name = name;
+        this.privileges = privileges;
+    }
+
 }
