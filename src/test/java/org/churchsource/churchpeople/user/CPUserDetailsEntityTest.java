@@ -149,6 +149,24 @@ public class CPUserDetailsEntityTest {
     }
 
     @Test
+    public void testEqualsWithNull_shouldNotBeEqual() {
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(aRole().name("role_1").build());
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails2 = null;
+        assertThat(aCPUserDetails.equals(aCPUserDetails2), is(false));
+    }
+
+    @Test
+    public void testEqualsWithDifferentObjectType_shouldNotBeEqual() {
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(aRole().name("role_1").build());
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        Object testObject = new Object();
+        assertThat(aCPUserDetails.equals(testObject), is(false));
+    }
+
+    @Test
     public void testHashCodeForSameReference_shouldBeEqual() {
         CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
         CPUserDetails aCPUserDetails2 = aCPUserDetails;
