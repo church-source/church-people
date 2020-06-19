@@ -1,7 +1,7 @@
-package org.churchsource.churchpeople.address;
+package org.churchsource.churchpeople.address.helpers;
 
+import org.churchsource.churchpeople.address.Address;
 import org.churchsource.churchpeople.helpers.AbstractTypeSafeMatcher;
-import org.churchsource.churchpeople.people.Person;
 import org.hamcrest.Description;
 
 import java.util.Objects;
