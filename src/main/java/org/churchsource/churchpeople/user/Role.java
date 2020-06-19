@@ -5,6 +5,7 @@ import org.churchsource.churchpeople.model.ChurchPeopleEntity;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -13,10 +14,6 @@ import java.util.Collection;
 @NoArgsConstructor
 @Entity
 public class Role extends ChurchPeopleEntity<Long> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "RolePrivilege", joinColumns = @JoinColumn(name = "role", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "privilege", referencedColumnName = "id"))
@@ -30,8 +27,8 @@ public class Role extends ChurchPeopleEntity<Long> {
     }
 
     @Builder(builderMethodName = "aRole")
-    public Role(final String name, Collection<Privilege> privileges) {
-        super();
+    public Role(Long id, Date created, Date modified, Boolean deleted, final String name, Collection<Privilege> privileges) {
+        super(id, created, modified, deleted);
         this.name = name;
         this.privileges = privileges;
     }
