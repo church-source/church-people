@@ -126,8 +126,26 @@ public class CPUserDetailsEntityTest {
     @Test
     public void testEqualsWithNullId_shouldNotBeEqual() {
         CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(null).username("Joe").password("Bar").isEnabled(true).deleted(true).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(null).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
         assertThat(aCPUserDetails, not(hasSameStateAsCPUserDetails(aCPUserDetails2)));
+    }
+
+    @Test
+    public void testEquals_shouldBeEqual() {
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(aRole().name("role_1").build());
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        assertThat(aCPUserDetails.equals(aCPUserDetails2), is(true));
+    }
+
+    @Test
+    public void testEquals_shouldNotBeEqual() {
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(aRole().name("role_1").build());
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("JoeSoap").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        assertThat(aCPUserDetails.equals(aCPUserDetails2), is(false));
     }
 
     @Test
