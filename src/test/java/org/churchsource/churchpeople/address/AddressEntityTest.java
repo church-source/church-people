@@ -1,6 +1,5 @@
 package org.churchsource.churchpeople.address;
 
-import org.churchsource.churchpeople.helpers.TestHelper;
 import org.churchsource.churchpeople.model.type.AddressType;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Date;
 
 import static org.churchsource.churchpeople.address.Address.anAddress;
-import static org.churchsource.churchpeople.address.AddressMatcher.hasSameStateAsAddress;
+import static org.churchsource.churchpeople.address.helpers.AddressMatcher.hasSameStateAsAddress;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 

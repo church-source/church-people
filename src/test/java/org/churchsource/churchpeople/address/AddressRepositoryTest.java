@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
 import java.util.Date;
 
 import static org.churchsource.churchpeople.address.Address.anAddress;
-import static org.churchsource.churchpeople.address.AddressMatcher.hasSameStateAsAddress;
+import static org.churchsource.churchpeople.address.helpers.AddressMatcher.hasSameStateAsAddress;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

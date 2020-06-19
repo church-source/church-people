@@ -22,7 +22,7 @@ import java.util.Set;
 
 
 import static org.churchsource.churchpeople.address.Address.anAddress;
-import static org.churchsource.churchpeople.address.AddressMatcher.hasSameStateAsAddress;
+import static org.churchsource.churchpeople.address.helpers.AddressMatcher.hasSameStateAsAddress;
 
 import static org.churchsource.churchpeople.people.Person.aPerson;
 import static org.churchsource.churchpeople.people.helpers.PersonMatcher.hasSameStateAsPerson;
