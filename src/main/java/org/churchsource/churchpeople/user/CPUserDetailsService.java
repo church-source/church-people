@@ -1,13 +1,12 @@
 package org.churchsource.churchpeople.user;
 
-import java.util.*;
-
-import org.churchsource.churchpeople.user.CPUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.NoResultException;
 
 @Service
 public class CPUserDetailsService implements UserDetailsService {
@@ -17,8 +16,12 @@ public class CPUserDetailsService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    CPUserDetails user = userRepository.findUserByUserName(username);
-    return user;
+    try {
+      CPUserDetails user = userRepository.findUserByUserName(username);
+      return user;
+    } catch (NoResultException nre) {
+      throw new UsernameNotFoundException("User with username: " + username +" not found.", nre);
+    }
   }
 
 }
