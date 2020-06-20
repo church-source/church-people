@@ -203,7 +203,7 @@ public class UserRepositoryTest {
   }
 
   @Test
-  public void testFindCPUserDetailsByAnyName_shouldRetreiveNonDeletedUserWithUserName() {
+  public void testFindCPUserDetailsByUserName_shouldRetreiveNonDeletedUserWithUserName() {
     CPUserDetails aUser = aCPUserDetails().username("Joe").password("Bar").deleted(false).build();
     entityManager.persist(aUser);
     entityManager.flush();
