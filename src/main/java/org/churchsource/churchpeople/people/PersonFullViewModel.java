@@ -3,27 +3,12 @@ package org.churchsource.churchpeople.people;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.churchsource.churchpeople.address.Address;
-import org.churchsource.churchpeople.model.ChurchPeopleEntity;
 import org.churchsource.churchpeople.model.type.Gender;
 import org.churchsource.churchpeople.viewmodel.BaseViewModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-
-@NamedQueries({
-    @NamedQuery(name = PeopleNamedQueryConstants.NAME_GET_ALL_PEOPLE,
-        query = PeopleNamedQueryConstants.QUERY_GET_ALL_PEOPLE),
-    @NamedQuery(name = PeopleNamedQueryConstants.NAME_FIND_PERSON_BY_ID,
-        query = PeopleNamedQueryConstants.QUERY_FIND_PERSON_BY_ID),
-    @NamedQuery(name = PeopleNamedQueryConstants.NAME_FIND_PERSON_BY_NAME,
-        query = PeopleNamedQueryConstants.QUERY_FIND_PERSON_BY_NAME),
-    @NamedQuery(name = PeopleNamedQueryConstants.NAME_FIND_PERSON_BY_ANY_NAME,
-        query = PeopleNamedQueryConstants.QUERY_FIND_PERSON_BY_ANY_NAME)
-})
 
 @Getter
 @Setter
