@@ -35,9 +35,6 @@ import static org.mockito.Mockito.when;
 @Transactional
 public class PeopleFactoryTest {
 
-  @PersistenceContext
-  protected EntityManager entityManager;
-
   @Mock
   private AddressRepository addressRepository;
 
