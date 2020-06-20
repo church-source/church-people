@@ -39,6 +39,7 @@ public class PeopleController {
   }
 
   @GetMapping(params = "name")
+  @PreAuthorize("hasAuthority('ViewPeople')")
   public List<PersonFullViewModel> findPeople(@RequestParam String name) {
     return convertListOfPeopleToListOfPeopleViewModels(peopleRepository.findPersonByAnyName(name));
   }
