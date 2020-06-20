@@ -2,8 +2,11 @@ package org.churchsource.churchpeople.user.helpers;
 
 import org.churchsource.churchpeople.helpers.AbstractTypeSafeMatcher;
 import org.churchsource.churchpeople.user.CPUserDetails;
+import org.churchsource.churchpeople.user.Role;
 import org.hamcrest.Description;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class CPUserDetailsMatcher extends AbstractTypeSafeMatcher<CPUserDetails> {
@@ -36,7 +39,7 @@ public class CPUserDetailsMatcher extends AbstractTypeSafeMatcher<CPUserDetails>
         && Objects.equals(actual.isAccountNonLocked(), expected.isAccountNonLocked())
         && Objects.equals(actual.isCredentialsNonExpired(), expected.isCredentialsNonExpired())
         && Objects.equals(actual.getDeleted(), expected.getDeleted())
-        && Objects.equals(actual.getRoles(), expected.getRoles());
+        && isListsEqual(actual.getRoles(), expected.getRoles());
   }
 
   public static CPUserDetailsMatcher hasSameStateAsCPUserDetails(CPUserDetails expected) {

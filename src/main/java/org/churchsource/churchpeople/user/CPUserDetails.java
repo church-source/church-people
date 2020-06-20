@@ -35,12 +35,12 @@ public class CPUserDetails extends ChurchPeopleEntity<Long> implements UserDetai
   private String password;
   private boolean enabled;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
   @JoinTable(name = "UserRole", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
-  private Collection<Role> roles;
+  private List<Role> roles;
 
   @Builder(builderMethodName = "aCPUserDetails")
-  public CPUserDetails(Long id, Date created, Date modified, Boolean deleted, String username, String password, Collection<Role> roles, boolean isEnabled) {
+  public CPUserDetails(Long id, Date created, Date modified, Boolean deleted, String username, String password, List<Role> roles, boolean isEnabled) {
     super(id, created, modified, deleted);
     this.username = username;
     this.password = password;
