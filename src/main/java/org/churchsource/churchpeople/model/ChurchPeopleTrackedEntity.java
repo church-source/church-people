@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,12 +24,15 @@ public class ChurchPeopleTrackedEntity implements Serializable {
 
   private static final long serialVersionUID = 6867167030691894233L;
 
+  @JsonIgnore
   @CreationTimestamp
   private Date created;
 
+  @JsonIgnore
   @UpdateTimestamp
   private Date modified;
 
+  @JsonIgnore
   @Column(nullable = false)
   private Boolean deleted = Boolean.FALSE;
 }
