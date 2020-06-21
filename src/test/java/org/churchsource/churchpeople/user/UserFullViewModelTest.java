@@ -1,18 +1,11 @@
 package org.churchsource.churchpeople.user;
 
-import org.churchsource.churchpeople.address.Address;
-import org.churchsource.churchpeople.helpers.TestHelper;
-import org.churchsource.churchpeople.model.type.AddressType;
-import org.churchsource.churchpeople.model.type.Gender;
-import org.churchsource.churchpeople.user.UserFullViewModel;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static org.churchsource.churchpeople.address.Address.anAddress;
 import static org.churchsource.churchpeople.user.Privilege.aPrivilege;
 import static org.churchsource.churchpeople.user.Role.aRole;
 import static org.churchsource.churchpeople.user.UserFullViewModel.aUserFullViewModel;
@@ -71,7 +64,7 @@ public class UserFullViewModelTest {
         UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
         UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().build();
         aUserFullViewModel2.setId(1L);
-        aUserFullViewModel2.setUserName("Joe");
+        aUserFullViewModel2.setUsername("Joe");
         aUserFullViewModel2.setPassword("Bar");
         aUserFullViewModel2.setIsEnabled(true);
         aUserFullViewModel2.setIsExpired(false);
@@ -91,7 +84,7 @@ public class UserFullViewModelTest {
 
         UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
         assertThat(aUserFullViewModel.getId(), is(1L));
-        assertThat(aUserFullViewModel.getUserName(), is("Joe"));
+        assertThat(aUserFullViewModel.getUsername(), is("Joe"));
         assertThat(aUserFullViewModel.getPassword(), is("Bar"));
         assertThat(aUserFullViewModel.getIsEnabled(), is(true));
         assertThat(aUserFullViewModel.getIsExpired(), is(false));
@@ -279,7 +272,7 @@ public class UserFullViewModelTest {
         UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(999L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
         String str = aUserFullViewModel.toString();
         assertThat(str, containsString("id=999"));
-        assertThat(str, containsString("userName=Joe"));
+        assertThat(str, containsString("username=Joe"));
         assertThat(str, containsString("password=Bar"));
         assertThat(str, containsString("isEnabled=true"));
         assertThat(str, containsString("isExpired=false"));

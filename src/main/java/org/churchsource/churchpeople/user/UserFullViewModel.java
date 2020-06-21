@@ -17,7 +17,7 @@ public class UserFullViewModel extends BaseViewModel<Long> implements Serializab
 
   private static final long serialVersionUID = -3479479691039681608L;
 
-  private String userName;
+  private String username;
 
   @JsonIgnore
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -34,7 +34,7 @@ public class UserFullViewModel extends BaseViewModel<Long> implements Serializab
   @Builder(builderMethodName = "aUserFullViewModel")
   public UserFullViewModel(Long id, String username, String password, Boolean isEnabled, Boolean isExpired, Boolean isLocked,  List<Role> roles) {
     super(id);
-    this.userName = username;
+    this.username = username;
     this.password = password;
     this.isEnabled = isEnabled;
     this.isExpired = isExpired;

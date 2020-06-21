@@ -2,7 +2,6 @@ package org.churchsource.churchpeople.user.helpers;
 
 import org.churchsource.churchpeople.helpers.AbstractTypeSafeMatcher;
 import org.churchsource.churchpeople.user.UserFullViewModel;
-import org.churchsource.churchpeople.user.UserFullViewModel;
 import org.hamcrest.Description;
 
 import java.util.Objects;
@@ -17,7 +16,7 @@ public class UserFullViewModelMatcher extends AbstractTypeSafeMatcher<UserFullVi
   public void appendDescription(Description description, UserFullViewModel user) {
     description.appendText("A UserFullViewModel with the following state:")
         .appendText("\nId: ").appendValue(user.getId())
-        .appendText("\nUser Name: ").appendValue(user.getUserName())
+        .appendText("\nUser Name: ").appendValue(user.getUsername())
         .appendText("\nPassword: ").appendValue(user.getPassword())
         .appendText("\nisEnabled: ").appendValue(user.getIsEnabled())
         .appendText("\nisLocked: ").appendValue(user.getIsLocked())
@@ -28,7 +27,7 @@ public class UserFullViewModelMatcher extends AbstractTypeSafeMatcher<UserFullVi
   @Override
   protected boolean matchesSafely(UserFullViewModel actual) {
     return Objects.equals(actual.getId(), expected.getId())
-        && Objects.equals(actual.getUserName(), expected.getUserName())
+        && Objects.equals(actual.getUsername(), expected.getUsername())
         && Objects.equals(actual.getPassword(), expected.getPassword())
         && Objects.equals(actual.getIsEnabled(), expected.getIsEnabled())
         && Objects.equals(actual.getIsExpired(), expected.getIsExpired())
