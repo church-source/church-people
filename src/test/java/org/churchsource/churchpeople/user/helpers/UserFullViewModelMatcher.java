@@ -17,6 +17,7 @@ public class UserFullViewModelMatcher extends AbstractTypeSafeMatcher<UserFullVi
     description.appendText("A UserFullViewModel with the following state:")
         .appendText("\nId: ").appendValue(user.getId())
         .appendText("\nUser Name: ").appendValue(user.getUsername())
+        .appendText("\nEmail: ").appendValue(user.getEmail())
         .appendText("\nPassword: ").appendValue(user.getPassword())
         .appendText("\nisEnabled: ").appendValue(user.getIsEnabled())
         .appendText("\nisLocked: ").appendValue(user.getIsLocked())
@@ -28,6 +29,7 @@ public class UserFullViewModelMatcher extends AbstractTypeSafeMatcher<UserFullVi
   protected boolean matchesSafely(UserFullViewModel actual) {
     return Objects.equals(actual.getId(), expected.getId())
         && Objects.equals(actual.getUsername(), expected.getUsername())
+        && Objects.equals(actual.getEmail(), expected.getEmail())
         && Objects.equals(actual.getPassword(), expected.getPassword())
         && Objects.equals(actual.getIsEnabled(), expected.getIsEnabled())
         && Objects.equals(actual.getIsExpired(), expected.getIsExpired())

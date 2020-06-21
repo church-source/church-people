@@ -1,7 +1,5 @@
 package org.churchsource.churchpeople.user;
 
-import org.churchsource.churchpeople.helpers.TestHelper;
-import org.churchsource.churchpeople.user.CPUserDetails;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
@@ -45,8 +43,8 @@ public class CPUserDetailsEntityTest {
     public void testIsEqualsForCPUserDetailsWithAllPropertiesSetTheSame_shouldBeEqual() {
         List<Role> roles = new ArrayList<Role>();
         roles.add(aRole().name("role_1").build());
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).email("joe@bar.com").username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).email("joe@bar.com").username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
         assertThat(aCPUserDetails.equals(aCPUserDetails2), is (true));
     }
 
@@ -54,6 +52,7 @@ public class CPUserDetailsEntityTest {
     public void testIsEqualsForCPUserDetailsWithAllPropertiesSetTheSameUsingSetterMethods_shouldBeEqual() {
         CPUserDetails aCPUserDetails = aCPUserDetails()
                 .id(1L)
+                .email("joe@bar.com")
                 .username("Joe")
                 .password("Bar")
                 .isEnabled(true)
@@ -62,6 +61,7 @@ public class CPUserDetailsEntityTest {
         CPUserDetails aCPUserDetails2 = aCPUserDetails().build();
         aCPUserDetails2.setId(1L);
         aCPUserDetails2.setUsername("Joe");
+        aCPUserDetails2.setEmail("joe@bar.com");
         aCPUserDetails2.setPassword("Bar");
         aCPUserDetails2.setEnabled(true);
         aCPUserDetails2.setDeleted(false);
@@ -73,12 +73,14 @@ public class CPUserDetailsEntityTest {
         CPUserDetails aCPUserDetails = aCPUserDetails()
                 .id(1L)
                 .username("Joe")
+                .email("joe@bar.com")
                 .password("Bar")
                 .isEnabled(true)
                 .deleted(false)
                 .build();
         assertThat(aCPUserDetails.getId(), is(1L));
         assertThat(aCPUserDetails.getUsername(), is("Joe"));
+        assertThat(aCPUserDetails.getEmail(), is("joe@bar.com"));
         assertThat(aCPUserDetails.getPassword(), is("Bar"));
         assertThat(aCPUserDetails.isEnabled(), is(true));
         assertThat(aCPUserDetails.getDeleted(), is(false));
@@ -86,29 +88,36 @@ public class CPUserDetailsEntityTest {
 
     @Test
     public void testIsEqualsForCPUserDetailsWithDifferentUserName_shouldNotBeEqual() {
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("JoeSoap").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("JoeSoap").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
+        assertThat(aCPUserDetails, not(hasSameStateAsCPUserDetails(aCPUserDetails2)));
+    }
+
+    @Test
+    public void testIsEqualsForCPUserDetailsWithDifferentEmail_shouldNotBeEqual() {
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").email("Differentjoe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
         assertThat(aCPUserDetails, not(hasSameStateAsCPUserDetails(aCPUserDetails2)));
     }
 
     @Test
     public void testIsEqualsForCPUserDetailsWithDifferentPassword_shouldNotBeEqual() {
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").password("Barber").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Barber").isEnabled(true).deleted(false).build();
         assertThat(aCPUserDetails, not(hasSameStateAsCPUserDetails(aCPUserDetails2)));
     }
 
     @Test
     public void testIsEqualsForCPUserDetailsWithDifferentEnabled_shouldNotBeEqual() {
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(false).deleted(false).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(false).deleted(false).build();
         assertThat(aCPUserDetails, not(hasSameStateAsCPUserDetails(aCPUserDetails2)));
     }
 
     @Test
     public void testIsEqualsForCPUserDetailsWithDifferentDeleted_shouldNotBeEqual() {
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(true).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(true).build();
         assertThat(aCPUserDetails, not(hasSameStateAsCPUserDetails(aCPUserDetails2)));
     }
 
@@ -118,15 +127,15 @@ public class CPUserDetailsEntityTest {
         roles.add(aRole().name("role_1").build());
         List<Role> roles2 = new ArrayList<Role>();
         roles.add(aRole().name("role_2").build());
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles2).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles2).build();
         assertThat(aCPUserDetails, not(hasSameStateAsCPUserDetails(aCPUserDetails2)));
     }
 
     @Test
     public void testEqualsWithNullId_shouldNotBeEqual() {
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(null).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(null).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
         assertThat(aCPUserDetails, not(hasSameStateAsCPUserDetails(aCPUserDetails2)));
     }
 
@@ -134,8 +143,8 @@ public class CPUserDetailsEntityTest {
     public void testEquals_shouldBeEqual() {
         List<Role> roles = new ArrayList<Role>();
         roles.add(aRole().name("role_1").build());
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
         assertThat(aCPUserDetails.equals(aCPUserDetails2), is(true));
     }
 
@@ -143,8 +152,8 @@ public class CPUserDetailsEntityTest {
     public void testEquals_shouldNotBeEqual() {
         List<Role> roles = new ArrayList<Role>();
         roles.add(aRole().name("role_1").build());
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("JoeSoap").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("JoeSoap").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
         assertThat(aCPUserDetails.equals(aCPUserDetails2), is(false));
     }
 
@@ -152,7 +161,7 @@ public class CPUserDetailsEntityTest {
     public void testEqualsWithNull_shouldNotBeEqual() {
         List<Role> roles = new ArrayList<Role>();
         roles.add(aRole().name("role_1").build());
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
         CPUserDetails aCPUserDetails2 = null;
         assertThat(aCPUserDetails.equals(aCPUserDetails2), is(false));
     }
@@ -161,14 +170,14 @@ public class CPUserDetailsEntityTest {
     public void testEqualsWithDifferentObjectType_shouldNotBeEqual() {
         List<Role> roles = new ArrayList<Role>();
         roles.add(aRole().name("role_1").build());
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
         Object testObject = new Object();
         assertThat(aCPUserDetails.equals(testObject), is(false));
     }
 
     @Test
     public void testHashCodeForSameReference_shouldBeEqual() {
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
         CPUserDetails aCPUserDetails2 = aCPUserDetails;
         assertThat(aCPUserDetails, hasSameStateAsCPUserDetails(aCPUserDetails2));
         int hashCode1 = aCPUserDetails.hashCode();
@@ -179,8 +188,8 @@ public class CPUserDetailsEntityTest {
 
     @Test
     public void testHashCodeNewObjectsEquals_shouldBeEqual() {
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
         assertThat(aCPUserDetails, hasSameStateAsCPUserDetails(aCPUserDetails2));
 
         int hashCode1 = aCPUserDetails.hashCode();
@@ -191,8 +200,8 @@ public class CPUserDetailsEntityTest {
 
     @Test
     public void testHashCodeNewObjectsWithDifferentValues_shouldNotBeEqual() {
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(2L).username("JoeSoap").password("Bar").isEnabled(true).deleted(true).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(2L).username("JoeSoap").email("joe@bar.com").password("Bar").isEnabled(true).deleted(true).build();
 
         int hashCode1 = aCPUserDetails.hashCode();
         int hashCode2 = aCPUserDetails2.hashCode();
@@ -202,10 +211,11 @@ public class CPUserDetailsEntityTest {
     @Test
     public void testToString_shouldContainAllValues() {
 
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
         String str = aCPUserDetails.toString();
         assertThat(str, containsString("id=999"));
         assertThat(str, containsString("username=Joe"));
+        assertThat(str, containsString("email=joe@bar.com"));
         assertThat(str, containsString("password=Bar"));
         assertThat(str, containsString("enabled=true"));
         assertThat(str, containsString("deleted=false"));
@@ -221,7 +231,7 @@ public class CPUserDetailsEntityTest {
     @Test
     public void testGetAuthoritiesWithEmptyRoles_shouldReturnEmptyCollection() {
         List<Role> roles = new ArrayList<Role>();
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
         Collection<? extends GrantedAuthority> authorities = aCPUserDetails.getAuthorities();
         assertThat(authorities, (is(not((Collection)null))));
         assertThat(authorities.size(), is(0));
@@ -231,7 +241,7 @@ public class CPUserDetailsEntityTest {
     public void testGetAuthoritiesWithRolesButNoPrivileges_shouldReturnEmptyCollection() {
         List<Role> roles = new ArrayList<Role>();
         roles.add(aRole().name("role_1").build());
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
         Collection<? extends GrantedAuthority> authorities = aCPUserDetails.getAuthorities();
         assertThat(authorities, (is(not((Collection)null))));
         assertThat(authorities.size(), is(0));
@@ -245,7 +255,7 @@ public class CPUserDetailsEntityTest {
         privileges.add(aPrivilege().name("priv2").build());
         roles.add(aRole().name("role_1").privileges(privileges).build());
 
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
 
 
         Collection<? extends GrantedAuthority> authorities = aCPUserDetails.getAuthorities();

@@ -93,7 +93,7 @@ public class JwtTokenUtil implements Serializable {
   public Boolean validateToken(String token, UserDetails userDetails) {
     CPUserDetails user = (CPUserDetails) userDetails;
     final String username = getUsernameFromToken(token);
-    return (username.equals(user.getUsername()) && !isTokenExpired(token));
+    return (username.equals(user.getUsername()) || username.equals(user.getEmail()) && !isTokenExpired(token));
   }
 
   private Date calculateExpirationDate(Date createdDate) {

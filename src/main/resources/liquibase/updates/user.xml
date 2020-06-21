@@ -14,13 +14,15 @@
             <column name="enabled" type="TINYINT(1)" defaultValue="1">
                 <constraints nullable="false" />
             </column>
-          <column name="created" defaultValueComputed="CURRENT_TIMESTAMP" type="TIMESTAMP"/>
-          <column name="modified" defaultValueComputed="CURRENT_TIMESTAMP" type="TIMESTAMP"/>
-          <column name="username" type="varchar(320)">
-            <constraints unique="true" nullable="false"/>
-          </column>
+            <column name="created" defaultValueComputed="CURRENT_TIMESTAMP" type="TIMESTAMP"/>
+            <column name="modified" defaultValueComputed="CURRENT_TIMESTAMP" type="TIMESTAMP"/>
+            <column name="email" type="varchar(320)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="username" type="varchar(320)">
+                <constraints unique="true" nullable="false"/>
+            </column>
           <column name="password" type="text"/>
-
         </createTable>
         <sql dbms="mysql">
             ALTER TABLE User CHANGE modified modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
@@ -104,6 +106,7 @@
     <changeSet id="20200613-1000" author="rowanpi">
         <insert tableName="User">
             <column name="username" value="admin"/>
+            <column name="email" value="admin@churchpeople.org"/>
             <column name="password" value="$2a$10$3zHzb.Npv1hfZbLEU5qsdOIATbAmTDmlLZ/lyThjf/zZWkKaCuFRy"/>
         </insert>
         <insert tableName="Privilege">

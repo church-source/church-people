@@ -46,8 +46,8 @@ public class UserFullViewModelTest {
         Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
         roles.add(aRole);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
-        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
         assertThat(aUserFullViewModel.equals(aUserFullViewModel2), is (true));
     }
 
@@ -61,10 +61,11 @@ public class UserFullViewModelTest {
         Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
         roles.add(aRole);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
         UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().build();
         aUserFullViewModel2.setId(1L);
         aUserFullViewModel2.setUsername("Joe");
+        aUserFullViewModel2.setEmail("joe@bar.com");
         aUserFullViewModel2.setPassword("Bar");
         aUserFullViewModel2.setIsEnabled(true);
         aUserFullViewModel2.setIsExpired(false);
@@ -82,9 +83,10 @@ public class UserFullViewModelTest {
         Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
         roles.add(aRole);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
         assertThat(aUserFullViewModel.getId(), is(1L));
         assertThat(aUserFullViewModel.getUsername(), is("Joe"));
+        assertThat(aUserFullViewModel.getEmail(), is("joe@bar.com"));
         assertThat(aUserFullViewModel.getPassword(), is("Bar"));
         assertThat(aUserFullViewModel.getIsEnabled(), is(true));
         assertThat(aUserFullViewModel.getIsExpired(), is(false));
@@ -101,8 +103,23 @@ public class UserFullViewModelTest {
         Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
         roles.add(aRole);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
-        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe2").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe2").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+
+        assertThat(aUserFullViewModel, not(hasSameStateAsUserFullViewModel(aUserFullViewModel2)));
+    }
+
+    @Test
+    public void testIsEqualsForUserFullViewModelsWithDifferentEmail_shouldNotBeEqual() {
+        List<Role> roles = new ArrayList<Role>();
+        List<Privilege> privileges = new ArrayList<Privilege>();
+        privileges.add(aPrivilege().name("priv1").deleted(false).build());
+        privileges.add(aPrivilege().name("priv2").deleted(false).build());
+        Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
+        roles.add(aRole);
+
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").email("DifferentJoe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
 
         assertThat(aUserFullViewModel, not(hasSameStateAsUserFullViewModel(aUserFullViewModel2)));
     }
@@ -116,8 +133,8 @@ public class UserFullViewModelTest {
         Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
         roles.add(aRole);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
-        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").password("DifferentBar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("DifferentBar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
 
         assertThat(aUserFullViewModel, not(hasSameStateAsUserFullViewModel(aUserFullViewModel2)));
     }
@@ -131,8 +148,8 @@ public class UserFullViewModelTest {
         Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
         roles.add(aRole);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
-        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(false).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(false).isExpired(false).isLocked(false).roles(roles).build();
 
         assertThat(aUserFullViewModel, not(hasSameStateAsUserFullViewModel(aUserFullViewModel2)));
     }
@@ -146,8 +163,8 @@ public class UserFullViewModelTest {
         Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
         roles.add(aRole);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
-        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(true).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(true).isLocked(false).roles(roles).build();
 
         assertThat(aUserFullViewModel, not(hasSameStateAsUserFullViewModel(aUserFullViewModel2)));
     }
@@ -161,8 +178,8 @@ public class UserFullViewModelTest {
         Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
         roles.add(aRole);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
-        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(true).roles(roles).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(true).roles(roles).build();
 
         assertThat(aUserFullViewModel, not(hasSameStateAsUserFullViewModel(aUserFullViewModel2)));
     }
@@ -183,8 +200,8 @@ public class UserFullViewModelTest {
         Role aRole2 = aRole().name("role_2").privileges(privileges2).deleted(false).build();
         roles2.add(aRole2);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
-        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles2).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles2).build();
 
         assertThat(aUserFullViewModel, not(hasSameStateAsUserFullViewModel(aUserFullViewModel2)));
     }
@@ -198,8 +215,8 @@ public class UserFullViewModelTest {
         Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
         roles.add(aRole);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
-        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(null).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(null).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
 
         assertThat(aUserFullViewModel, not(hasSameStateAsUserFullViewModel(aUserFullViewModel2)));
     }
@@ -213,7 +230,7 @@ public class UserFullViewModelTest {
         Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
         roles.add(aRole);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
         UserFullViewModel aUserFullViewModel2 = aUserFullViewModel;
         assertThat(aUserFullViewModel, hasSameStateAsUserFullViewModel(aUserFullViewModel2));
         int hashCode1 = aUserFullViewModel.hashCode();
@@ -231,8 +248,8 @@ public class UserFullViewModelTest {
         Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
         roles.add(aRole);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
-        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
 
         assertThat(aUserFullViewModel, hasSameStateAsUserFullViewModel(aUserFullViewModel2));
 
@@ -251,7 +268,7 @@ public class UserFullViewModelTest {
         Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
         roles.add(aRole);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
         UserFullViewModel aUserFullViewModel2 = aUserFullViewModel().id(1L).username("DifferentJoe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
 
         assertThat(aUserFullViewModel, not(hasSameStateAsUserFullViewModel(aUserFullViewModel2)));
@@ -269,10 +286,11 @@ public class UserFullViewModelTest {
         Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
         roles.add(aRole);
 
-        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(999L).username("Joe").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
+        UserFullViewModel aUserFullViewModel = aUserFullViewModel().id(999L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).isExpired(false).isLocked(false).roles(roles).build();
         String str = aUserFullViewModel.toString();
         assertThat(str, containsString("id=999"));
         assertThat(str, containsString("username=Joe"));
+        assertThat(str, containsString("email=joe@bar.com"));
         assertThat(str, containsString("password=Bar"));
         assertThat(str, containsString("isEnabled=true"));
         assertThat(str, containsString("isExpired=false"));

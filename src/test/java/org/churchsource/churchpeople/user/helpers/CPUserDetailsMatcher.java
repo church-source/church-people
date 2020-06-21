@@ -2,11 +2,8 @@ package org.churchsource.churchpeople.user.helpers;
 
 import org.churchsource.churchpeople.helpers.AbstractTypeSafeMatcher;
 import org.churchsource.churchpeople.user.CPUserDetails;
-import org.churchsource.churchpeople.user.Role;
 import org.hamcrest.Description;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class CPUserDetailsMatcher extends AbstractTypeSafeMatcher<CPUserDetails> {
@@ -20,6 +17,7 @@ public class CPUserDetailsMatcher extends AbstractTypeSafeMatcher<CPUserDetails>
     description.appendText("A CPUserDetails with the following state:")
         .appendText("\nId: ").appendValue(userDetails.getId())
         .appendText("\nUser Name: ").appendValue(userDetails.getUsername())
+        .appendText("\nEmail: ").appendValue(userDetails.getEmail())
         .appendText("\nPassword: ").appendValue(userDetails.getPassword())
         .appendText("\nEnabled: ").appendValue(userDetails.isEnabled())
         .appendText("\nAccount NonExpired: ").appendValue(userDetails.isAccountNonExpired())
@@ -33,6 +31,7 @@ public class CPUserDetailsMatcher extends AbstractTypeSafeMatcher<CPUserDetails>
   protected boolean matchesSafely(CPUserDetails actual) {
     return Objects.equals(actual.getId(), expected.getId())
         && Objects.equals(actual.getUsername(), expected.getUsername())
+        && Objects.equals(actual.getEmail(), expected.getEmail())
         && Objects.equals(actual.getPassword(), expected.getPassword())
         && Objects.equals(actual.isEnabled(), expected.isEnabled())
         && Objects.equals(actual.isAccountNonExpired(), expected.isAccountNonExpired())

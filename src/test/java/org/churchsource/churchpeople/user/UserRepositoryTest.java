@@ -1,9 +1,5 @@
 package org.churchsource.churchpeople.user;
 
-import org.churchsource.churchpeople.address.Address;
-import org.churchsource.churchpeople.model.type.AddressType;
-import org.churchsource.churchpeople.model.type.Gender;
-import org.churchsource.churchpeople.user.CPUserDetails;
 import org.hamcrest.core.IsNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +14,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.*;
 
-import static org.churchsource.churchpeople.address.Address.anAddress;
 import static org.churchsource.churchpeople.user.helpers.RoleMatcher.hasSameStateAsRole;
 import static org.churchsource.churchpeople.user.CPUserDetails.aCPUserDetails;
 import static org.churchsource.churchpeople.user.helpers.CPUserDetailsMatcher.hasSameStateAsCPUserDetails;
@@ -48,7 +43,7 @@ public class UserRepositoryTest {
     Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
     roles.add(aRole);
 
-    CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+    CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
 
     CPUserDetails savedCPUserDetails = userRepository.save(aCPUserDetails);
 
@@ -73,12 +68,12 @@ public class UserRepositoryTest {
     Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
     roles.add(aRole);
 
-    CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+    CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
 
     entityManager.persist(aCPUserDetails);
     entityManager.flush();
 
-    CPUserDetails newUpdatedCPUserDetails = aCPUserDetails().id(aCPUserDetails.getId()).username("JoeUpdated").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+    CPUserDetails newUpdatedCPUserDetails = aCPUserDetails().id(aCPUserDetails.getId()).username("JoeUpdated").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
 
     CPUserDetails updatedMergedCPUserDetails = userRepository.updateUser(newUpdatedCPUserDetails);
 
@@ -100,12 +95,12 @@ public class UserRepositoryTest {
     Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
     roles.add(aRole);
 
-    CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+    CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
 
     entityManager.persist(aCPUserDetails);
     entityManager.flush();
 
-    CPUserDetails newUpdatedCPUserDetails = aCPUserDetails().id(aCPUserDetails.getId()).username("JoeUpdated").password("Bar").isEnabled(true).deleted(false).roles(null).build();
+    CPUserDetails newUpdatedCPUserDetails = aCPUserDetails().id(aCPUserDetails.getId()).username("JoeUpdated").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(null).build();
 
     CPUserDetails updatedMergedCPUserDetails = userRepository.updateUser(newUpdatedCPUserDetails);
 
@@ -125,12 +120,12 @@ public class UserRepositoryTest {
 
   @Test
   public void testUpdateCPUserDetailsWithNullRoles_shouldMergeCPUserDetails() {
-    CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").password("Bar").isEnabled(true).deleted(false).roles(null).build();
+    CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(null).build();
 
     entityManager.persist(aCPUserDetails);
     entityManager.flush();
 
-    CPUserDetails newUpdatedCPUserDetails = aCPUserDetails().id(aCPUserDetails.getId()).username("JoeUpdated").password("Bar").isEnabled(true).deleted(false).roles(null).build();
+    CPUserDetails newUpdatedCPUserDetails = aCPUserDetails().id(aCPUserDetails.getId()).username("JoeUpdated").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(null).build();
 
     CPUserDetails updatedMergedCPUserDetails = userRepository.updateUser(newUpdatedCPUserDetails);
 
@@ -145,16 +140,16 @@ public class UserRepositoryTest {
 
   @Test(expected = EmptyResultDataAccessException.class)
   public void testUpdateCPUserDetailsThatDoesNotExist_shouldThrowException() {
-    CPUserDetails CPUserDetails = aCPUserDetails().username("Joe").password("Bar").deleted(false).build();
+    CPUserDetails CPUserDetails = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").deleted(false).build();
 
-    CPUserDetails newUpdatedCPUserDetails = aCPUserDetails().id(999L).username("JoeUpdated").deleted(CPUserDetails.getDeleted()).build();
+    CPUserDetails newUpdatedCPUserDetails = aCPUserDetails().id(999L).username("JoeUpdated").email("joe@bar.com").deleted(CPUserDetails.getDeleted()).build();
 
     userRepository.updateUser(newUpdatedCPUserDetails);
   }
 
   @Test
   public void testDeleteCPUserDetails_shouldMarkCPUserDetailsAsDeleted() {
-    CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").password("Bar").isEnabled(true).deleted(false).roles(null).build();
+    CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(null).build();
 
 
     entityManager.persist(aCPUserDetails);
@@ -163,6 +158,7 @@ public class UserRepositoryTest {
     CPUserDetails deleted = aCPUserDetails()
             .id(aCPUserDetails.getId())
             .username(aCPUserDetails.getUsername())
+            .email(aCPUserDetails.getEmail())
             .password(aCPUserDetails.getPassword())
             .isEnabled(aCPUserDetails.isEnabled())
             .roles(aCPUserDetails.getRoles())
@@ -187,7 +183,7 @@ public class UserRepositoryTest {
 
   @Test
   public void testFindCPUserDetailsByIdThatExists_shouldFindCPUserDetails() {
-    CPUserDetails CPUserDetails = aCPUserDetails().username("Joe").password("Bar").deleted(false).build();
+    CPUserDetails CPUserDetails = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").deleted(false).build();
 
     entityManager.persist(CPUserDetails);
     entityManager.flush();
@@ -204,15 +200,15 @@ public class UserRepositoryTest {
 
   @Test
   public void testFindCPUserDetailsByUserName_shouldRetreiveNonDeletedUserWithUserName() {
-    CPUserDetails aUser = aCPUserDetails().username("Joe").password("Bar").deleted(false).build();
+    CPUserDetails aUser = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").deleted(false).build();
     entityManager.persist(aUser);
     entityManager.flush();
 
-    CPUserDetails aUser2 = aCPUserDetails().username("JoeSoap").password("Bar").deleted(false).build();
+    CPUserDetails aUser2 = aCPUserDetails().username("JoeSoap").email("joesoap@bar.com").password("Bar").deleted(false).build();
     entityManager.persist(aUser2);
     entityManager.flush();
 
-    CPUserDetails aUser3 = aCPUserDetails().username("JoeSoapDish").password("Bar").deleted(false).build();
+    CPUserDetails aUser3 = aCPUserDetails().username("JoeSoapDish").email("joesoapdish@bar.com").password("Bar").deleted(false).build();
     entityManager.persist(aUser3);
     entityManager.flush();
 
@@ -220,17 +216,35 @@ public class UserRepositoryTest {
     assertThat(user, hasSameStateAsCPUserDetails(aUser));
   }
 
-  @Test(expected = NoResultException.class)
-  public void testFindCPUserDetailsByNameThatIsDeleted_shouldNotReturnResult() {
-    CPUserDetails aUser = aCPUserDetails().username("Joe").password("Bar").deleted(true).build();
+  @Test
+  public void testFindCPUserDetailsByUserNameThatIsEmailAddress_shouldRetreiveNonDeletedUserWithEmailAddress() {
+    CPUserDetails aUser = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").deleted(false).build();
     entityManager.persist(aUser);
     entityManager.flush();
 
-    CPUserDetails aUser2 = aCPUserDetails().username("JoeSoap").password("Bar").deleted(false).build();
+    CPUserDetails aUser2 = aCPUserDetails().username("JoeSoap").email("joesoap@bar.com").password("Bar").deleted(false).build();
     entityManager.persist(aUser2);
     entityManager.flush();
 
-    CPUserDetails aUser3 = aCPUserDetails().username("JoeSoapDish").password("Bar").deleted(false).build();
+    CPUserDetails aUser3 = aCPUserDetails().username("JoeSoapDish").email("joesoapdish@bar.com").password("Bar").deleted(false).build();
+    entityManager.persist(aUser3);
+    entityManager.flush();
+
+    CPUserDetails user = userRepository.findUserByUserName("joe@bar.com");
+    assertThat(user, hasSameStateAsCPUserDetails(aUser));
+  }
+
+  @Test(expected = NoResultException.class)
+  public void testFindCPUserDetailsByNameThatIsDeleted_shouldNotReturnResult() {
+    CPUserDetails aUser = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").deleted(true).build();
+    entityManager.persist(aUser);
+    entityManager.flush();
+
+    CPUserDetails aUser2 = aCPUserDetails().username("JoeSoap").email("joesoap@bar.com").password("Bar").deleted(false).build();
+    entityManager.persist(aUser2);
+    entityManager.flush();
+
+    CPUserDetails aUser3 = aCPUserDetails().username("JoeSoapDish").email("joesoapdish@bar.com").password("Bar").deleted(false).build();
     entityManager.persist(aUser3);
     entityManager.flush();
 
@@ -239,7 +253,7 @@ public class UserRepositoryTest {
 
   @Test(expected = NoResultException.class)
   public void testFindCPUserDetailsByNameThatIsNotValid_shouldNotReturnResult() {
-    CPUserDetails aUser = aCPUserDetails().username("Joe").password("Bar").deleted(true).build();
+    CPUserDetails aUser = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").deleted(true).build();
     entityManager.persist(aUser);
     entityManager.flush();
 
