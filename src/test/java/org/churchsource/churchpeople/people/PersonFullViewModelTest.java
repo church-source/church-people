@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 @SpringBootTest
-public class PersonFullViewModelFullViewModelTest {
+public class PersonFullViewModelTest {
     @Test
     public void testTwoPersonFullViewModelsWithSameIds_shouldBeEqual() {
         PersonFullViewModel aPersonFullViewModel = aPersonFullViewModel().id(1L).build();
