@@ -115,8 +115,14 @@
         <insert tableName="Privilege">
             <column name="name" value="AddPeople"/>
         </insert>
+        <insert tableName="Privilege">
+            <column name="name" value="ViewUser"/>
+        </insert>
         <insert tableName="Role">
             <column name="name" value="ManagePeople"/>
+        </insert>
+        <insert tableName="Role">
+            <column name="name" value="ManagerUsers"/>
         </insert>
     </changeSet>
     <changeSet id="20200613-2300" author="rowanpi">
@@ -132,10 +138,18 @@
             <column name="role" valueComputed="(SELECT id from Role where name='ManagePeople')"/>
             <column name="privilege" valueComputed="(SELECT id from Privilege where name='AddPeople')"/>
         </insert>
+        <insert tableName="RolePrivilege">
+            <column name="role" valueComputed="(SELECT id from Role where name='ManagerUsers')"/>
+            <column name="privilege" valueComputed="(SELECT id from Privilege where name='ViewUser')"/>
+        </insert>
 
         <insert tableName="UserRole">
             <column name="user" valueComputed="(SELECT id from User where username='admin')"/>
             <column name="role" valueComputed="(SELECT id from Role where name='ManagePeople')"/>
+        </insert>
+        <insert tableName="UserRole">
+            <column name="user" valueComputed="(SELECT id from User where username='admin')"/>
+            <column name="role" valueComputed="(SELECT id from Role where name='ManagerUsers')"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
