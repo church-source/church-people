@@ -35,12 +35,18 @@ public class UserRepositoryTest {
 
   @Test
   public void testSaveCPUserDetails_shouldPersistCPUserDetails() {
-
     List<Role> roles = new ArrayList<Role>();
     List<Privilege> privileges = new ArrayList<Privilege>();
-    privileges.add(aPrivilege().name("priv1").deleted(false).build());
-    privileges.add(aPrivilege().name("priv2").deleted(false).build());
+    Privilege priv1 = aPrivilege().name("priv1").deleted(false).build();
+    Privilege priv2 = aPrivilege().name("priv2").deleted(false).build();
+    entityManager.persist(priv1);
+    entityManager.persist(priv2);
+    entityManager.flush();
+    privileges.add(priv1);
+    privileges.add(priv2);
     Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
+    entityManager.persist(aRole);
+    entityManager.flush();
     roles.add(aRole);
 
     CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
@@ -63,9 +69,16 @@ public class UserRepositoryTest {
   public void testUpdateCPUserDetails_shouldMergeCPUserDetails() {
     List<Role> roles = new ArrayList<Role>();
     List<Privilege> privileges = new ArrayList<Privilege>();
-    privileges.add(aPrivilege().name("priv1").deleted(false).build());
-    privileges.add(aPrivilege().name("priv2").deleted(false).build());
+    Privilege priv1 = aPrivilege().name("priv1").deleted(false).build();
+    Privilege priv2 = aPrivilege().name("priv2").deleted(false).build();
+    entityManager.persist(priv1);
+    entityManager.persist(priv2);
+    entityManager.flush();
+    privileges.add(priv1);
+    privileges.add(priv2);
     Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
+    entityManager.persist(aRole);
+    entityManager.flush();
     roles.add(aRole);
 
     CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
@@ -87,12 +100,19 @@ public class UserRepositoryTest {
   }
 
   @Test
-  public void testUpdateCPUserDetailsWithoutAddresses_shouldMergeCPUserDetailsAndRemoveAddresses() {
+  public void testUpdateCPUserDetailsWithoutRoles_shouldMergeCPUserDetailsAndRemoveRoles() {
     List<Role> roles = new ArrayList<Role>();
     List<Privilege> privileges = new ArrayList<Privilege>();
-    privileges.add(aPrivilege().name("priv1").deleted(false).build());
-    privileges.add(aPrivilege().name("priv2").deleted(false).build());
+    Privilege priv1 = aPrivilege().name("priv1").deleted(false).build();
+    Privilege priv2 = aPrivilege().name("priv2").deleted(false).build();
+    entityManager.persist(priv1);
+    entityManager.persist(priv2);
+    entityManager.flush();
+    privileges.add(priv1);
+    privileges.add(priv2);
     Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
+    entityManager.persist(aRole);
+    entityManager.flush();
     roles.add(aRole);
 
     CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
