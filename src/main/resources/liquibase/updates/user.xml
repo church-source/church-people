@@ -121,6 +121,9 @@
         <insert tableName="Privilege">
             <column name="name" value="ViewUser"/>
         </insert>
+        <insert tableName="Privilege">
+            <column name="name" value="AddUser"/>
+        </insert>
         <insert tableName="Role">
             <column name="name" value="ManagePeople"/>
         </insert>
@@ -145,7 +148,10 @@
             <column name="role" valueComputed="(SELECT id from Role where name='ManagerUsers')"/>
             <column name="privilege" valueComputed="(SELECT id from Privilege where name='ViewUser')"/>
         </insert>
-
+        <insert tableName="RolePrivilege">
+            <column name="role" valueComputed="(SELECT id from Role where name='ManagerUsers')"/>
+            <column name="privilege" valueComputed="(SELECT id from Privilege where name='AddUser')"/>
+        </insert>
         <insert tableName="UserRole">
             <column name="user" valueComputed="(SELECT id from User where username='admin')"/>
             <column name="role" valueComputed="(SELECT id from Role where name='ManagePeople')"/>

@@ -9,6 +9,8 @@ import org.churchsource.churchpeople.people.PersonBackingForm;
 import org.churchsource.churchpeople.people.PersonFullViewModel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,5 +23,18 @@ public class UserFactory {
         userFullViewModel.setIsLocked(!user.isAccountNonLocked());
         userFullViewModel.setIsExpired(!user.isAccountNonExpired());
         return userFullViewModel;
+    }
+
+    public CPUserDetails createUserEntity(UserBackingForm userBackingForm) {
+        CPUserDetails cpUser = new CPUserDetails();
+        BeanUtils.copyProperties(userBackingForm, cpUser, "deleted, password");
+        cpUser.setEnabled(true);
+        cpUser.setPassword(getEncodedPassword(userBackingForm.getPassword()));
+
+        return cpUser;
+    }
+
+    String getEncodedPassword(String password) {
+        return (new BCryptPasswordEncoder()).encode(password);
     }
 }

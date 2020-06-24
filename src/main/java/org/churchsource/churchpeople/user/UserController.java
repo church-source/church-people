@@ -27,4 +27,15 @@ public class UserController {
   public UserFullViewModel findUser(@RequestParam String name) {
     return userFactory.createUserFullViewModelFromEntity(userRepository.findUserByUserName(name));
   }
+
+  @RequestMapping(method = RequestMethod.POST)
+  @PreAuthorize("hasAuthority('AddUser')")
+  public UserFullViewModel addUser(@RequestBody UserBackingForm form) {
+    CPUserDetails createdUser = userRepository.save(userFactory.createUserEntity(form));
+    if(createdUser != null) {
+      return userFactory.createUserFullViewModelFromEntity(createdUser);
+    } else {
+      return null;
+    }
+  }
 }

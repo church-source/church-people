@@ -65,6 +65,43 @@ public class UserRepositoryTest {
     assertThat((Role)retrievedRoles.toArray()[0], hasSameStateAsRole(aRole));
   }
 
+  @Test (expected = org.springframework.dao.InvalidDataAccessApiUsageException.class)
+  public void testSaveCPUserDetailsWithRoleThatDoesNotExist_shouldNotPersistCPUserDetails() {
+    List<Role> roles = new ArrayList<Role>();
+    List<Privilege> privileges = new ArrayList<Privilege>();
+    Privilege priv1 = aPrivilege().name("priv1").deleted(false).build();
+    Privilege priv2 = aPrivilege().name("priv2").deleted(false).build();
+    entityManager.persist(priv1);
+    entityManager.persist(priv2);
+    entityManager.flush();
+    privileges.add(priv1);
+    privileges.add(priv2);
+    Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
+    roles.add(aRole);
+
+    CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+
+    CPUserDetails savedCPUserDetails = userRepository.save(aCPUserDetails);
+  }
+
+  @Test(expected = java.lang.IllegalStateException.class)
+  public void testSaveCPUserDetailsWithRolePriviligeThatDoesNotExist_shouldNotPersistCPUserDetails() {
+    List<Role> roles = new ArrayList<Role>();
+    List<Privilege> privileges = new ArrayList<Privilege>();
+    Privilege priv1 = aPrivilege().name("priv1").deleted(false).build();
+    Privilege priv2 = aPrivilege().name("priv2").deleted(false).build();
+
+    privileges.add(priv1);
+    privileges.add(priv2);
+    Role aRole = aRole().name("role_1").privileges(privileges).deleted(false).build();
+    entityManager.persist(aRole);
+    entityManager.flush();
+    roles.add(aRole);
+    CPUserDetails aCPUserDetails = aCPUserDetails().username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+
+    CPUserDetails savedCPUserDetails = userRepository.save(aCPUserDetails);
+  }
+
   @Test
   public void testUpdateCPUserDetails_shouldMergeCPUserDetails() {
     List<Role> roles = new ArrayList<Role>();
