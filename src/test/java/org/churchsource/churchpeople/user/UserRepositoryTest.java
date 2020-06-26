@@ -1,5 +1,7 @@
 package org.churchsource.churchpeople.user;
 
+import org.churchsource.churchpeople.user.role.Privilege;
+import org.churchsource.churchpeople.user.role.Role;
 import org.hamcrest.core.IsNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,11 +16,11 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.*;
 
-import static org.churchsource.churchpeople.user.helpers.RoleMatcher.hasSameStateAsRole;
+import static org.churchsource.churchpeople.user.role.helpers.RoleMatcher.hasSameStateAsRole;
 import static org.churchsource.churchpeople.user.CPUserDetails.aCPUserDetails;
 import static org.churchsource.churchpeople.user.helpers.CPUserDetailsMatcher.hasSameStateAsCPUserDetails;
-import static org.churchsource.churchpeople.user.Privilege.aPrivilege;
-import static org.churchsource.churchpeople.user.Role.aRole;
+import static org.churchsource.churchpeople.user.role.Privilege.aPrivilege;
+import static org.churchsource.churchpeople.user.role.Role.aRole;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 

@@ -1,6 +1,5 @@
 package org.churchsource.churchpeople.user;
 
-import org.churchsource.churchpeople.people.Person;
 import org.churchsource.churchpeople.repository.AbstractRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

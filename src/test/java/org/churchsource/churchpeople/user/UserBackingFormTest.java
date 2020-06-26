@@ -1,19 +1,13 @@
 package org.churchsource.churchpeople.user;
 
-import org.churchsource.churchpeople.address.Address;
-import org.churchsource.churchpeople.helpers.TestHelper;
-import org.churchsource.churchpeople.model.type.Gender;
-import org.churchsource.churchpeople.user.UserBackingForm;
+import org.churchsource.churchpeople.user.role.Role;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static org.churchsource.churchpeople.address.Address.anAddress;
-import static org.churchsource.churchpeople.user.Privilege.aPrivilege;
-import static org.churchsource.churchpeople.user.Role.aRole;
+import static org.churchsource.churchpeople.user.role.Role.aRole;
 import static org.churchsource.churchpeople.user.UserBackingForm.aUserBackingForm;
 import static org.churchsource.churchpeople.user.helpers.UserBackingFormMatcher.hasSameStateAsUserBackingForm;
 import static org.hamcrest.Matchers.*;

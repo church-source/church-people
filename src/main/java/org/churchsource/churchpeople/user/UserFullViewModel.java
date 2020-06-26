@@ -3,6 +3,7 @@ package org.churchsource.churchpeople.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.churchsource.churchpeople.user.role.Role;
 import org.churchsource.churchpeople.viewmodel.BaseViewModel;
 
 import java.io.Serializable;

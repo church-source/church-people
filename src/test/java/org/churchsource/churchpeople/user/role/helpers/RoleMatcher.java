@@ -1,7 +1,7 @@
-package org.churchsource.churchpeople.user.helpers;
+package org.churchsource.churchpeople.user.role.helpers;
 
 import org.churchsource.churchpeople.helpers.AbstractTypeSafeMatcher;
-import org.churchsource.churchpeople.user.Role;
+import org.churchsource.churchpeople.user.role.Role;
 import org.hamcrest.Description;
 
 import java.util.Objects;
@@ -26,7 +26,7 @@ public class RoleMatcher extends AbstractTypeSafeMatcher<Role> {
     return Objects.equals(actual.getId(), expected.getId())
         && Objects.equals(actual.getName(), expected.getName())
         && Objects.equals(actual.getDeleted(), expected.getDeleted())
-        && Objects.equals(actual.getPrivileges(), expected.getPrivileges());
+        && isListsEqual(actual.getPrivileges(), expected.getPrivileges());
   }
 
   public static RoleMatcher hasSameStateAsRole(Role expected) {

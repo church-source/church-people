@@ -1,12 +1,20 @@
-package org.churchsource.churchpeople.user;
+package org.churchsource.churchpeople.user.role;
 
 import lombok.*;
 import org.churchsource.churchpeople.model.ChurchPeopleEntity;
+import org.churchsource.churchpeople.user.UserNamedQueryConstants;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
+
+@NamedQueries({
+        @NamedQuery(name = RoleNamedQueryConstants.NAME_FIND_ROLE_BY_ID,
+                query = RoleNamedQueryConstants.QUERY_FIND_ROLE_BY_ID),
+        @NamedQuery(name = RoleNamedQueryConstants.NAME_FIND_ROLE_BY_ROLENAME,
+                query = RoleNamedQueryConstants.QUERY_FIND_ROLE_BY_ROLENAME)
+})
 
 @Getter
 @Setter

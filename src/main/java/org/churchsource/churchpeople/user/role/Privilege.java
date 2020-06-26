@@ -1,4 +1,4 @@
-package org.churchsource.churchpeople.user;
+package org.churchsource.churchpeople.user.role;
 
 import lombok.*;
 import org.churchsource.churchpeople.model.ChurchPeopleEntity;

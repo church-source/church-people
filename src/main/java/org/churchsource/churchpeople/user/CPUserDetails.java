@@ -7,6 +7,8 @@ import java.util.List;
 
 import lombok.*;
 import org.churchsource.churchpeople.model.ChurchPeopleEntity;
+import org.churchsource.churchpeople.user.role.Privilege;
+import org.churchsource.churchpeople.user.role.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

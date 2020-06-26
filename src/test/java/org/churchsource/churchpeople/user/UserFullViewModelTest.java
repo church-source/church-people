@@ -1,13 +1,15 @@
 package org.churchsource.churchpeople.user;
 
+import org.churchsource.churchpeople.user.role.Privilege;
+import org.churchsource.churchpeople.user.role.Role;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.churchsource.churchpeople.user.Privilege.aPrivilege;
-import static org.churchsource.churchpeople.user.Role.aRole;
+import static org.churchsource.churchpeople.user.role.Privilege.aPrivilege;
+import static org.churchsource.churchpeople.user.role.Role.aRole;
 import static org.churchsource.churchpeople.user.UserFullViewModel.aUserFullViewModel;
 import static org.churchsource.churchpeople.user.helpers.UserFullViewModelMatcher.hasSameStateAsUserFullViewModel;
 import static org.hamcrest.Matchers.*;

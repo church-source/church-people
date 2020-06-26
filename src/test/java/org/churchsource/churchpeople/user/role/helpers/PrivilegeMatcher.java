@@ -1,7 +1,7 @@
-package org.churchsource.churchpeople.user.helpers;
+package org.churchsource.churchpeople.user.role.helpers;
 
 import org.churchsource.churchpeople.helpers.AbstractTypeSafeMatcher;
-import org.churchsource.churchpeople.user.Privilege;
+import org.churchsource.churchpeople.user.role.Privilege;
 import org.hamcrest.Description;
 
 import java.util.Objects;

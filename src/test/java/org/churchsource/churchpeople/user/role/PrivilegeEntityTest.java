@@ -1,4 +1,4 @@
-package org.churchsource.churchpeople.user;
+package org.churchsource.churchpeople.user.role;
 
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -6,8 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.churchsource.churchpeople.user.Privilege.aPrivilege;
-import static org.churchsource.churchpeople.user.helpers.PrivilegeMatcher.hasSameStateAsPrivilege;
+import static org.churchsource.churchpeople.user.role.Privilege.aPrivilege;
+import static org.churchsource.churchpeople.user.role.helpers.PrivilegeMatcher.hasSameStateAsPrivilege;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 

@@ -1,18 +1,16 @@
-package org.churchsource.churchpeople.user;
+package org.churchsource.churchpeople.user.role;
 
+import org.churchsource.churchpeople.user.role.Privilege;
+import org.churchsource.churchpeople.user.role.Role;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import static org.churchsource.churchpeople.user.Role.aRole;
-import static org.churchsource.churchpeople.user.Privilege.aPrivilege;
-import static org.churchsource.churchpeople.user.Role.aRole;
-import static org.churchsource.churchpeople.user.helpers.RoleMatcher.hasSameStateAsRole;
+import static org.churchsource.churchpeople.user.role.Role.aRole;
+import static org.churchsource.churchpeople.user.role.Privilege.aPrivilege;
+import static org.churchsource.churchpeople.user.role.helpers.RoleMatcher.hasSameStateAsRole;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 

@@ -1,5 +1,7 @@
 package org.churchsource.churchpeople.user;
 
+import org.churchsource.churchpeople.user.role.Privilege;
+import org.churchsource.churchpeople.user.role.Role;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -11,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 import static org.churchsource.churchpeople.user.CPUserDetails.aCPUserDetails;
-import static org.churchsource.churchpeople.user.Privilege.aPrivilege;
-import static org.churchsource.churchpeople.user.Role.aRole;
+import static org.churchsource.churchpeople.user.role.Privilege.aPrivilege;
+import static org.churchsource.churchpeople.user.role.Role.aRole;
 import static org.churchsource.churchpeople.user.UserFullViewModel.aUserFullViewModel;
 import static org.churchsource.churchpeople.user.helpers.UserFullViewModelMatcher.hasSameStateAsUserFullViewModel;
 import static org.churchsource.churchpeople.user.helpers.CPUserDetailsMatcher.hasSameStateAsCPUserDetails;

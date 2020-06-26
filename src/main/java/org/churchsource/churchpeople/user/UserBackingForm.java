@@ -1,12 +1,8 @@
 package org.churchsource.churchpeople.user;
 
 import lombok.*;
-import org.churchsource.churchpeople.address.Address;
-import org.churchsource.churchpeople.model.type.Gender;
+import org.churchsource.churchpeople.user.role.Role;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import java.util.Date;
 import java.util.List;
 
 @Getter
