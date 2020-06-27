@@ -38,4 +38,16 @@ public class UserController {
       return null;
     }
   }
+
+  @RequestMapping(method = RequestMethod.PUT)
+  @PreAuthorize("hasAuthority('EditUser')")
+  public UserFullViewModel updateUser(@RequestBody UserBackingForm form) {
+    CPUserDetails createdUser = userRepository.updateUser(userFactory.createUserEntity(form));
+    if(createdUser != null) {
+      return userFactory.createUserFullViewModelFromEntity(createdUser);
+    } else {
+      return null;
+    }
+  }
+
 }

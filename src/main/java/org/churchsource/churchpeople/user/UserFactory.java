@@ -29,8 +29,10 @@ public class UserFactory {
         CPUserDetails cpUser = new CPUserDetails();
         BeanUtils.copyProperties(userBackingForm, cpUser, "deleted, password");
         cpUser.setEnabled(true);
-        cpUser.setPassword(getEncodedPassword(userBackingForm.getPassword()));
-
+        //only set encode password if it is present
+        if(!"".equals(userBackingForm.getPassword()) && userBackingForm.getPassword() != null) {
+            cpUser.setPassword(getEncodedPassword(userBackingForm.getPassword()));
+        }
         return cpUser;
     }
 

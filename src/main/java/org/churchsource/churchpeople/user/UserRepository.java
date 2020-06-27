@@ -25,7 +25,11 @@ public class UserRepository extends AbstractRepository<CPUserDetails> {
   public CPUserDetails updateUser(CPUserDetails user) {
     CPUserDetails existingUser = findUserById(user.getId());
     CPUserDetails updatedUser = new CPUserDetails();
-    existingUser.mergeEntities(user, updatedUser);
+    if ("".equals(user.getPassword()) || user.getPassword() == null) {
+      existingUser.mergeEntities(user, updatedUser, "created", "modified", "password");
+    } else {
+      existingUser.mergeEntities(user, updatedUser);
+    }
     return update(updatedUser);
   }
 

@@ -9,7 +9,7 @@ import java.util.Date;
 
 @NamedQueries({
         @NamedQuery(name = RoleNamedQueryConstants.NAME_GET_ALL_PRIVILEGES,
-                query = RoleNamedQueryConstants.QUERY_GET_ALL_PRIVILEGES)
+                    query = RoleNamedQueryConstants.QUERY_GET_ALL_PRIVILEGES)
 })
 @Getter
 @Setter

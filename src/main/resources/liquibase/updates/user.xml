@@ -161,4 +161,49 @@
             <column name="role" valueComputed="(SELECT id from Role where name='ManagerUsers')"/>
         </insert>
     </changeSet>
+    <changeSet id="20200627-0945" author="rowanpi">
+        <insert tableName="Privilege">
+            <column name="name" value="ViewRole"/>
+        </insert>
+        <insert tableName="Privilege">
+            <column name="name" value="EditRole"/>
+        </insert>
+        <insert tableName="Privilege">
+            <column name="name" value="AddRole"/>
+        </insert>
+        <insert tableName="Role">
+            <column name="name" value="ManageRoles"/>
+        </insert>
+        <insert tableName="RolePrivilege">
+            <column name="role" valueComputed="(SELECT id from Role where name='ManageRoles')"/>
+            <column name="privilege" valueComputed="(SELECT id from Privilege where name='AddRole')"/>
+        </insert>
+        <insert tableName="RolePrivilege">
+            <column name="role" valueComputed="(SELECT id from Role where name='ManageRoles')"/>
+            <column name="privilege" valueComputed="(SELECT id from Privilege where name='EditRole')"/>
+        </insert>
+        <insert tableName="RolePrivilege">
+            <column name="role" valueComputed="(SELECT id from Role where name='ManageRoles')"/>
+            <column name="privilege" valueComputed="(SELECT id from Privilege where name='ViewRole')"/>
+        </insert>
+        <insert tableName="UserRole">
+            <column name="user" valueComputed="(SELECT id from User where username='admin')"/>
+            <column name="role" valueComputed="(SELECT id from Role where name='ManageRoles')"/>
+        </insert>
+
+        <update tableName="Role">
+            <column name="name" value="ManageUsers"/>
+            <where>name='ManagerUsers'</where>
+        </update>
+    </changeSet>
+    <changeSet id="20200627-1130" author="rowanpi">
+        <insert tableName="Privilege">
+            <column name="name" value="EditUser"/>
+        </insert>
+        <insert tableName="RolePrivilege">
+            <column name="role" valueComputed="(SELECT id from Role where name='ManageUsers')"/>
+            <column name="privilege" valueComputed="(SELECT id from Privilege where name='EditUser')"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>

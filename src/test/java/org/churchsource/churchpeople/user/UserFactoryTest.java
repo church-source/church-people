@@ -19,7 +19,7 @@ import static org.churchsource.churchpeople.user.UserFullViewModel.aUserFullView
 import static org.churchsource.churchpeople.user.helpers.UserFullViewModelMatcher.hasSameStateAsUserFullViewModel;
 import static org.churchsource.churchpeople.user.helpers.CPUserDetailsMatcher.hasSameStateAsCPUserDetails;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -73,6 +73,25 @@ public class UserFactoryTest {
 
     when(uf.getEncodedPassword(password)).thenReturn(encodedPassword);
     CPUserDetails createdUserEntity = uf.createUserEntity(userBackingForm);
+
+    assertThat(createdUserEntity, hasSameStateAsCPUserDetails(expectedCPUserDetails));
+  }
+
+  @Test
+  public void testCreateCPUserEntityFromBackingFormWithNullPassword_shouldReturnCorrectEntity() {
+
+    UserFactory uf = Mockito.spy(userFactory);
+
+    List<Role> roles = new ArrayList<Role>();
+    roles.add(aRole().name("role_1").build());
+    roles.add(aRole().name("role_2").build());
+
+    String password = null;
+    CPUserDetails expectedCPUserDetails = aCPUserDetails().id(1L).username("Joe").password(password).isEnabled(true).deleted(false).roles(roles).build();
+    UserBackingForm userBackingForm = UserBackingForm.aUserBackingForm().id(1L).username("Joe").password(password).roles(roles).build();
+
+    CPUserDetails createdUserEntity = uf.createUserEntity(userBackingForm);
+    verify(uf, never()).getEncodedPassword(null);
 
     assertThat(createdUserEntity, hasSameStateAsCPUserDetails(expectedCPUserDetails));
   }

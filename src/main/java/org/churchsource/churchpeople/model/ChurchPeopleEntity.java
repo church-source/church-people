@@ -38,8 +38,12 @@ public abstract class ChurchPeopleEntity<ID> extends ChurchPeopleTrackedEntity {
   }
 
   public ChurchPeopleEntity mergeEntities(ChurchPeopleEntity newObject, ChurchPeopleEntity mergedObject) {
+    return mergeEntities(newObject, mergedObject, "created", "modified");
+  }
+
+  public ChurchPeopleEntity mergeEntities(ChurchPeopleEntity newObject, ChurchPeopleEntity mergedObject, String... ignoreProperties) {
     BeanUtils.copyProperties(this, mergedObject);
-    BeanUtils.copyProperties(newObject, mergedObject, "created", "modified");
+    BeanUtils.copyProperties(newObject, mergedObject, ignoreProperties);
     return mergedObject;
   }
 }
