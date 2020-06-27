@@ -3,11 +3,9 @@ package org.churchsource.churchpeople.people;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Entity;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 
-import org.churchsource.churchpeople.model.ChurchPeopleEntity;
 import org.churchsource.churchpeople.repository.AbstractRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

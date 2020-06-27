@@ -24,7 +24,7 @@ import static org.churchsource.churchpeople.user.role.Role.aRole;
 import static org.churchsource.churchpeople.user.role.helpers.RoleMatcher.hasSameStateAsRole;
 import static org.churchsource.churchpeople.user.role.helpers.PrivilegeMatcher.hasSameStateAsPrivilege;
 import static org.churchsource.churchpeople.user.role.Privilege.aPrivilege;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -238,5 +238,35 @@ public class RoleRepositoryTest {
     entityManager.flush();
 
     roleRepository.findRoleByRoleName("Different");
+  }
+
+  @Test
+  public void testGetAllPeople_shouldRetreiveAllPeoplePersistedThatAreNotDeleted() {
+    List<Role> allRoles = roleRepository.getAllRoles();
+    assertThat(allRoles.size(), is(2)); // existing Roles
+
+    Role aRole1 = aRole().name("role_1").privileges(null).deleted(false).build();
+    entityManager.persist(aRole1);
+    entityManager.flush();
+
+    Role aRole2 = aRole().name("role_2").privileges(null).deleted(false).build();
+    entityManager.persist(aRole2);
+    entityManager.flush();
+
+    Role aRole3 = aRole().name("role_3").privileges(null).deleted(false).build();
+    entityManager.persist(aRole3);
+    entityManager.flush();
+
+    Role aRole4 = aRole().name("role_4").privileges(null).deleted(true).build();
+    entityManager.persist(aRole4);
+    entityManager.flush();
+
+    allRoles = roleRepository.getAllRoles();
+    assertThat(allRoles.size(), is(5)); //new roles - existing roles - deleted role
+    assertThat(allRoles, hasItems(hasSameStateAsRole(aRole1),
+            hasSameStateAsRole(aRole2),
+            hasSameStateAsRole(aRole3)));
+
+    assertThat(allRoles, not(hasItem(aRole4)));
   }
 }

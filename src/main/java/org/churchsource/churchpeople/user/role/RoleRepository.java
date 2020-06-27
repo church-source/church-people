@@ -1,16 +1,22 @@
 package org.churchsource.churchpeople.user.role;
 
-import org.churchsource.churchpeople.repository.AbstractRepository;
-import org.churchsource.churchpeople.user.role.Role;
-import org.churchsource.churchpeople.user.UserNamedQueryConstants;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 import javax.persistence.NoResultException;
+
+import org.churchsource.churchpeople.repository.AbstractRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional
 public class RoleRepository extends AbstractRepository<Role> {
+
+  public List<Role> getAllRoles() {
+      return entityManager.createNamedQuery(RoleNamedQueryConstants.NAME_GET_ALL_ROLES, Role.class)
+              .setParameter("includeDeleted", false)
+              .getResultList();
+  }
 
   public Role findRoleById(Long id) throws NoResultException {
     return entityManager.createNamedQuery(RoleNamedQueryConstants.NAME_FIND_ROLE_BY_ID, Role.class)

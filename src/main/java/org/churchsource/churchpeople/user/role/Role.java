@@ -13,7 +13,9 @@ import java.util.List;
         @NamedQuery(name = RoleNamedQueryConstants.NAME_FIND_ROLE_BY_ID,
                 query = RoleNamedQueryConstants.QUERY_FIND_ROLE_BY_ID),
         @NamedQuery(name = RoleNamedQueryConstants.NAME_FIND_ROLE_BY_ROLENAME,
-                query = RoleNamedQueryConstants.QUERY_FIND_ROLE_BY_ROLENAME)
+                query = RoleNamedQueryConstants.QUERY_FIND_ROLE_BY_ROLENAME),
+        @NamedQuery(name = RoleNamedQueryConstants.NAME_GET_ALL_ROLES,
+                query = RoleNamedQueryConstants.QUERY_GET_ALL_ROLES)
 })
 
 @Getter
