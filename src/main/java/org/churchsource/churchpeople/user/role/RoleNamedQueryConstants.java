@@ -13,5 +13,9 @@ public class RoleNamedQueryConstants {
           + "WHERE :includeDeleted = TRUE OR r.deleted = false "
           + "ORDER BY name ASC";
 
+    public static final String NAME_GET_ALL_PRIVILEGES = "Privilege.GetAllPrivileges";
+    public static final String QUERY_GET_ALL_PRIVILEGES = "SELECT p FROM Privilege p "
+            + "WHERE :includeDeleted = TRUE OR p.deleted = false "
+            + "ORDER BY name ASC";
 
 }

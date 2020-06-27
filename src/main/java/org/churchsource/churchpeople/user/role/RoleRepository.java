@@ -18,6 +18,12 @@ public class RoleRepository extends AbstractRepository<Role> {
               .getResultList();
   }
 
+  public List<Privilege> getAllPrivileges() {
+    return entityManager.createNamedQuery(RoleNamedQueryConstants.NAME_GET_ALL_PRIVILEGES, Privilege.class)
+            .setParameter("includeDeleted", false)
+            .getResultList();
+  }
+
   public Role findRoleById(Long id) throws NoResultException {
     return entityManager.createNamedQuery(RoleNamedQueryConstants.NAME_FIND_ROLE_BY_ID, Role.class)
         .setParameter("id", id)

@@ -241,9 +241,9 @@ public class RoleRepositoryTest {
   }
 
   @Test
-  public void testGetAllPeople_shouldRetreiveAllPeoplePersistedThatAreNotDeleted() {
+  public void testGetAllRoles_shouldRetreiveAllRolesPersistedThatAreNotDeleted() {
     List<Role> allRoles = roleRepository.getAllRoles();
-    assertThat(allRoles.size(), is(2)); // existing Roles
+    int initialCount = allRoles.size(); // existing Roles
 
     Role aRole1 = aRole().name("role_1").privileges(null).deleted(false).build();
     entityManager.persist(aRole1);
@@ -262,11 +262,41 @@ public class RoleRepositoryTest {
     entityManager.flush();
 
     allRoles = roleRepository.getAllRoles();
-    assertThat(allRoles.size(), is(5)); //new roles - existing roles - deleted role
+    assertThat(allRoles.size(), is(3 + initialCount));
     assertThat(allRoles, hasItems(hasSameStateAsRole(aRole1),
             hasSameStateAsRole(aRole2),
             hasSameStateAsRole(aRole3)));
 
     assertThat(allRoles, not(hasItem(aRole4)));
+  }
+
+  @Test
+  public void testGetAllPrivileges_shouldRetreiveAllPrivilegesPersistedThatAreNotDeleted() {
+    List<Privilege> allPrivileges = roleRepository.getAllPrivileges();
+    int initialCount = allPrivileges.size(); // existing Roles
+
+    Privilege aPrivilege = aPrivilege().name("priv_1").deleted(false).build();
+    entityManager.persist(aPrivilege);
+    entityManager.flush();
+
+    Privilege aPrivilege2 = aPrivilege().name("priv_2").deleted(false).build();
+    entityManager.persist(aPrivilege2);
+    entityManager.flush();
+
+    Privilege aPrivilege3 = aPrivilege().name("priv_3").deleted(false).build();
+    entityManager.persist(aPrivilege3);
+    entityManager.flush();
+
+    Privilege aPrivilege4 = aPrivilege().name("priv_4").deleted(true).build();
+    entityManager.persist(aPrivilege4);
+    entityManager.flush();
+
+    allPrivileges = roleRepository.getAllPrivileges();
+    assertThat(allPrivileges.size(), is(3 + initialCount));
+    assertThat(allPrivileges, hasItems(hasSameStateAsPrivilege(aPrivilege),
+            hasSameStateAsPrivilege(aPrivilege2),
+            hasSameStateAsPrivilege(aPrivilege3)));
+
+    assertThat(allPrivileges, not(hasItem(aPrivilege4)));
   }
 }
