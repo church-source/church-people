@@ -3,8 +3,10 @@ package org.churchsource.churchpeople.error;
 import static org.churchsource.churchpeople.error.ExceptionResponse.anExceptionResponse;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import javax.persistence.NoResultException;
+import javax.security.auth.login.CredentialExpiredException;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;

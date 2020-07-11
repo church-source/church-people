@@ -45,8 +45,8 @@ public class CPUserDetailsEntityTest {
     public void testIsEqualsForCPUserDetailsWithAllPropertiesSetTheSame_shouldBeEqual() {
         List<Role> roles = new ArrayList<Role>();
         roles.add(aRole().name("role_1").build());
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).email("joe@bar.com").username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).email("joe@bar.com").username("Joe").password("Bar").isEnabled(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).email("joe@bar.com").username("Joe").password("Bar").isEnabled(true).forcePasswordChange(true).deleted(false).roles(roles).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).email("joe@bar.com").username("Joe").password("Bar").isEnabled(true).forcePasswordChange(true).deleted(false).roles(roles).build();
         assertThat(aCPUserDetails.equals(aCPUserDetails2), is (true));
     }
 
@@ -58,6 +58,7 @@ public class CPUserDetailsEntityTest {
                 .username("Joe")
                 .password("Bar")
                 .isEnabled(true)
+                .forcePasswordChange(true)
                 .deleted(false)
                 .build();
         CPUserDetails aCPUserDetails2 = aCPUserDetails().build();
@@ -66,6 +67,7 @@ public class CPUserDetailsEntityTest {
         aCPUserDetails2.setEmail("joe@bar.com");
         aCPUserDetails2.setPassword("Bar");
         aCPUserDetails2.setEnabled(true);
+        aCPUserDetails2.setForcePasswordChange(true);
         aCPUserDetails2.setDeleted(false);
         assertThat(aCPUserDetails, hasSameStateAsCPUserDetails(aCPUserDetails2));
     }
@@ -78,6 +80,7 @@ public class CPUserDetailsEntityTest {
                 .email("joe@bar.com")
                 .password("Bar")
                 .isEnabled(true)
+                .forcePasswordChange(true)
                 .deleted(false)
                 .build();
         assertThat(aCPUserDetails.getId(), is(1L));
@@ -85,6 +88,7 @@ public class CPUserDetailsEntityTest {
         assertThat(aCPUserDetails.getEmail(), is("joe@bar.com"));
         assertThat(aCPUserDetails.getPassword(), is("Bar"));
         assertThat(aCPUserDetails.isEnabled(), is(true));
+        assertThat(aCPUserDetails.isForcePasswordChange(), is(true));
         assertThat(aCPUserDetails.getDeleted(), is(false));
     }
 
@@ -120,6 +124,13 @@ public class CPUserDetailsEntityTest {
     public void testIsEqualsForCPUserDetailsWithDifferentDeleted_shouldNotBeEqual() {
         CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
         CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(true).build();
+        assertThat(aCPUserDetails, not(hasSameStateAsCPUserDetails(aCPUserDetails2)));
+    }
+
+    @Test
+    public void testIsEqualsForCPUserDetailsWithDifferentForcePasswordChange_shouldNotBeEqual() {
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).forcePasswordChange(true).deleted(false).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).forcePasswordChange(false).deleted(false).build();
         assertThat(aCPUserDetails, not(hasSameStateAsCPUserDetails(aCPUserDetails2)));
     }
 
@@ -190,8 +201,8 @@ public class CPUserDetailsEntityTest {
 
     @Test
     public void testHashCodeNewObjectsEquals_shouldBeEqual() {
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").forcePasswordChange(true).password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").forcePasswordChange(true).password("Bar").isEnabled(true).deleted(false).build();
         assertThat(aCPUserDetails, hasSameStateAsCPUserDetails(aCPUserDetails2));
 
         int hashCode1 = aCPUserDetails.hashCode();
@@ -202,8 +213,8 @@ public class CPUserDetailsEntityTest {
 
     @Test
     public void testHashCodeNewObjectsWithDifferentValues_shouldNotBeEqual() {
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
-        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(2L).username("JoeSoap").email("joe@bar.com").password("Bar").isEnabled(true).deleted(true).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(1L).username("Joe").email("joe@bar.com").password("Bar").forcePasswordChange(true).isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails2 = aCPUserDetails().id(2L).username("JoeSoap").email("joe@bar.com").password("Bar").forcePasswordChange(true).isEnabled(true).deleted(true).build();
 
         int hashCode1 = aCPUserDetails.hashCode();
         int hashCode2 = aCPUserDetails2.hashCode();
@@ -213,13 +224,14 @@ public class CPUserDetailsEntityTest {
     @Test
     public void testToString_shouldContainAllValues() {
 
-        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).deleted(false).build();
+        CPUserDetails aCPUserDetails = aCPUserDetails().id(999L).username("Joe").email("joe@bar.com").password("Bar").forcePasswordChange(true).isEnabled(true).deleted(false).build();
         String str = aCPUserDetails.toString();
         assertThat(str, containsString("id=999"));
         assertThat(str, containsString("username=Joe"));
         assertThat(str, containsString("email=joe@bar.com"));
         assertThat(str, containsString("password=Bar"));
         assertThat(str, containsString("enabled=true"));
+        assertThat(str, containsString("forcePasswordChange=true"));
         assertThat(str, containsString("deleted=false"));
     }
 

@@ -24,6 +24,7 @@ public class CPUserDetailsMatcher extends AbstractTypeSafeMatcher<CPUserDetails>
         .appendText("\nAccount NonLocked: ").appendValue(userDetails.isAccountNonLocked())
         .appendText("\nCredentials NonExpired: ").appendValue(userDetails.isCredentialsNonExpired())
         .appendText("\nDeleted: ").appendValue(userDetails.getDeleted())
+        .appendText("\nForcePasswordChange: ").appendValue(userDetails.isForcePasswordChange())
         .appendText("\nRoles: ").appendValue(userDetails.getRoles());
   }
 
@@ -37,6 +38,7 @@ public class CPUserDetailsMatcher extends AbstractTypeSafeMatcher<CPUserDetails>
         && Objects.equals(actual.isAccountNonExpired(), expected.isAccountNonExpired())
         && Objects.equals(actual.isAccountNonLocked(), expected.isAccountNonLocked())
         && Objects.equals(actual.isCredentialsNonExpired(), expected.isCredentialsNonExpired())
+        && Objects.equals(actual.isForcePasswordChange(), expected.isForcePasswordChange())
         && Objects.equals(actual.getDeleted(), expected.getDeleted())
         && isListsEqual(actual.getRoles(), expected.getRoles());
   }

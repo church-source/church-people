@@ -28,6 +28,10 @@ public class ExceptionResponse implements Serializable {
     return new ExceptionResponse(status.value(), status.getReasonPhrase(), message);
   }
 
+  public static ExceptionResponse anExceptionResponse(HttpStatus status, String error, String message) {
+    return new ExceptionResponse(status.value(), error, message);
+  }
+
   @Override
   public boolean equals(Object objectToCompareTo) {
     if (this == objectToCompareTo)

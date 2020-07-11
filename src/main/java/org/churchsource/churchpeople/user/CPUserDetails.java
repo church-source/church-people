@@ -37,19 +37,21 @@ public class CPUserDetails extends ChurchPeopleEntity<Long> implements UserDetai
   private String username;
   private String password;
   private boolean enabled;
+  private boolean forcePasswordChange;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.REFRESH})
   @JoinTable(name = "UserRole", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
   private List<Role> roles;
 
   @Builder(builderMethodName = "aCPUserDetails")
-  public CPUserDetails(Long id, Date created, Date modified, Boolean deleted, String email, String username, String password, List<Role> roles, boolean isEnabled) {
+  public CPUserDetails(Long id, Date created, Date modified, Boolean deleted, String email, String username, String password, List<Role> roles, boolean isEnabled, boolean forcePasswordChange) {
     super(id, created, modified, deleted);
     this.email = email;
     this.username = username;
     this.password = password;
     this.roles = roles;
-    this.enabled=isEnabled;
+    this.enabled = isEnabled;
+    this.forcePasswordChange = forcePasswordChange;
   }
 
   @JsonIgnore
@@ -67,7 +69,7 @@ public class CPUserDetails extends ChurchPeopleEntity<Long> implements UserDetai
   @JsonIgnore
   @Override
   public boolean isCredentialsNonExpired() {
-    return true;
+    return !forcePasswordChange;
   }
 
   @JsonIgnore

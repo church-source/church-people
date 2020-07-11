@@ -24,14 +24,17 @@ public class UserBackingForm {
 
   private List<Role> roles;
 
+  private Boolean forcePasswordChange;
+
   @Builder(builderMethodName = "aUserBackingForm")
-  public UserBackingForm(Long id, String username, String email, String password, Boolean isEnabled, List<Role> roles) {
+  public UserBackingForm(Long id, String username, String email, String password, Boolean isEnabled, List<Role> roles, Boolean forcePasswordChange) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.password = password;
     this.isEnabled = isEnabled;
     this.roles = roles;
+    this.forcePasswordChange = forcePasswordChange;
   }
 }
 

@@ -206,4 +206,10 @@
         </insert>
     </changeSet>
 
+    <changeSet id="20200628-2342" author="rowanpi">
+        <addColumn tableName="User">
+            <column name="forcePasswordChange" type="TINYINT(1)" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

@@ -42,8 +42,8 @@ public class UserBackingFormTest {
         List<Role> roles = new ArrayList<Role>();
         Role aRole = aRole().name("role_1").deleted(false).build();
         roles.add(aRole);
-        UserBackingForm aUserBackingForm = aUserBackingForm().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
-        UserBackingForm aUserBackingForm2 = aUserBackingForm().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
+        UserBackingForm aUserBackingForm = aUserBackingForm().id(1L).username("Joe").forcePasswordChange(true).email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
+        UserBackingForm aUserBackingForm2 = aUserBackingForm().id(1L).username("Joe").forcePasswordChange(true).email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
         assertThat(aUserBackingForm.equals(aUserBackingForm2), is (true));
     }
 
@@ -52,13 +52,14 @@ public class UserBackingFormTest {
         List<Role> roles = new ArrayList<Role>();
         Role aRole = aRole().name("role_1").deleted(false).build();
         roles.add(aRole);
-        UserBackingForm aUserBackingForm = aUserBackingForm().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
+        UserBackingForm aUserBackingForm = aUserBackingForm().id(1L).username("Joe").email("joe@bar.com").forcePasswordChange(true).password("Bar").isEnabled(true).roles(roles).build();
         UserBackingForm aUserBackingForm2 = aUserBackingForm().build();
         aUserBackingForm2.setId(1L);
         aUserBackingForm2.setUsername("Joe");
         aUserBackingForm2.setEmail("joe@bar.com");
         aUserBackingForm2.setPassword("Bar");
         aUserBackingForm2.setIsEnabled(true);
+        aUserBackingForm2.setForcePasswordChange(true);
         aUserBackingForm2.setRoles(roles);
         assertThat(aUserBackingForm, hasSameStateAsUserBackingForm(aUserBackingForm2));
     }
@@ -68,11 +69,12 @@ public class UserBackingFormTest {
         List<Role> roles = new ArrayList<Role>();
         Role aRole = aRole().name("role_1").deleted(false).build();
         roles.add(aRole);
-        UserBackingForm aUserBackingForm = aUserBackingForm().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
+        UserBackingForm aUserBackingForm = aUserBackingForm().id(1L).username("Joe").email("joe@bar.com").forcePasswordChange(true).password("Bar").isEnabled(true).roles(roles).build();
         assertThat(aUserBackingForm.getId(), is(1L));
         assertThat(aUserBackingForm.getUsername(), is("Joe"));
         assertThat(aUserBackingForm.getEmail(), is("joe@bar.com"));
         assertThat(aUserBackingForm.getPassword(), is("Bar"));
+        assertThat(aUserBackingForm.getForcePasswordChange(), is(true));
         assertThat(aUserBackingForm.getIsEnabled(), is(true));
         assertThat(aUserBackingForm.getRoles(), is(roles));
     }
@@ -118,6 +120,16 @@ public class UserBackingFormTest {
     }
 
     @Test
+    public void testIsEqualsForUserBackingFormsWithDifferentForcePasswordChange_shouldNotBeEqual() {
+        List<Role> roles = new ArrayList<Role>();
+        Role aRole = aRole().name("role_1").deleted(false).build();
+        roles.add(aRole);
+        UserBackingForm aUserBackingForm = aUserBackingForm().id(1L).username("Joe").email("joe@bar.com").forcePasswordChange(true).password("Bar").isEnabled(true).roles(roles).build();
+        UserBackingForm aUserBackingForm2 = aUserBackingForm().id(1L).username("Joe").email("joe@bar.com").forcePasswordChange(false).password("Bar").isEnabled(true).roles(roles).build();
+        assertThat(aUserBackingForm, not(hasSameStateAsUserBackingForm(aUserBackingForm2)));
+    }
+
+    @Test
     public void testIsEqualsForUserBackingFormsWithDifferentRoles_shouldNotBeEqual() {
         List<Role> roles = new ArrayList<Role>();
         Role aRole = aRole().name("role_1").deleted(false).build();
@@ -146,7 +158,7 @@ public class UserBackingFormTest {
         List<Role> roles = new ArrayList<Role>();
         Role aRole = aRole().name("role_1").deleted(false).build();
         roles.add(aRole);
-        UserBackingForm aUserBackingForm = aUserBackingForm().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
+        UserBackingForm aUserBackingForm = aUserBackingForm().id(1L).username("Joe").email("joe@bar.com").forcePasswordChange(true).password("Bar").isEnabled(true).roles(roles).build();
         UserBackingForm aUserBackingForm2 = aUserBackingForm;
         assertThat(aUserBackingForm, hasSameStateAsUserBackingForm(aUserBackingForm2));
         int hashCode1 = aUserBackingForm.hashCode();
@@ -160,8 +172,8 @@ public class UserBackingFormTest {
         List<Role> roles = new ArrayList<Role>();
         Role aRole = aRole().name("role_1").deleted(false).build();
         roles.add(aRole);
-        UserBackingForm aUserBackingForm = aUserBackingForm().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
-        UserBackingForm aUserBackingForm2 = aUserBackingForm().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
+        UserBackingForm aUserBackingForm = aUserBackingForm().id(1L).username("Joe").forcePasswordChange(true).email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
+        UserBackingForm aUserBackingForm2 = aUserBackingForm().id(1L).username("Joe").forcePasswordChange(true).email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
         assertThat(aUserBackingForm, hasSameStateAsUserBackingForm(aUserBackingForm2));
 
         int hashCode1 = aUserBackingForm.hashCode();
@@ -175,8 +187,8 @@ public class UserBackingFormTest {
         List<Role> roles = new ArrayList<Role>();
         Role aRole = aRole().name("role_1").deleted(false).build();
         roles.add(aRole);
-        UserBackingForm aUserBackingForm = aUserBackingForm().id(1L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
-        UserBackingForm aUserBackingForm2 = aUserBackingForm().id(1L).username("Joe2").email("2@bar.com").password("Bar2").isEnabled(true).roles(roles).build();
+        UserBackingForm aUserBackingForm = aUserBackingForm().id(1L).username("Joe").forcePasswordChange(true).email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
+        UserBackingForm aUserBackingForm2 = aUserBackingForm().id(1L).username("Joe2").forcePasswordChange(true).email("2@bar.com").password("Bar2").isEnabled(true).roles(roles).build();
 
         int hashCode1 = aUserBackingForm.hashCode();
         int hashCode2 = aUserBackingForm2.hashCode();
@@ -188,12 +200,13 @@ public class UserBackingFormTest {
         List<Role> roles = new ArrayList<Role>();
         Role aRole = aRole().name("role_1").deleted(false).build();
         roles.add(aRole);
-        UserBackingForm aUserBackingForm = aUserBackingForm().id(999L).username("Joe").email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
+        UserBackingForm aUserBackingForm = aUserBackingForm().id(999L).username("Joe").forcePasswordChange(true).email("joe@bar.com").password("Bar").isEnabled(true).roles(roles).build();
         String str = aUserBackingForm.toString();
         assertThat(str, containsString("id=999"));
         assertThat(str, containsString("username=Joe"));
         assertThat(str, containsString("email=joe@bar.com"));
         assertThat(str, containsString("password=Bar"));
         assertThat(str, containsString("isEnabled=true"));
+        assertThat(str, containsString("forcePasswordChange=true"));
     }
 }

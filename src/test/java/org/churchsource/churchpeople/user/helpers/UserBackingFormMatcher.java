@@ -21,6 +21,7 @@ public class UserBackingFormMatcher extends AbstractTypeSafeMatcher<UserBackingF
         .appendText("\nEmail: ").appendValue(userBackingForm.getEmail())
         .appendText("\nPassword: ").appendValue(userBackingForm.getPassword())
         .appendText("\nisEnabled: ").appendValue(userBackingForm.getIsEnabled())
+        .appendText("\nIsForcePasswordChange: ").appendValue(userBackingForm.getForcePasswordChange())
         .appendText("\nRoles: ").appendValue(userBackingForm.getRoles());
   }
 
@@ -31,6 +32,7 @@ public class UserBackingFormMatcher extends AbstractTypeSafeMatcher<UserBackingF
         && Objects.equals(actual.getEmail(), expected.getEmail())
         && Objects.equals(actual.getPassword(), expected.getPassword())
         && Objects.equals(actual.getIsEnabled(), expected.getIsEnabled())
+        && Objects.equals(actual.getForcePasswordChange(), expected.getForcePasswordChange())
         && isListsEqual(actual.getRoles(), expected.getRoles());
   }
 
