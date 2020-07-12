@@ -1,6 +1,5 @@
 package org.churchsource.churchpeople.security.jwt;
 
-import org.churchsource.churchpeople.security.jwt.JwtTokenRequest;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
