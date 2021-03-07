@@ -47,7 +47,7 @@ services:
       PEOPLE_PORT: "8080"
       SONG_HOST: "localhost"
       SONG_PORT: "9000"
-      SITE_HOST:  "church-people-frontend:"
+      SITE_HOST:  "church-people-frontend"
       SITE_PORT:  "81"
       SHEET_HOST: "mvsongs.co.za"
       SHEET_PORT: "8000"
