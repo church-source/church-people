@@ -53,7 +53,7 @@ services:
       SHEET_PORT: "8000"
 
   church-people-frontend:
-    image: cp-frontend
+    image: churchsource/cp-frontend
     networks:
       - church-people-backend
     ports:
