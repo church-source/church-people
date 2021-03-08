@@ -58,6 +58,10 @@ services:
       - church-people-backend
     ports:
       - "4000:81"
+    environment:
+      GATEWAY_PORT: "80"
+      PEOPLE_HOST: "mvsongs.co.za"
+
 networks:
   church-people-backend:
   church-people:
