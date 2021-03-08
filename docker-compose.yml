@@ -59,8 +59,8 @@ services:
     ports:
       - "4000:81"
     environment:
-      GATEWAY_PORT: "80"
-      PEOPLE_HOST: "mvsongs.co.za"
+      REACT_APP_API_PORT: "80"
+      REACT_APP_API_URL: "mvsongs.co.za"
 
 networks:
   church-people-backend:
