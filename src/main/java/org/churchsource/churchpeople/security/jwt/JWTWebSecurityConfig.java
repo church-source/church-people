@@ -1,6 +1,5 @@
 package org.churchsource.churchpeople.security.jwt;
 
-import org.churchsource.churchpeople.user.CPUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,18 +27,14 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtUnAuthorizedResponseAuthenticationEntryPoint jwtUnAuthorizedResponseAuthenticationEntryPoint;
 
     @Autowired
-    private CPUserDetailsService cpUserDetailsService;
-
-    @Autowired
     private JwtTokenAuthorizationOncePerRequestFilter jwtAuthenticationTokenFilter;
 
-    @Autowired
+ /*   @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-            .userDetailsService(cpUserDetailsService)
             .passwordEncoder(passwordEncoderBean());
     }
-
+*/
     @Bean
     public PasswordEncoder passwordEncoderBean() {
         return new BCryptPasswordEncoder();
@@ -73,7 +68,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .frameOptions().sameOrigin()  //H2 Console Needs this setting
             .cacheControl(); //disable caching
 
-        httpSecurity.logout().logoutSuccessHandler(logoutSuccessHandler());
+        //httpSecurity.logout().logoutSuccessHandler(logoutSuccessHandler());
     }
 
     @Override

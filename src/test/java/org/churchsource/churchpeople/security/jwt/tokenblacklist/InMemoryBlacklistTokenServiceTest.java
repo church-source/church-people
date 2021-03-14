@@ -3,7 +3,6 @@ package org.churchsource.churchpeople.security.jwt.tokenblacklist;
 import com.fasterxml.jackson.databind.node.BooleanNode;
 import org.churchsource.churchpeople.security.jwt.JwtTokenService;
 import org.churchsource.churchpeople.security.jwt.tokenblacklist.InMemoryTokenBlacklistService;
-import org.churchsource.churchpeople.user.CPUserDetailsService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +34,6 @@ public class InMemoryBlacklistTokenServiceTest {
     @Mock
     private JwtTokenService jwtTokenService;
 
-    @Autowired
-    private CPUserDetailsService userDetailsService;
 
     @Test
     public void testIsTokenBlacklistedForBlacklistedToken_shouldReturnTrue() {

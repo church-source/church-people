@@ -3,6 +3,7 @@ package org.churchsource.churchpeople.security.jwt;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -32,10 +33,6 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Qualifier("CPUserDetailsService")
-    @Autowired
-    private UserDetailsService cpUserDetailsService;
-    
     @Autowired
     private JwtTokenService jwtTokenService;
 
@@ -47,7 +44,7 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        logger.debug("Authentication Request For '{}'", request.getRequestURL());
+        logger.info("Authentication Request For '{}'", request.getRequestURL());
 
         final String requestTokenHeader = request.getHeader(this.tokenHeader);
         String username = null;
@@ -68,24 +65,33 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
         logger.debug("JWT_TOKEN_USERNAME_VALUE '{}'", username);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             if(!blacklistService.isTokenBlacklisted(username, jwtToken)) {
-                UserDetails userDetails = this.cpUserDetailsService.loadUserByUsername(username);
+                String privileges = jwtTokenService.getPrivilegesFromToken(jwtToken);
+                List<GrantedAuthority> authorities = null;
+                if(privileges != null) {
+                    String[] privsArray = privileges.split(",");
+                    if(privsArray.length > 0) {
+                        authorities = getGrantedAuthorities(Arrays.asList(privsArray));
+                    }
+                }
 
-                if (userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked() && userDetails.isCredentialsNonExpired() && (
-                        jwtTokenService.validateToken(jwtToken, userDetails) && jwtTokenService.getReasonFromToken(jwtToken) == null)) {
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                if (jwtTokenService.isTokenValid(jwtToken) && jwtTokenService.getReasonFromToken(jwtToken) == null) {
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
                     usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                } else if (jwtTokenService.validateToken(jwtToken, userDetails) && JwtTokenService.JWT_TOKEN_REASON_PASSWORD_CHANGE.equals(jwtTokenService.getReasonFromToken(jwtToken))) {
-                    final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-                    authorities.add(new SimpleGrantedAuthority("GA_PASSWORD_CHANGE"));
-                    UsernamePasswordAuthenticationToken passwordChangeAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
-                    passwordChangeAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(passwordChangeAuthenticationToken);
                 }
             }
         }
 
         chain.doFilter(request, response);
+    }
+
+
+    private final List<GrantedAuthority> getGrantedAuthorities(final List<String> privileges) {
+        final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        for (final String privilege : privileges) {
+            authorities.add(new SimpleGrantedAuthority(privilege));
+        }
+        return authorities;
     }
 }
 

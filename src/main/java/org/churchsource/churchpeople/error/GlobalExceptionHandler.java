@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.security.access.AccessDeniedException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +34,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(anExceptionResponse(INTERNAL_SERVER_ERROR, exception.getMessage()));
   }
 
+  @ExceptionHandler(AccessDeniedException.class)
+  public ResponseEntity<ExceptionResponse> handleAccessDenieddException(Exception exception) {
+    log.error(exception.getMessage(), exception);
+    return ResponseEntity
+            .status(UNAUTHORIZED)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(anExceptionResponse(UNAUTHORIZED, exception.getMessage()));
+  }
   /**
    * Thrown by the persistence provider when getSingleResult() is executed on a
    * query and there is no result to return.

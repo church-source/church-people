@@ -1,7 +1,6 @@
 package org.churchsource.churchpeople.security.jwt.tokenblacklist;
 
 import org.churchsource.churchpeople.security.jwt.JwtTokenService;
-import org.churchsource.churchpeople.user.CPUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;

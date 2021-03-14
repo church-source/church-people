@@ -1,7 +1,6 @@
 package org.churchsource.churchpeople.security.jwt.tokenblacklist;
 
 import org.churchsource.churchpeople.security.jwt.JwtTokenService;
-import org.churchsource.churchpeople.user.CPUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +17,6 @@ public class InMemoryTokenBlacklistService extends ATokenBlacklistService {
     @Autowired
     private JwtTokenService jwtTokenService;
 
-    @Autowired
-    private CPUserDetailsService userDetailsService;
 
     protected Map<String, Set<String>> getBlacklistTokenCache() {
         return blacklistTokenCache;
