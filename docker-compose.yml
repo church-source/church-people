@@ -63,12 +63,23 @@ services:
       PEOPLE_PORT: "8080"
       PEOPLE_HOST: "church-auth"
       PEOPLE_PORT: "8080"
-      SONG_HOST: "localhost"
+      SONG_HOST: "church-songs"
       SONG_PORT: "9000"
       SITE_HOST:  "church-people-frontend"
       SITE_PORT:  "81"
       SHEET_HOST: "mvsongs.co.za"
       SHEET_PORT: "8000"
+
+  church-songs:
+    depends_on:
+      - mysql
+    image: churchsource/church-songs
+    networks:
+      - church-people-backend
+    ports:
+      - "9002:9000"
+    environment:
+      SONG_DB_URL: "jdbc:mysql://mysql:3306/churchsongs?createDatabaseIfNotExist=true&useSSL=false&useUnicode=true&characterEncoding=utf8"
 
   church-people-frontend:
     image: churchsource/cp-frontend
