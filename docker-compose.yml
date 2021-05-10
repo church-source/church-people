@@ -29,6 +29,7 @@ services:
     environment:
       SPRING_DATABASE_HOST: "mysql"
       SPRING_DATABASE_PORT: "3306"
+      SERVER_PORT: "8080"
 
   church-auth:
     depends_on:
@@ -44,6 +45,7 @@ services:
     environment:
       SPRING_DATABASE_HOST: "mysql"
       SPRING_DATABASE_PORT: "3306"
+      SERVER_PORT: "8080"
 
   church-services:
     depends_on:
@@ -59,6 +61,7 @@ services:
     environment:
       SPRING_DATABASE_HOST: "mysql"
       SPRING_DATABASE_PORT: "3306"
+      SERVER_PORT: "8080"
 
   church-gateway:
     depends_on:
