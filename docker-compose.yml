@@ -7,9 +7,7 @@ services:
     networks:
       - church-people-backend
     volumes:
-      - church-people-data:/var/lib/mysql
-    ports:
-        - "3307:3306"
+      - church-people-data:/var/lib/mysql_new
     environment:
       MYSQL_USER: "root"
       MYSQL_ROOT_PASSWORD: "root"
@@ -65,7 +63,6 @@ services:
 
   church-gateway:
     depends_on:
-      - church-people
       - church-auth
     image: churchsource/church-gateway
 #    build:
@@ -110,6 +107,23 @@ services:
     environment:
       REACT_APP_API_PORT: "80"
       REACT_APP_API_URL: "mvsongs.co.za"
+
+  church-telegram-bot-bff:
+    depends_on:
+      - church-songs
+      - church-services
+    image: churchsource/church-telegram-bot-bff
+    networks:
+      - church-people-backend
+    ports:
+      - "80:5000"
+    environment:
+     CHURCH_AUTH_URL: "http://church-auth/api"
+     CHURCH_SONGS_URL: "http://church-songs/api"
+     CHURCH_SERVICES_URL: "http://church-service/api"
+
+     CHURCH_API_USERNAME: "worship"          # this user only has readme access
+     CHURCH_API_PASSWORD: "password"         # TODO update with secret
 
 networks:
   church-people-backend:
