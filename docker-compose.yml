@@ -86,6 +86,8 @@ services:
       SITE_PORT:  "81"
       SHEET_HOST: "mvsongs.co.za"
       SHEET_PORT: "8000"
+      CHURCH_TG_HOST: "church-telegram-bot-bff"
+      CHURCH_TG_PORT: 5000
 
   church-songs:
     depends_on:
