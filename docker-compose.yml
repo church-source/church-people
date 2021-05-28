@@ -113,14 +113,15 @@ services:
       - church-songs
       - church-services
     image: churchsource/church-telegram-bot-bff
+    restart: always
     networks:
       - church-people-backend
     ports:
       - "8084:5000"
     environment:
-     CHURCH_AUTH_URL: "http://church-auth/api"
-     CHURCH_SONGS_URL: "http://church-songs/api"
-     CHURCH_SERVICES_URL: "http://church-services/api"
+     CHURCH_AUTH_URL: "http://church-auth:8080/api"
+     CHURCH_SONGS_URL: "http://church-songs:9000/api"
+     CHURCH_SERVICES_URL: "http://church-services:8080/api"
 
      CHURCH_API_USERNAME: "worship"          # this user only has readme access
      CHURCH_API_PASSWORD: "password"         # TODO update with secret
