@@ -28,7 +28,7 @@ services:
       SPRING_DATABASE_HOST: "mysql"
       SPRING_DATABASE_PORT: "3306"
       SERVER_PORT: "8080"
-
+      JAVA_OPTS:  -XX:+UseSerialGC -Xss512k -XX:MaxRAM=72m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Djava.security.egd=file:/dev/./urandom
   church-auth:
     depends_on:
       - mysql
@@ -135,7 +135,7 @@ services:
     container_name: elasticsearch
     environment:
       discovery.type: single-node
-      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      ES_JAVA_OPTS: -Xms256m -Xmx256m
     volumes:
       - elastic-search-data:/usr/share/elasticsearch/data
 #    ports:
