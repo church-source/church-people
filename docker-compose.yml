@@ -128,6 +128,22 @@ services:
      CHURCH_API_USERNAME: "worship"          # this user only has readme access
      CHURCH_API_PASSWORD: "password"         # TODO update with secret
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
+    container_name: elasticsearch
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    volumes:
+      - elastic-search-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - church-people-backend
+    labels:
+      - co.elastic.logs/module=elasticsearch
+      - co.elastic.metrics/module=elasticsearch
+
 networks:
   church-people-backend:
   church-people:
@@ -136,3 +152,6 @@ networks:
 
 volumes:
   church-people-data:
+
+  elastic-search-data:
+    driver: local
