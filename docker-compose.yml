@@ -124,6 +124,8 @@ services:
      CHURCH_AUTH_URL: "http://church-auth:8080/api"
      CHURCH_SONGS_URL: "http://church-songs:9000/api"
      CHURCH_SERVICES_URL: "http://church-services:8080/api"
+     LYRICS_SEARCH_URL: "http://elasticsearch:9200"
+
 
      CHURCH_API_USERNAME: "worship"          # this user only has readme access
      CHURCH_API_PASSWORD: "password"         # TODO update with secret
@@ -136,8 +138,8 @@ services:
       ES_JAVA_OPTS: -Xms512m -Xmx512m
     volumes:
       - elastic-search-data:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
+#    ports:
+#      - 9200:9200
     networks:
       - church-people-backend
     labels:
