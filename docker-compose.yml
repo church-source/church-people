@@ -6,6 +6,8 @@ services:
     image: mysql:5.7
     networks:
       - church-people-backend
+#    ports:
+#      - "3307:3306"
     volumes:
       - church-people-data:/var/lib/mysql_new
     environment:
@@ -22,8 +24,8 @@ services:
 #      dockerfile: ./Dockerfile
     networks:
       - church-people-backend
-    ports:
-      - "8082:8080"
+#    ports:
+#      - "8082:8080"
     environment:
       SPRING_DATABASE_HOST: "mysql"
       SPRING_DATABASE_PORT: "3306"
@@ -39,8 +41,8 @@ services:
     #      dockerfile: ./Dockerfile
     networks:
       - church-people-backend
-    ports:
-      - "8083:8080"
+ #   ports:
+ #     - "8083:8080"
     environment:
       SPRING_DATABASE_HOST: "mysql"
       SPRING_DATABASE_PORT: "3306"
@@ -56,8 +58,8 @@ services:
     #      dockerfile: ./Dockerfile
     networks:
       - church-people-backend
-    ports:
-      - "8086:8080"
+ #   ports:
+ #     - "8086:8080"
     environment:
       SPRING_DATABASE_HOST: "mysql"
       SPRING_DATABASE_PORT: "3306"
@@ -99,8 +101,8 @@ services:
     image: churchsource/church-songs
     networks:
       - church-people-backend
-    ports:
-      - "9002:9000"
+  #  ports:
+  #    - "9002:9000"
     environment:
       SONG_DB_URL: "jdbc:mysql://mysql:3306/churchsongs?createDatabaseIfNotExist=true&useSSL=false&useUnicode=true&characterEncoding=utf8"
 
@@ -108,8 +110,8 @@ services:
     image: churchsource/cp-frontend
     networks:
       - church-people-backend
-    ports:
-      - "4000:81"
+  #  ports:
+  #    - "4000:81"
     environment:
       REACT_APP_API_PORT: "80"
       REACT_APP_API_URL: "mvsongs.co.za"
@@ -122,8 +124,8 @@ services:
     restart: always
     networks:
       - church-people-backend
-    ports:
-      - "8084:5000"
+#    ports:
+#      - "8084:5000"
     environment:
      CHURCH_AUTH_URL: "http://church-auth:8080/api"
      CHURCH_SONGS_URL: "http://church-songs:9000/api"
