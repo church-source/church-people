@@ -95,6 +95,8 @@ services:
       PEOPLE_PORT: "8080"
       SERVICES_HOST: "church-services"
       SERVICES_PORT: "8080"
+      MUSIC_TEAM_HOST: "church-music-team"
+      MUSIC_TEAM_PORT: "8080"
       AUTH_HOST: "church-auth"
       AUTH_PORT: "8080"
       SONG_HOST: "church-songs"
