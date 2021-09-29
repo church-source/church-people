@@ -66,6 +66,18 @@ services:
       SERVER_PORT: "8080"
       JAVA_OPTS: "-XX:+UseSerialGC -Xss512k -XX:MaxRAM=72m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Djava.security.egd=file:/dev/./urandom"
 
+  church-music-team:
+    depends_on:
+      - mysql
+    image: churchsource/church-music-team
+    networks:
+      - church-people-backend
+    environment:
+      SPRING_DATABASE_HOST: "mysql"
+      SPRING_DATABASE_PORT: "3306"
+      SERVER_PORT: "8080"
+      JAVA_OPTS: "-XX:+UseSerialGC -Xss512k -XX:MaxRAM=72m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Djava.security.egd=file:/dev/./urandom"
+
   church-gateway:
     depends_on:
       - church-auth
