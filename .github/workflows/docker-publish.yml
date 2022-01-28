@@ -70,7 +70,7 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: churchsource/church-people:${{ env.BRANCH }}
+          tags: churchsource/church-people
           labels: ${{ steps.meta.outputs.labels }}
 
       # Sign the resulting Docker image digest except on PRs.
