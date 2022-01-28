@@ -70,5 +70,5 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: churchsource/${{github.repository}}
+          tags: churchsource/${{ github.event.repository.name }}
           labels: ${{ steps.meta.outputs.labels }}
