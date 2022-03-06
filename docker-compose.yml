@@ -116,8 +116,10 @@ services:
     image: churchsource/church-songs
     networks:
       - church-people-backend
-  #  ports:
-  #    - "9002:9000"
+    volumes:
+      - /var/www/html/gdrive/sheets:/var/www/html/gdrive/sheets
+#    ports:
+#      - "9002:9000"
     environment:
       SONG_DB_URL: "jdbc:mysql://mysql:3306/churchsongs?createDatabaseIfNotExist=true&useSSL=false&useUnicode=true&characterEncoding=utf8"
 
@@ -160,7 +162,7 @@ services:
     #    ports:
     #      - "8084:5000"
     volumes:
-      - church-people-data:/var/sheets_tmp/
+      - sheet-merger-data:/var/sheets_tmp/
     environment:
       CHURCH_AUTH_URL: "http://church-auth:8080/api"
       CHURCH_SONGS_URL: "http://church-songs:9000/api"
@@ -195,5 +197,7 @@ volumes:
 
   elastic-search-data:
     driver: local
+
+  sheet-data:
 
   sheet-merger-data:
