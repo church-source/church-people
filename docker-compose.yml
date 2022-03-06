@@ -12,6 +12,7 @@ services:
       - church-people-data:/var/lib/mysql_new
     environment:
       MYSQL_USER: "root"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
       MYSQL_DATABASE: "churchpeople"
 
   church-people:
